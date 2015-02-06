@@ -1,0 +1,77 @@
+#import <Availability.h>
+
+#ifndef __IPHONE_7_0
+#warning "This project uses features only available in iOS SDK 7.0 and later."
+#endif
+
+#include "TargetConditionals.h"
+#if TARGET_IPHONE_SIMULATOR
+#define kProdServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdFastServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdSlowServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdSocketAddress @"https://knowme-staging-api.snap.io:8080/faye"
+
+#else
+#define kProdServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdFastServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdSlowServerAddress @"http://knowme-staging-api.snap.io"
+#define kProdSocketAddress @"https://knowme-staging-api.snap.io:8080/faye"
+
+#endif
+
+#define kDevServerAddress @"http://knowme-staging-api.snap.io"
+#define kDevSocketAddress @"https://knowme-staging-api.snap.io:8080/faye"
+
+#define kAppTitle                   @"KnowMe"
+#define kCustomURLScheme            @"knowme"
+#define kAppStoreId                 353714517
+#define kAppGroupId                 @"group.me.know"
+
+#define kWebrootURL                 @"http://know.me"
+#define kTermsOfServiceURL          @"http://know.me/legal/tos"
+#define kSupportEmail               @"help@know.me"
+#define kAppDomain                  @"know.me"
+
+// TODO ---- update below this line ------
+#define kTestflightKey              @"27664f2b-21a7-4568-8613-5c04629c9122"
+
+#if DEBUG
+#define kFlurryAPIKey               @"GJ257XXYQGIZLGAUWXC3"
+#else
+#define kFlurryAPIKey               @"HXZFM9KY95XM93SJJP3X"
+#endif
+
+#define kAdminPhrase                @"morimoto"
+
+#ifndef TARGET_EXTENSION
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+    #import <AVFoundation/AVFoundation.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+
+    #import "PNKit.h"
+    #import "NSManagedObjectContext+SaveToRoot.h"
+    #import "NSObject+FBKVOController.h"
+
+    #import "Theme.h"
+    #import "Logger.h"
+    #import "Configuration.h"
+    #import "SnapCache.h"
+
+    #import "User.h"
+    #import "Group.h"
+
+    // Defines a bunch of macros used heavily by RHAddressBook.
+    #import "RHARCSupport.h"
+
+    #import "TutorialConfirmation.h"
+
+#endif
+#endif
+
+// Disable NSLog for release builds
+#ifndef DEBUG
+#define NSLog(...);
+#endif

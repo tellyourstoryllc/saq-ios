@@ -1,0 +1,78 @@
+[submodule "Dependencies/AFNetworking"]
+	path = Dependencies/AFNetworking
+	url = git@github.com:/AFNetworking/AFNetworking.git
+[submodule "Dependencies/SVProgressHUD"]
+	path = Dependencies/SVProgressHUD
+	url = git@github.com:/samvermette/SVProgressHUD.git
+[submodule "Dependencies/FayeClient"]
+	path = Dependencies/FayeClient
+	url = git@github.com:/jayztemplier/FayeClient.git
+[submodule "Dependencies/SocketRocket"]
+	path = Dependencies/SocketRocket
+	url = git@github.com:/square/SocketRocket.git
+[submodule "Dependencies/ViewDeck"]
+	path = Dependencies/ViewDeck
+	url = git@github.com:/Inferis/ViewDeck.git
+[submodule "Dependencies/DAKeyboardControl"]
+	path = Dependencies/DAKeyboardControl
+	url = git@github.com:/danielamitay/DAKeyboardControl.git
+[submodule "Dependencies/MPNotificationView"]
+	path = Dependencies/MPNotificationView
+	url = git@github.com:/ekurutepe/MPNotificationView.git
+[submodule "Dependencies/SDWebImage"]
+	path = Dependencies/SDWebImage
+	url = git@github.com:/rs/SDWebImage.git
+[submodule "Dependencies/SVPullToRefresh"]
+	path = Dependencies/SVPullToRefresh
+	url = git@github.com:/samvermette/SVPullToRefresh.git
+[submodule "Dependencies/PNKit"]
+	path = Dependencies/PNKit
+	url = git@github.com:/perceptual/PNKit.git
+[submodule "Dependencies/RTLabel"]
+	path = Dependencies/RTLabel
+	url = git@github.com:/honcheng/RTLabel.git
+[submodule "Dependencies/FlatUIKit"]
+	path = Dependencies/FlatUIKit
+	url = git@github.com:/Grouper/FlatUIKit
+[submodule "Dependencies/Facebook"]
+	path = Dependencies/Facebook
+	url = git://github.com/facebook/facebook-ios-sdk.git
+[submodule "Dependencies/ACEDrawingView"]
+	path = Dependencies/ACEDrawingView
+	url = git@github.com:/acerbetti/ACEDrawingView.git
+[submodule "Dependencies/iCarousel"]
+	path = Dependencies/iCarousel
+	url = git@github.com:/nicklockwood/iCarousel.git
+[submodule "Dependencies/RHAddressBook"]
+	path = Dependencies/RHAddressBook
+	url = git@github.com:/heardrwt/RHAddressBook.git
+[submodule "Dependencies/EGOCache"]
+	path = Dependencies/EGOCache
+	url = git@github.com:/jimydotorg/EGOCache.git
+[submodule "Dependencies/MBProgressHUD"]
+	path = Dependencies/MBProgressHUD
+	url = git@github.com:/jdg/MBProgressHUD.git
+[submodule "Dependencies/PNetGPUImage"]
+	path = Dependencies/PNetGPUImage
+	url = git@github.com:/perceptual/GPUImage
+[submodule "Dependencies/ssziparchive"]
+	path = Dependencies/ssziparchive
+	url = git@github.com:/soffes/ssziparchive.git
+[submodule "Dependencies/SWTableViewCell"]
+	path = Dependencies/SWTableViewCell
+	url = git@github.com:/CEWendel/SWTableViewCell.git
+[submodule "Dependencies/ios-custom-alertview"]
+	path = Dependencies/ios-custom-alertview
+	url = git@github.com:wimagguc/ios-custom-alertview.git
+[submodule "Dependencies/EDStarRating"]
+	path = Dependencies/EDStarRating
+	url = git@github.com:erndev/EDStarRating.git
+[submodule "Dependencies/RSColorPicker"]
+	path = Dependencies/RSColorPicker
+	url = https://github.com/RSully/RSColorPicker.git
+[submodule "Dependencies/KVOController"]
+	path = Dependencies/KVOController
+	url = https://github.com/facebook/KVOController.git
+[submodule "Dependencies/VCTransitionsLibrary"]
+	path = Dependencies/VCTransitionsLibrary
+	url = https://github.com/ColinEberhardt/VCTransitionsLibrary.git

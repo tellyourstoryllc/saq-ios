@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AAAAAA" syncable="YES">
+        <attribute name="ccccccc" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="AddressBookPerson" representedClassName="AddressBookPerson" syncable="YES">
+        <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="is_person" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rank" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedEmail" inverseName="address_book_person" inverseEntity="HashedEmail" syncable="YES"/>
+        <relationship name="phone_numbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedNumber" inverseName="address_book_person" inverseEntity="HashedNumber" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="address_book_person" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="BlacklistedUsername" representedClassName="BlacklistedUsername" syncable="YES">
+        <attribute name="existsOnServer" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Configuration" representedClassName="Configuration" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="jsonData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="DeletedGroup" representedClassName="DeletedGroup" syncable="YES">
+        <attribute name="deleted_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Emoticon" representedClassName="Emoticon" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="image_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="FindFriendQueue" representedClassName="FindFriendQueue" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FlagReason" representedClassName="FlagReason" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Group" representedClassName="Group" syncable="YES">
+        <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isGroup" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="isOneToOne" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isVirtualOneToOne" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="join_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="last_deleted_rank" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="last_message_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="last_received_message_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_seen_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_seen_rank" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="max_rank" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="topic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="wallpaper_url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="admins" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups_administered" inverseEntity="User" syncable="YES"/>
+        <relationship name="last_message" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="SkyMessage" syncable="YES"/>
+        <relationship name="last_nonmeta_message" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="SkyMessage" syncable="YES"/>
+        <relationship name="last_user_message" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SkyMessage" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups_joined" inverseEntity="User" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyMessage" inverseName="group" inverseEntity="SkyMessage" syncable="YES"/>
+        <relationship name="other_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="HashedEmail" representedClassName="HashedEmail" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="emails" inverseEntity="AddressBookPerson" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="hashed_emails" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="HashedNumber" representedClassName="HashedNumber" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone_number" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="phone_numbers" inverseEntity="AddressBookPerson" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="hashed_numbers" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="IosPreference" representedClassName="IosPreference" syncable="YES">
+        <attribute name="client" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="server_mention" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="server_one_to_one" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="Like" syncable="YES">
+        <relationship name="story" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="likes" inverseEntity="Story" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="likes" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="SavedApiRequest" representedClassName="SavedApiRequest" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="data_filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="data_mimetype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="data_param" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="data2_filepath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="data2_mimetype" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="data2_param" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="jsonData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="request_path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="upload_attempts" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="placeholder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SkyMessage" inverseName="saved_requests" inverseEntity="SkyMessage" syncable="YES"/>
+    </entity>
+    <entity name="SkyAccount" representedClassName="SkyAccount" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="needs_password" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="one_to_one_wallpaper_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SkyMessage" representedClassName="SkyMessage" syncable="YES">
+        <attribute name="actor_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_content_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_local_overlay_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_local_preview_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="attachment_local_url" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="attachment_message_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_metadata" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_overlay_text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_overlay_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_preview_height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="attachment_preview_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_preview_width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="attachment_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attachment_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="client_metadata" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="delivered_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="duration" optional="YES" attributeType="Float" defaultValueString="0" syncable="YES"/>
+        <attribute name="expires_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="forward_message_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="is_placeholder" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="likes_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="link_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="original_message_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rank" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="transmission_failed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="viewed_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <relationship name="group" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="messages" inverseEntity="Group" syncable="YES"/>
+        <relationship name="mentioned_users" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="saved_requests" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SavedApiRequest" inverseName="placeholder" inverseEntity="SavedApiRequest" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="messages" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="SkyTag" representedClassName="SkyTag" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="parent_id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="children" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyTag" inverseName="parent" inverseEntity="SkyTag" syncable="YES"/>
+        <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SkyTag" inverseName="children" inverseEntity="SkyTag" syncable="YES"/>
+        <relationship name="stories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Story" inverseName="tags" inverseEntity="Story" syncable="YES"/>
+    </entity>
+    <entity name="Story" representedClassName="Story" parentEntity="SkyMessage" syncable="YES">
+        <attribute name="comments_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="in_feed" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_comment_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_comment_seen_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_comments_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="permission" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="viewed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <relationship name="likes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Like" inverseName="story" inverseEntity="Like" syncable="YES"/>
+        <relationship name="next_story" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="previous_story" inverseEntity="Story" syncable="YES"/>
+        <relationship name="previous_story" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="next_story" inverseEntity="Story" syncable="YES"/>
+        <relationship name="story_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="last_story" inverseEntity="User" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyTag" inverseName="stories" inverseEntity="SkyTag" syncable="YES"/>
+    </entity>
+    <entity name="Theme" representedClassName="Theme" syncable="YES">
+        <attribute name="blackColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="blueColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="darkBlueColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="darkGrayColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultBackgroundColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultForegroundColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultNavigationColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="defaultTableTextColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_bold" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_bold_italic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_extrabold" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_extrabold_italic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_italic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_light" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="font_light_italic" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="friendColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="grayColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="greenColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lightBlueColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lightGrayColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="messageColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="navTitleColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orangeColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pinkColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="privateColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="publicColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="purpleColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="redColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="turquoiseColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="usernameColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="whiteColor" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="yellowColor" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="address_book_name" optional="YES" attributeType="String" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="avatar_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="avatar_video_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="facebook_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="friend_code" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="has_one_to_one" optional="YES" attributeType="Boolean" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="id" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="idle_duration" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="idle_start_time" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="is_blocked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="is_communicating" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="is_contact" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="is_incoming_friend" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="is_incoming_ignored" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="is_outgoing_friend" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="jsonData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="last_seen_story_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="last_story_at" optional="YES" attributeType="Date" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="raw_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="registered" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status_ordinal" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="status_text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="user" inverseEntity="AddressBookPerson" syncable="YES"/>
+        <relationship name="groups_administered" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="admins" inverseEntity="Group" syncable="YES"/>
+        <relationship name="groups_joined" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="members" inverseEntity="Group" syncable="YES"/>
+        <relationship name="hashed_emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedEmail" inverseName="user" inverseEntity="HashedEmail" syncable="YES"/>
+        <relationship name="hashed_numbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedNumber" inverseName="user" inverseEntity="HashedNumber" syncable="YES"/>
+        <relationship name="last_story" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="story_user" inverseEntity="Story" syncable="YES"/>
+        <relationship name="likes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Like" inverseName="user" inverseEntity="Like" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyMessage" inverseName="user" inverseEntity="SkyMessage" syncable="YES"/>
+    </entity>
+    <entity name="UserGroupPreference" representedClassName="UserGroupPreference" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="group_id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="server_all_messages_mobile_push" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="UserPreference" representedClassName="UserPreference" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="server_mention_email" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="server_one_to_one_email" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AAAAAA" positionX="27" positionY="171" width="128" height="60"/>
+        <element name="AddressBookPerson" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="BlacklistedUsername" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Configuration" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="DeletedGroup" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="Emoticon" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="FindFriendQueue" positionX="0" positionY="0" width="128" height="120"/>
+        <element name="FlagReason" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Group" positionX="0" positionY="0" width="128" height="433"/>
+        <element name="HashedEmail" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="HashedNumber" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="IosPreference" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="Like" positionX="0" positionY="0" width="128" height="75"/>
+        <element name="SavedApiRequest" positionX="0" positionY="0" width="128" height="238"/>
+        <element name="SkyAccount" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="SkyMessage" positionX="0" positionY="0" width="128" height="643"/>
+        <element name="SkyTag" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="Story" positionX="0" positionY="0" width="128" height="223"/>
+        <element name="Theme" positionX="0" positionY="0" width="128" height="585"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="613"/>
+        <element name="UserGroupPreference" positionX="0" positionY="0" width="128" height="135"/>
+        <element name="UserPreference" positionX="0" positionY="0" width="128" height="120"/>
+    </elements>
+</model>

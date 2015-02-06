@@ -1,0 +1,4 @@
+*.xccheckout
+*.xcuserdatad
+Dependencies/Facebook/build
+.DS_Store

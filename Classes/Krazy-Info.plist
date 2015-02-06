@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.megatasty.chatlobby</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb534147816693934</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>snapio</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleVersion</key>
+	<string>10000</string>
+	<key>FacebookAppID</key>
+	<string>534147816693934</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>Your Contacts are used to connect you with friends.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your Microphone is needed to record sound on videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access to Your Photos is needed to save and upload from your camera roll.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Your exact location is never shared with other users.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your exact location is never shared with other users.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Linden Hill Italic.otf</string>
+		<string>Linden Hill.otf</string>
+		<string>Sniglet Regular.otf</string>
+    <string>Blackout Two AM.ttf</string>
+		<string>Blackout Sunrise.ttf</string>
+		<string>Freshman.ttf</string>
+		<string>Lato-Black.ttf</string>
+		<string>Lato-BlackItalic.ttf</string>
+		<string>Lato-Bold.ttf</string>
+		<string>Lato-BoldItalic.ttf</string>
+		<string>Lato-Hairline.ttf</string>
+		<string>Lato-HairlineItalic.ttf</string>
+		<string>Lato-Italic.ttf</string>
+		<string>Lato-Light.ttf</string>
+		<string>Lato-LightItalic.ttf</string>
+		<string>Lato-Regular.ttf</string>
+		<string>Minecrafter_3.ttf</string>
+		<string>LeagueGothic-CondensedItalic.otf</string>
+		<string>LeagueGothic-CondensedRegular.otf</string>
+		<string>LeagueGothic-Italic.otf</string>
+		<string>LeagueGothic-Regular.otf</string>
+		<string>Raleway Thin.otf</string>
+		<string>OstrichSans-Black.otf</string>
+		<string>OstrichSans-Bold.otf</string>
+		<string>OstrichSans-Light.otf</string>
+		<string>OstrichSans-Medium.otf</string>
+		<string>OstrichSansDashed-Medium.otf</string>
+		<string>OstrichSansInline-Italic.otf</string>
+		<string>OstrichSansInline-Regular.otf</string>
+		<string>OstrichSansRounded-Medium.otf</string>
+		<string>Gauge-Heavy.otf</string>
+		<string>gtw.otf</string>
+		<string>GrandHotel-Regular.otf</string>
+		<string>BebasNeue Bold.otf</string>
+		<string>BebasNeue Book.otf</string>
+		<string>BebasNeue Light.otf</string>
+		<string>BebasNeue Regular.otf</string>
+		<string>BebasNeue Thin.otf</string>
+		<string>BebasNeue Cashew.otf</string>
+		<string>BebasNeue Peanut.otf</string>
+		<string>Roboto-Bold.ttf</string>
+		<string>Roboto-BoldCondensed.ttf</string>
+		<string>Roboto-Light.ttf</string>
+		<string>Outage Cut.ttf</string>
+		<string>Outage.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackTranslucent</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+</dict>
+</plist>

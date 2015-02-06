@@ -1,0 +1,41 @@
+1) create accounts superwario47, superwario48, superwario49
+2) Stay logged in as 49. Friend 48.
+3) Login as 48, friend 49.
+4) Login as 47, friend 49
+
+Current state of added-friend graph:
+49 <-- 47
+49 <-> 48
+
+5) Logout Snapchat
+6) login to SCP as 49, send invites
+7) Confirm invites sent - YES
+
+2014-09-25 20:05:47.101 SnapCrklPop[517:185855] Successful POST to: /ph/send HTTP 200
+2014-09-25 20:05:47.102 SnapCrklPop[517:185855] Snap sent to: (
+    superwario48,
+    superwario47
+)
+
+8) logout SCP
+
+9) login to snapchat as 49
+    check if 47 is friend - YES
+    check if snap sent to 47 - YES
+    check if snap sent to 48 - YES
+
+10) login to snapchat as 48
+    check for invite - YES
+
+11) login to snapchat as 47
+    check for invite - YES
+    check if friend request accepted - YES
+
+
+----
+
+send to mixpanel:
+have no data on [friendship graph]:
+    X pepole they've sent requests
+    Y people have pending requests from
+    Z people both ways
