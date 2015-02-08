@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.megatasty.chatlobby</string>
+	<string>com.perceptualnet.tys</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -49,20 +49,20 @@
 	<true/>
 	<key>NSContactsUsageDescription</key>
 	<string>Your Contacts are used to connect you with friends.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Your Microphone is needed to record sound on videos.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Access to Your Photos is needed to save and upload from your camera roll.</string>
 	<key>NSLocationUsageDescription</key>
 	<string>Your exact location is never shared with other users.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your exact location is never shared with other users.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your Microphone is needed to record sound on videos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access to Your Photos is needed to save and upload from your camera roll.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Linden Hill Italic.otf</string>
 		<string>Linden Hill.otf</string>
 		<string>Sniglet Regular.otf</string>
-    <string>Blackout Two AM.ttf</string>
+		<string>Blackout Two AM.ttf</string>
 		<string>Blackout Sunrise.ttf</string>
 		<string>Freshman.ttf</string>
 		<string>Lato-Black.ttf</string>

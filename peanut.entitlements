@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.me.know</string>
+		<string>group.com.perceptualnet.tys</string>
 	</array>
 </dict>
 </plist>

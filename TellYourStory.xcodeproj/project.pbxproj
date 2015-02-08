@@ -157,17 +157,6 @@
 		34321F2219EBCBF5002124AA /* AddStoryCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34321F2119EBCBF5002124AA /* AddStoryCollectionCell.m */; };
 		34321F2519ECC3E0002124AA /* PNVideoResampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 34321F2419ECC3E0002124AA /* PNVideoResampler.m */; };
 		34324F571A1031BD000BA08E /* BackgroundCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 34324F561A1031BD000BA08E /* BackgroundCamera.m */; };
-		3432CC191A390E2A00721EC4 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 344365C5182EC19E009D72A6 /* NSArray+Map.m */; };
-		3432CC1A1A390E2A00721EC4 /* ExtensionConduit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7741219FA12190093FFEB /* ExtensionConduit.m */; };
-		3432CC1B1A390E2A00721EC4 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3469ED7A18BC35B700967FDE /* EGOCache.m */; };
-		3432CC1C1A390E2A00721EC4 /* VideoURLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BC9E219FAE6B1004058AD /* VideoURLView.m */; };
-		3432CC1D1A390E2A00721EC4 /* TodayBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C30E9D19FE8C9D003EE148 /* TodayBaseViewController.m */; };
-		3432CC201A390E2A00721EC4 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C773FC19FA0E900093FFEB /* NotificationCenter.framework */; };
-		3432CC281A390EAF00721EC4 /* RecentSnaps.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 341BC9F719FAF065004058AD /* RecentSnaps.storyboard */; };
-		3432CC291A390EEC00721EC4 /* TodaySnapsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BC9FA19FAF0B3004058AD /* TodaySnapsViewController.m */; };
-		3432CC391A39102E00721EC4 /* Share.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 3432CC2E1A39102E00721EC4 /* Share.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		3432CC411A39108F00721EC4 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3432CC3E1A39108F00721EC4 /* MainInterface.storyboard */; };
-		3432CC421A39108F00721EC4 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3432CC401A39108F00721EC4 /* ShareViewController.m */; };
 		34365E201835367B007201E5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34365E1F1835367B007201E5 /* MediaPlayer.framework */; };
 		34365E231835368B007201E5 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34365E221835368B007201E5 /* MobileCoreServices.framework */; };
 		34365E2518353695007201E5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34365E2418353695007201E5 /* CoreMedia.framework */; };
@@ -708,14 +697,6 @@
 		34FD59D319C8041B00E2249E /* StoryCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FD59D219C8041B00E2249E /* StoryCollectionCell.m */; };
 		34FE0A711A1D65A9000C56C1 /* LinearAgeGenderPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FE0A701A1D65A9000C56C1 /* LinearAgeGenderPanel.m */; };
 		34FE0A741A1D65B9000C56C1 /* LinearGenderPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FE0A731A1D65B9000C56C1 /* LinearGenderPanel.m */; };
-		34FE94381A17FCE600232C43 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C773FC19FA0E900093FFEB /* NotificationCenter.framework */; };
-		34FE94481A17FDB500232C43 /* TodayBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C30E9D19FE8C9D003EE148 /* TodayBaseViewController.m */; };
-		34FE944A1A17FDB500232C43 /* RecentStories.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 341BC9F819FAF065004058AD /* RecentStories.storyboard */; };
-		34FE944C1A17FDB500232C43 /* TodayStoriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7740219FA0E900093FFEB /* TodayStoriesViewController.m */; };
-		34FE944D1A17FE1300232C43 /* VideoURLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 341BC9E219FAE6B1004058AD /* VideoURLView.m */; };
-		34FE944E1A17FE1A00232C43 /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3469ED7A18BC35B700967FDE /* EGOCache.m */; };
-		34FE944F1A17FE4500232C43 /* ExtensionConduit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7741219FA12190093FFEB /* ExtensionConduit.m */; };
-		34FE94501A17FE4A00232C43 /* NSArray+Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 344365C5182EC19E009D72A6 /* NSArray+Map.m */; };
 		C50F901618542E010046E99F /* m.wav in Resources */ = {isa = PBXBuildFile; fileRef = C50F901418542E010046E99F /* m.wav */; };
 		C50F901718542E010046E99F /* r.wav in Resources */ = {isa = PBXBuildFile; fileRef = C50F901518542E010046E99F /* r.wav */; };
 		C51A30A81919F6F600AB8D05 /* _SnapchatMediaItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C51A30A71919F6F600AB8D05 /* _SnapchatMediaItem.m */; };
@@ -790,30 +771,6 @@
 		C5F33217183AB191008A0659 /* MessageTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F33214183AB191008A0659 /* MessageTableCell.m */; };
 		C5F7FF6518231D2500F8AE7A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F7FF6418231D2500F8AE7A /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3432CC371A39102E00721EC4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C5748BA617FF188100EC7D32 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3432CC2D1A39102E00721EC4;
-			remoteInfo = Share;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		3432CC3D1A39102E00721EC4 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				3432CC391A39102E00721EC4 /* Share.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3400A44B194630C200D020A5 /* CalloutBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutBubble.h; sourceTree = "<group>"; };
@@ -1026,8 +983,6 @@
 		34321F2419ECC3E0002124AA /* PNVideoResampler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNVideoResampler.m; sourceTree = "<group>"; };
 		34324F551A1031BD000BA08E /* BackgroundCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundCamera.h; sourceTree = "<group>"; };
 		34324F561A1031BD000BA08E /* BackgroundCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundCamera.m; sourceTree = "<group>"; };
-		3432CC261A390E2A00721EC4 /* Recent Snaps.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Recent Snaps.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3432CC2E1A39102E00721EC4 /* Share.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Share.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		3432CC3E1A39108F00721EC4 /* MainInterface.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MainInterface.storyboard; path = Extensions/Share/MainInterface.storyboard; sourceTree = SOURCE_ROOT; };
 		3432CC3F1A39108F00721EC4 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = Extensions/Share/ShareViewController.h; sourceTree = SOURCE_ROOT; };
 		3432CC401A39108F00721EC4 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = Extensions/Share/ShareViewController.m; sourceTree = SOURCE_ROOT; };
@@ -1942,7 +1897,6 @@
 		34FE0A701A1D65A9000C56C1 /* LinearAgeGenderPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearAgeGenderPanel.m; sourceTree = "<group>"; };
 		34FE0A721A1D65B9000C56C1 /* LinearGenderPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinearGenderPanel.h; sourceTree = "<group>"; };
 		34FE0A731A1D65B9000C56C1 /* LinearGenderPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinearGenderPanel.m; sourceTree = "<group>"; };
-		34FE94371A17FCE500232C43 /* Recent Stories.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Recent Stories.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50F901418542E010046E99F /* m.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = m.wav; sourceTree = "<group>"; };
 		C50F901518542E010046E99F /* r.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = r.wav; sourceTree = "<group>"; };
 		C51A30A61919F6F600AB8D05 /* _SnapchatMediaItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SnapchatMediaItem.h; sourceTree = "<group>"; };
@@ -1996,7 +1950,7 @@
 		C56EC5EA18087D2F00299D09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C56EC5EC18087D3800299D09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C56EC5EE18087E1C00299D09 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
-		C5748BAE17FF188100EC7D32 /* KnowMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KnowMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5748BAE17FF188100EC7D32 /* TellYourStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TellYourStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5748BB117FF188100EC7D32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5748BB317FF188100EC7D32 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C5748BB517FF188100EC7D32 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -2074,29 +2028,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3432CC1F1A390E2A00721EC4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3432CC201A390E2A00721EC4 /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3432CC2B1A39102E00721EC4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		34FE94341A17FCE500232C43 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				34FE94381A17FCE600232C43 /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C5748BAB17FF188100EC7D32 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -3730,10 +3661,7 @@
 		C5748BAF17FF188100EC7D32 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C5748BAE17FF188100EC7D32 /* KnowMe.app */,
-				34FE94371A17FCE500232C43 /* Recent Stories.appex */,
-				3432CC261A390E2A00721EC4 /* Recent Snaps.appex */,
-				3432CC2E1A39102E00721EC4 /* Share.appex */,
+				C5748BAE17FF188100EC7D32 /* TellYourStory.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4110,74 +4038,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3432CC171A390E2A00721EC4 /* Recent Snaps */ = {
+		C5748BAD17FF188100EC7D32 /* TellYourStory */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3432CC231A390E2A00721EC4 /* Build configuration list for PBXNativeTarget "Recent Snaps" */;
-			buildPhases = (
-				3432CC181A390E2A00721EC4 /* Sources */,
-				3432CC1F1A390E2A00721EC4 /* Frameworks */,
-				3432CC211A390E2A00721EC4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Recent Snaps";
-			productName = "Recent Stories";
-			productReference = 3432CC261A390E2A00721EC4 /* Recent Snaps.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		3432CC2D1A39102E00721EC4 /* Share */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3432CC3A1A39102E00721EC4 /* Build configuration list for PBXNativeTarget "Share" */;
-			buildPhases = (
-				3432CC2A1A39102E00721EC4 /* Sources */,
-				3432CC2B1A39102E00721EC4 /* Frameworks */,
-				3432CC2C1A39102E00721EC4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Share;
-			productName = Share;
-			productReference = 3432CC2E1A39102E00721EC4 /* Share.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		34FE94361A17FCE500232C43 /* Recent Stories */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 34FE94461A17FCE600232C43 /* Build configuration list for PBXNativeTarget "Recent Stories" */;
-			buildPhases = (
-				34FE94331A17FCE500232C43 /* Sources */,
-				34FE94341A17FCE500232C43 /* Frameworks */,
-				34FE94351A17FCE500232C43 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Recent Stories";
-			productName = "Recent Stories";
-			productReference = 34FE94371A17FCE500232C43 /* Recent Stories.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		C5748BAD17FF188100EC7D32 /* NoMe */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C5748BE017FF188100EC7D32 /* Build configuration list for PBXNativeTarget "NoMe" */;
+			buildConfigurationList = C5748BE017FF188100EC7D32 /* Build configuration list for PBXNativeTarget "TellYourStory" */;
 			buildPhases = (
 				C5748BAA17FF188100EC7D32 /* Sources */,
 				C5748BAB17FF188100EC7D32 /* Frameworks */,
 				C5748BAC17FF188100EC7D32 /* Resources */,
-				3432CC3D1A39102E00721EC4 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3432CC381A39102E00721EC4 /* PBXTargetDependency */,
 			);
-			name = NoMe;
+			name = TellYourStory;
 			productName = chat;
-			productReference = C5748BAE17FF188100EC7D32 /* KnowMe.app */;
+			productReference = C5748BAE17FF188100EC7D32 /* TellYourStory.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -4189,29 +4064,8 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Perceptual Networks";
 				TargetAttributes = {
-					3432CC171A390E2A00721EC4 = {
-						DevelopmentTeam = RJWNH6A75K;
-					};
-					3432CC2D1A39102E00721EC4 = {
-						CreatedOnToolsVersion = 6.1.1;
-						DevelopmentTeam = RJWNH6A75K;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
-					};
-					34FE94361A17FCE500232C43 = {
-						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = RJWNH6A75K;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
-					};
 					C5748BAD17FF188100EC7D32 = {
-						DevelopmentTeam = RJWNH6A75K;
+						DevelopmentTeam = PA4UWTH6JN;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -4220,7 +4074,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C5748BA917FF188100EC7D32 /* Build configuration list for PBXProject "NoMe" */;
+			buildConfigurationList = C5748BA917FF188100EC7D32 /* Build configuration list for PBXProject "TellYourStory" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -4233,40 +4087,13 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C5748BAD17FF188100EC7D32 /* NoMe */,
+				C5748BAD17FF188100EC7D32 /* TellYourStory */,
 				C55A4FC418045956005B5DBA /* Generate Model */,
-				34FE94361A17FCE500232C43 /* Recent Stories */,
-				3432CC171A390E2A00721EC4 /* Recent Snaps */,
-				3432CC2D1A39102E00721EC4 /* Share */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		3432CC211A390E2A00721EC4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3432CC281A390EAF00721EC4 /* RecentSnaps.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3432CC2C1A39102E00721EC4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3432CC411A39108F00721EC4 /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		34FE94351A17FCE500232C43 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				34FE944A1A17FDB500232C43 /* RecentStories.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C5748BAC17FF188100EC7D32 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4569,40 +4396,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3432CC181A390E2A00721EC4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3432CC291A390EEC00721EC4 /* TodaySnapsViewController.m in Sources */,
-				3432CC191A390E2A00721EC4 /* NSArray+Map.m in Sources */,
-				3432CC1A1A390E2A00721EC4 /* ExtensionConduit.m in Sources */,
-				3432CC1B1A390E2A00721EC4 /* EGOCache.m in Sources */,
-				3432CC1C1A390E2A00721EC4 /* VideoURLView.m in Sources */,
-				3432CC1D1A390E2A00721EC4 /* TodayBaseViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3432CC2A1A39102E00721EC4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3432CC421A39108F00721EC4 /* ShareViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		34FE94331A17FCE500232C43 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				34FE94501A17FE4A00232C43 /* NSArray+Map.m in Sources */,
-				34FE944F1A17FE4500232C43 /* ExtensionConduit.m in Sources */,
-				34FE944E1A17FE1A00232C43 /* EGOCache.m in Sources */,
-				34FE944D1A17FE1300232C43 /* VideoURLView.m in Sources */,
-				34FE94481A17FDB500232C43 /* TodayBaseViewController.m in Sources */,
-				34FE944C1A17FDB500232C43 /* TodayStoriesViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		C5748BAA17FF188100EC7D32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5050,14 +4843,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		3432CC381A39102E00721EC4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3432CC2D1A39102E00721EC4 /* Share */;
-			targetProxy = 3432CC371A39102E00721EC4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		C5748BBC17FF188100EC7D32 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -5070,136 +4855,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		3432CC241A390E2A00721EC4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "Extensions/Recent Stories.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"TARGET_EXTENSION=1",
-				);
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Extensions/RecentSnaps-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "Recent Snaps";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		3432CC251A390E2A00721EC4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "Extensions/Recent Stories.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_EXTENSION=1";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Extensions/RecentSnaps-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "Recent Snaps";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		3432CC3B1A39102E00721EC4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = Share.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Extensions/Share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		3432CC3C1A39102E00721EC4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = Share.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Extensions/Share/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		34FE94441A17FCE600232C43 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "Extensions/Recent Stories.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-					"TARGET_EXTENSION=1",
-				);
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Extensions/RecentStories-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		34FE94451A17FCE600232C43 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = "Extensions/Recent Stories.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_EXTENSION=1";
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = "Extensions/RecentStories-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		C55A4FC518045956005B5DBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -5327,7 +4982,7 @@
 					"$(PROJECT_DIR)/Dependencies/Flurry",
 					"$(PROJECT_DIR)/Dependencies/Superpowered",
 				);
-				PRODUCT_NAME = KnowMe;
+				PRODUCT_NAME = TellYourStory;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5357,7 +5012,7 @@
 					"$(PROJECT_DIR)/Dependencies/Flurry",
 					"$(PROJECT_DIR)/Dependencies/Superpowered",
 				);
-				PRODUCT_NAME = KnowMe;
+				PRODUCT_NAME = TellYourStory;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5366,33 +5021,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3432CC231A390E2A00721EC4 /* Build configuration list for PBXNativeTarget "Recent Snaps" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3432CC241A390E2A00721EC4 /* Debug */,
-				3432CC251A390E2A00721EC4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3432CC3A1A39102E00721EC4 /* Build configuration list for PBXNativeTarget "Share" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3432CC3B1A39102E00721EC4 /* Debug */,
-				3432CC3C1A39102E00721EC4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		34FE94461A17FCE600232C43 /* Build configuration list for PBXNativeTarget "Recent Stories" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				34FE94441A17FCE600232C43 /* Debug */,
-				34FE94451A17FCE600232C43 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		C55A4FC718045956005B5DBA /* Build configuration list for PBXAggregateTarget "Generate Model" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -5402,7 +5030,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C5748BA917FF188100EC7D32 /* Build configuration list for PBXProject "NoMe" */ = {
+		C5748BA917FF188100EC7D32 /* Build configuration list for PBXProject "TellYourStory" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5748BDE17FF188100EC7D32 /* Debug */,
@@ -5411,7 +5039,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C5748BE017FF188100EC7D32 /* Build configuration list for PBXNativeTarget "NoMe" */ = {
+		C5748BE017FF188100EC7D32 /* Build configuration list for PBXNativeTarget "TellYourStory" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C5748BE117FF188100EC7D32 /* Debug */,
