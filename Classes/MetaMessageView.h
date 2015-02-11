@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UserAvatarView.h"
 
 @interface MetaMessageView : UIView
 
 @property (nonatomic, strong) SkyMessage* message;
 
-@property (nonatomic, strong) UserAvatarView* avatar;
 @property (nonatomic, strong) PNLabel* label;
 @property (nonatomic, strong) UIImageView* imageView;
 

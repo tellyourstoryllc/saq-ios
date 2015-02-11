@@ -18,7 +18,6 @@
 #import "PNUserPreferences.h"
 #import "SSKeychain.h"
 #import "PushPermissionManager.h"
-#import "DefaultWelcomePanel.h"
 #import "UILabel+FadeEffect.h"
 
 @interface ResetPasswordEmailPanel() <UITextFieldDelegate>
@@ -231,7 +230,7 @@
                               @"password":password
                               }
                    callback:[[Api fastApi]
-                             authCallbackWithCompletion:^(BOOL success, NSError *error) {
+                             authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL success) {
                                  if(success) {
                                      finishedWithSuccess(YES);
                                  } else {

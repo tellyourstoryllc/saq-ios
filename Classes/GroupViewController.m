@@ -32,8 +32,6 @@
 #import "StatusView.h"
 
 #import "InviteButton.h"
-#import "UpdateAvatarButton.h"
-#import "UpdateUserWallpaperButton.h"
 
 #import "GraphicsSettingsCell.h"
 
@@ -97,8 +95,6 @@ UITableViewDataSource, UITableViewDelegate, CardViewDelegate, UIGestureRecognize
     __weak GroupViewController* weakSelf = self;
     self.view.backgroundColor = COLOR(defaultBackgroundColor);
     
-    self.cameraController = [AppViewController sharedAppViewController].mainController.cameraController;
-
     self.billboard = [[PNLabel alloc] initWithFrame:CGRectZero];
     self.billboard.textAlignment = NSTextAlignmentCenter;
     self.billboard.font = HEADFONT(48);

@@ -11,9 +11,8 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 @class InboxViewController;
-@class CenterViewController;
 @class PeopleViewController;
-@class MyStoryViewController;
+@class MeViewController;
 @class FriendViewController;
 
 @interface MainCarouselController : PNCarouselViewController {
@@ -22,29 +21,18 @@
 }
 
 @property (nonatomic, strong) InboxViewController* inboxController;
-@property (nonatomic, strong) CenterViewController* cameraController;
 @property (nonatomic, strong) PeopleViewController* peopleController;
-@property (nonatomic, strong) MyStoryViewController* myStoryController;
-@property (nonatomic, strong) FriendViewController* friendController;
+@property (nonatomic, strong) MeViewController* myStoryController;
 
 - (void) resetUI;
 
 - (void) openPeople;
-- (void) openFriends;
 - (void) openMyStory;
 - (void) openInbox;
-
-- (void) openProfileForUser:(User*)user;
-- (void) openNewStories;
-
-- (void) openCameraForGroup:(Group*)group;
-- (void) openCamera;
-- (void) closeCamera;
 
 - (void) openGroup:(Group*)group;
 - (void) openSettings;
 
-- (User*) currentProfileUser;
 - (Group*) currentGroup;
 
 - (UIPanGestureRecognizer*) panGestureRecognizer;

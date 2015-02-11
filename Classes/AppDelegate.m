@@ -38,7 +38,6 @@
 #import "StatusView.h"
 #import "Story.h"
 
-#import "DefaultWelcomePanel.h"
 #import "PNLogger.h"
 #import "UserReviewPrompter.h"
 
@@ -85,23 +84,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     [Flurry startSession:kFlurryAPIKey];
     [TestFlight takeOff:kTestflightKey];
 
-    if (UIApplicationStateBackground == [[UIApplication sharedApplication] applicationState]) {
-        PNLOG(@"launch.background");
-    }
-    else {
-        PNLOG(@"launch");
-    }
-
     // THIS MUST HAPPEN BEFORE ACCESSING ANY COREDATA MODEL, as the AppViewController holds the managed object context.
     self.appController = [AppViewController sharedAppViewController];
-
-    // Don't show Welcome/Invite screens for already-logged-in users
-    BOOL completed_welcome_migration = [[PNUserPreferences shared] boolPreference:@"completed_welcome_migration"];
-    if(!completed_welcome_migration && [App isLoggedIn]) {
-        [[PNUserPreferences shared] setPreference:@"welcome_completed" boolValue:YES];
-        [[PNUserPreferences shared] setPreference:@"invite_decided" boolValue:YES];
-    }
-    [[PNUserPreferences shared] setPreference:@"completed_welcome_migration" boolValue:YES];
 
     // Must initialize GroupManager before any network requests
     [GroupManager manager];
@@ -143,14 +127,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     //    NSManagedObjectContext* c = [App privateManagedObjectContext];
     //    NSLog(@"users: %d", [User countUsingPredicate:nil inContext:c]);
 
-    NSArray* groups = [Group findAllUsingPredicate:nil inContext:[App moc]];
-    for (Group* g in groups) {
-        NSLog(@"g, %@ %@ %@ %@", g.id, g.messages, g.last_message_at, g.last_received_message_at);
-        for (id obj in g.messages) {
-            NSLog(@"MSG: %@", obj);
-        }
-    }
-
     return YES;
 }
 
@@ -189,28 +165,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     NSLog(@"applicationDidBecomeActive");
-
-    if (![App isLoggedIn]) return;
-
-    [self commonActivation:^{
-        if ([self.enteredBackgroundAt timeIntervalSinceNow] < -6) {
-            [[AppViewController sharedAppViewController] jumpToCamera];
-        }
-    }];
-
-    // Check to see if widgets have been installed
-    PNUserPreferences* prefs = [PNUserPreferences shared];
-    ExtensionConduit* cache = [ExtensionConduit shared];
-    [cache reloadCacheInfo];
-    if (![prefs boolPreference:@"story_widget_installed"] && [cache objectForKey:@"story_widget_updated_at"]) {
-        [prefs setPreference:@"story_widget_installed" boolValue:YES];
-        PNLOG(@"story_widget_installed");
-    }
-    if (![prefs boolPreference:@"snap_widget_installed"] && [cache objectForKey:@"snap_widget_updated_at"]) {
-        [prefs setPreference:@"snap_widget_installed" boolValue:YES];
-        PNLOG(@"snap_widget_installed");
-    }
-
+    [self commonActivation:^{}];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -221,8 +176,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     if (!self.window) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.window.rootViewController = self.appController;
-        [[AppViewController sharedAppViewController] resetUI];
-        [self.window makeKeyAndVisible];
+         [self.window makeKeyAndVisible];
     }
 
     float delay = [App isLoggedIn] ? 2.0 : 0.0;
@@ -352,11 +306,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         return YES;
     }
     else {
-        [self commonActivation:^{
-            if ([self.enteredBackgroundAt timeIntervalSinceNow] < -6) {
-                [[AppViewController sharedAppViewController] jumpToCamera];
-            }
-        }];
+        [self commonActivation:^{}];
         return NO;
     }
 }

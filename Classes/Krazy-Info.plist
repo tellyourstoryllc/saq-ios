@@ -59,12 +59,6 @@
 	<string>Access to Your Photos is needed to save and upload from your camera roll.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Linden Hill Italic.otf</string>
-		<string>Linden Hill.otf</string>
-		<string>Sniglet Regular.otf</string>
-		<string>Blackout Two AM.ttf</string>
-		<string>Blackout Sunrise.ttf</string>
-		<string>Freshman.ttf</string>
 		<string>Lato-Black.ttf</string>
 		<string>Lato-BlackItalic.ttf</string>
 		<string>Lato-Bold.ttf</string>
@@ -75,35 +69,11 @@
 		<string>Lato-Light.ttf</string>
 		<string>Lato-LightItalic.ttf</string>
 		<string>Lato-Regular.ttf</string>
-		<string>Minecrafter_3.ttf</string>
-		<string>LeagueGothic-CondensedItalic.otf</string>
-		<string>LeagueGothic-CondensedRegular.otf</string>
-		<string>LeagueGothic-Italic.otf</string>
-		<string>LeagueGothic-Regular.otf</string>
-		<string>Raleway Thin.otf</string>
-		<string>OstrichSans-Black.otf</string>
-		<string>OstrichSans-Bold.otf</string>
-		<string>OstrichSans-Light.otf</string>
-		<string>OstrichSans-Medium.otf</string>
-		<string>OstrichSansDashed-Medium.otf</string>
-		<string>OstrichSansInline-Italic.otf</string>
-		<string>OstrichSansInline-Regular.otf</string>
-		<string>OstrichSansRounded-Medium.otf</string>
-		<string>Gauge-Heavy.otf</string>
 		<string>gtw.otf</string>
-		<string>GrandHotel-Regular.otf</string>
-		<string>BebasNeue Bold.otf</string>
-		<string>BebasNeue Book.otf</string>
-		<string>BebasNeue Light.otf</string>
-		<string>BebasNeue Regular.otf</string>
-		<string>BebasNeue Thin.otf</string>
-		<string>BebasNeue Cashew.otf</string>
-		<string>BebasNeue Peanut.otf</string>
 		<string>Roboto-Bold.ttf</string>
 		<string>Roboto-BoldCondensed.ttf</string>
 		<string>Roboto-Light.ttf</string>
-		<string>Outage Cut.ttf</string>
-		<string>Outage.ttf</string>
+    <string>LicensePlate.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

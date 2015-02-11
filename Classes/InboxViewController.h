@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "MainCarouselController.h"
-#import "InviteViewController.h"
-#import "StoryShareViewController.h"
 #import "BaseSnapCollectionViewController.h"
 
-@interface InboxViewController : BaseSnapCollectionViewController <StoryShareViewControllerDelegate>
+@interface InboxViewController : BaseSnapCollectionViewController
 
 @property (nonatomic, weak) MainCarouselController* deckController;
 

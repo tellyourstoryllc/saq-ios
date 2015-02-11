@@ -17,16 +17,14 @@
 
 #import "StoryCollectionCell.h"
 #import "PersonCollectionCell.h"
+#import "AddStoryCollectionCell.h"
+
 #import "AppDelegate.h"
 #import "GroupViewController.h"
-#import "InviteViewController.h"
-#import "ContactSearchField.h"
 
 #import "UIImageView+AFNetworking.h"
 #import "UIScrollView+SVPullToRefresh.h"
 
-#import "UpdateAvatarButton.h"
-#import "UserAvatarView.h"
 #import "AlertView.h"
 #import "StatusView.h"
 #import "GroupManager.h"
@@ -37,28 +35,11 @@
 #import "UnreadMessageIndicator.h"
 
 #import "AppViewController.h"
-#import "PersonStoryCollectionController.h"
 #import "StoryManager.h"
 
 #import "PNCircularProgressView.h"
-#import "PeopleViewSearchController.h"
 
-@interface PeopleSearchView : UICollectionReusableView
-@property (nonatomic, strong) PeopleViewSearchController* controller;
-@end
-
-@implementation PeopleSearchView
-
-- (void)setController:(PeopleViewSearchController *)controller {
-    _controller = controller;
-    self.controller.view.frame = self.bounds;
-    [self addSubview:self.controller.view];
-}
-
-@end
-
-@interface PeopleViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate,
-ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
+@interface PeopleViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
 @property (nonatomic, strong) UIView* headerView;
 @property (nonatomic, strong) User* me;
@@ -74,8 +55,6 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
 @property (nonatomic, assign) BOOL needsReload;
 
-@property (nonatomic, strong) PeopleViewSearchController* searchController;
-
 @end
 
 @implementation PeopleViewController
@@ -87,9 +66,7 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
     [self.collection registerClass:[StoryCollectionCell class] forCellWithReuseIdentifier:@"story"];
     [self.collection registerClass:[PersonCollectionCell class] forCellWithReuseIdentifier:@"user"];
-    [self.collection registerClass:[PeopleSearchView class]
-        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-               withReuseIdentifier:@"search"];
+    [self.collection registerClass:[AddStoryCollectionCell class] forCellWithReuseIdentifier:@"add_story"];
 
     [[StoryManager manager] addObserver:self forKeyPath:@"isLoading" options:NSKeyValueObservingOptionNew context:nil];
 }
@@ -114,7 +91,7 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
                  forBarMetrics:UIBarMetricsDefault];
     navBar.shadowImage = [UIImage new];
 
-    self.navigationItem.title = @"meet PEOPLE";
+    self.navigationItem.title = @"Our Stories";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
@@ -128,8 +105,6 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
     if ([self isViewVisible]) {
         [self featureVideos];
-        
-        [TutorialBubble dismissTutorialNamed:@"center_feed"];
     }
 }
 
@@ -162,11 +137,6 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
     self.collection.delegate = self;
     self.collection.dataSource = self;
     [self.collection reloadData];
-
-    self.searchController = [PeopleViewSearchController new];
-    self.searchController.storyResults.delegate = self;
-    self.searchController.peopleResults.delegate = self;
-    self.searchController.collection = self.collection;
 }
 
 -(void)disconnectData {
@@ -182,51 +152,53 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
 #pragma mark NSCollectionView methods
 
+-(NSInteger)addCellOffset {
+    return 0;
+}
+
+-(NSInteger)addCellSpacing {
+    return 10;
+}
+
+-(NSInteger)numberOfAddCellsForRow:(NSInteger)totalCells {
+    if (totalCells < [self addCellSpacing])
+        return 1;
+    else
+        return (totalCells + [self addCellOffset]) / [self addCellSpacing];
+}
+
+-(BOOL)isRowAnAddCell:(NSInteger)row {
+    return (row - [self addCellOffset]) % [self addCellSpacing] == 0;
+}
+
+-(NSInteger)actualRowFor:(NSInteger)row {
+    return row - [self numberOfAddCellsForRow:row];
+}
+
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 4;
+    return 1;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 0;
-    }
-    else if (section == 1) {
-        id sectionInfo = [[self.searchController.peopleResults sections] objectAtIndex:0];
-        return [sectionInfo numberOfObjects];
-    }
-    else if (section == 2) {
-        id sectionInfo = [[self.searchController.storyResults sections] objectAtIndex:0];
-        return [sectionInfo numberOfObjects];
-    }
-    else {
-        id sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
-        return [sectionInfo numberOfObjects];
-    }
+    id sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
+    NSInteger count = [sectionInfo numberOfObjects];
+    return count + [self numberOfAddCellsForRow:count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.section == 1) {
-        User* user = [self.searchController.peopleResults.fetchedObjects objectAtIndex:indexPath.row];
-        PersonCollectionCell* cell = (PersonCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"user" forIndexPath:indexPath];
-        cell.user = user;
-        cell.clipsToBounds = YES;
+    if ([self isRowAnAddCell:indexPath.row]) {
+        AddStoryCollectionCell* cell = (AddStoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"add_story" forIndexPath:indexPath];
+        for (UIGestureRecognizer* gesture in cell.gestureRecognizers) {
+            [cell removeGestureRecognizer:gesture];
+        }
 
-        return cell;
-    }
-    else if (indexPath.section == 2) {
-        Story* story = [self.searchController.storyResults.fetchedObjects objectAtIndex:indexPath.row];
-        StoryCollectionCell* cell = (StoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"story" forIndexPath:indexPath];
-        cell.card.delegate = self;
-        cell.controller = self;
-        cell.story = story;
-        cell.clipsToBounds = YES;
-
+        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onAddTapped)]];
         return cell;
     }
     else {
-        Story* story = [self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
+        Story* story = [self.fetchedResultsController.fetchedObjects objectAtIndex:[self actualRowFor:indexPath.row]];
         StoryCollectionCell* cell = (StoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"story" forIndexPath:indexPath];
         cell.card.delegate = self;
         cell.controller = self;
@@ -235,6 +207,7 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
         
         return cell;
     }
+    return nil;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView
@@ -260,52 +233,6 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.section == 2 || indexPath.section == 3) {
-        PersonStoryCollectionController* vc = [PersonStoryCollectionController new];
-        Story* story = (Story*)[self.fetchedResultsController.fetchedObjects objectAtIndex:indexPath.row];
-        vc.user = story.user;
-
-        if (self.navigationController) {
-            [self.navigationController setNavigationBarHidden:YES];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        else
-            [self presentViewController:vc animated:YES completion:nil];
-        
-        PNLOG(@"story_tiles.select");
-    }
-}
-
--(UICollectionReusableView*)collectionView:(UICollectionView *)collectionView
-         viewForSupplementaryElementOfKind:(NSString *)kind
-                               atIndexPath:(NSIndexPath *)indexPath {
-
-    if (indexPath.section == 0) {
-        PeopleSearchView* view = [self.collection dequeueReusableSupplementaryViewOfKind:kind
-                                                                             withReuseIdentifier:@"search"
-                                                                                    forIndexPath:indexPath];
-        view.controller = self.searchController;
-        return view;
-    }
-
-    return [self.collection dequeueReusableSupplementaryViewOfKind:kind
-                                               withReuseIdentifier:@"blank"
-                                                      forIndexPath:indexPath];
-}
-
--(CGSize)collectionView:(UICollectionView *)collectionView
-                 layout:(UICollectionViewLayout *)collectionViewLayout
-referenceSizeForHeaderInSection:(NSInteger)section {
-    if (section == 0)
-        return CGSizeMake(self.view.bounds.size.width, 60);
-    else
-        return CGSizeZero;
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.searchController.editing = NO;
 }
 
 #pragma mark NSFetchedResultsControllerDelegate
@@ -321,13 +248,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     forChangeType:(NSFetchedResultsChangeType)type {
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
 
-    if (controller == self.searchController.peopleResults)
-        sectionIndex = 1;
-    else if (controller == self.searchController.storyResults)
-        sectionIndex = 2;
-    else if (controller == self.fetchedResultsController)
-        sectionIndex = 3;
-
+    sectionIndex = 0;
     change[@(type)] = @(sectionIndex);
     [_sectionChanges addObject:change];
 }
@@ -337,19 +258,6 @@ referenceSizeForHeaderInSection:(NSInteger)section {
       atIndexPath:(NSIndexPath *)indexPath
     forChangeType:(NSFetchedResultsChangeType)type
      newIndexPath:(NSIndexPath *)newIndexPath {
-
-    if (controller == self.searchController.peopleResults) {
-        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:1];
-        newIndexPath = [NSIndexPath indexPathForRow:newIndexPath.row inSection:1];
-    }
-    else if (controller == self.searchController.storyResults) {
-        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:2];
-        newIndexPath = [NSIndexPath indexPathForRow:newIndexPath.row inSection:2];
-    }
-    else if (controller == self.fetchedResultsController) {
-        indexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:3];
-        newIndexPath = [NSIndexPath indexPathForRow:newIndexPath.row inSection:3];
-    }
 
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
     switch(type) {
@@ -456,6 +364,10 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     });
 }
 
+
+- (void)onAddTapped {
+    [[AppViewController sharedAppViewController] openMyStory];
+}
 
 -(UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;

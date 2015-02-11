@@ -65,7 +65,7 @@
 
 - (void) drawRect:(CGRect)rect {
 
-    if (CGRectEqualToRect(rect, CGRectZero)) return;
+    if (CGRectIsEmpty(rect)) return;
     if (!self.bubbleColor) return;
 
     if (!self.bubbleImage) {

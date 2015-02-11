@@ -23,8 +23,6 @@
     self.camera.delegate = self;
     [self.view addSubview:self.camera];
 
-    UITapGestureRecognizer* importGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onImport)];
-    [self.camera.importButton addGestureRecognizer:importGesture];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -57,7 +55,7 @@
     if (params) [newParams addEntriesFromDictionary:params];
     newParams[@"source"] = @"camera";
 
-    [Group publishVideo:videoUrl orImage:image withOverlay:self.camera.overlay
+    [Group publishVideo:videoUrl orImage:image withOverlay:nil
                toGroups:@[self.group]
                  params:newParams
              completion:^(BOOL success, BOOL cancelled, NSSet *entities) {

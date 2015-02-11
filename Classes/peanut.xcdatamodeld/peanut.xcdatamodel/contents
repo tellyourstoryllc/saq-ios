@@ -421,7 +421,7 @@
         <element name="SkyTag" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Story" positionX="0" positionY="0" width="128" height="223"/>
         <element name="Theme" positionX="0" positionY="0" width="128" height="585"/>
-        <element name="User" positionX="0" positionY="0" width="128" height="613"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="615"/>
         <element name="UserGroupPreference" positionX="0" positionY="0" width="128" height="135"/>
         <element name="UserPreference" positionX="0" positionY="0" width="128" height="120"/>
     </elements>

@@ -32,7 +32,7 @@
 }
 
 - (CGFloat)aspectRatio {
-    return 1.775;
+    return 1.0;
 }
 
 @end

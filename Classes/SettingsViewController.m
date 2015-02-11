@@ -14,10 +14,8 @@
 #import "AlertView.h"
 #import "UIImageView+AFNetworking.h"
 
-#import "AvatarSettingsCell.h"
 #import "StatusSettingsCell.h"
 #import "StatusTextSettingsCell.h"
-#import "WallpaperSettingsCell.h"
 #import "NotificationSettingsCell.h"
 #import "SoundSettingsCell.h"
 #import "GraphicsSettingsCell.h"
@@ -69,14 +67,6 @@
     PNLabel* helloLabel = [PNLabel labelWithText:helloString andFont:FONT(12)];
     [helloLabel sizeToFitTextWidth:300];
     PNTableCell* helloCell = [PNTableCell centeredCellContaining:helloLabel];
-
-    // Avatar
-    AvatarSettingsCell* avatarCell = [[AvatarSettingsCell alloc] init];
-    avatarCell.controller = self;
-
-    // Wallpaper
-    WallpaperSettingsCell* wallpaperCell = [[WallpaperSettingsCell alloc] init];
-    wallpaperCell.controller = self;
 
     // Logout cell
     LogoutSettingsCell* logoutCell = [[LogoutSettingsCell alloc] init];

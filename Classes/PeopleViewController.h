@@ -9,10 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "BaseSnapCollectionViewController.h"
 #import "MainCarouselController.h"
-#import "InviteViewController.h"
-#import "StoryShareViewController.h"
 
-@interface PeopleViewController : BaseSnapCollectionViewController <StoryShareViewControllerDelegate>
+@interface PeopleViewController : BaseSnapCollectionViewController
 
 @property (nonatomic, weak) MainCarouselController* deckController;
 

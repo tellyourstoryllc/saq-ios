@@ -22,8 +22,6 @@
 #import "AppDelegate.h"
 #import "GroupViewController.h"
 
-#import "UpdateAvatarButton.h"
-#import "UserAvatarView.h"
 #import "AlertView.h"
 #import "StatusView.h"
 #import "GroupManager.h"
@@ -36,8 +34,6 @@
 #import "SnapCollectionLayout.h"
 #import "GroupManager.h"
 
-#import "InviteViewController.h"
-#import "ContactSearchField.h"
 #import "InboundMessagesController.h"
 #import "HorizontalSnapsCollectionLayout.h"
 
@@ -55,7 +51,7 @@
 @end
 
 @interface InboxViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate,
-ContactSearchFieldDelegate, UINavigationControllerDelegate, InboundMessagesDelegate, MessageCollectionCellDelegate>
+UINavigationControllerDelegate, InboundMessagesDelegate, MessageCollectionCellDelegate>
 
 @property (nonatomic, strong) UIView* headerView;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
@@ -196,18 +192,6 @@ ContactSearchFieldDelegate, UINavigationControllerDelegate, InboundMessagesDeleg
 - (void)reconnectData {
     [super reconnectData];
     [self initFetchedResultsController];
-}
-
-- (void)onUnreadMessage {
-    [[AppViewController sharedAppViewController] openUnreadGroup];
-}
-
-- (void)onCamera {
-    [[AppViewController sharedAppViewController] openCamera];
-}
-
-- (void)onMyStory {
-    [[AppViewController sharedAppViewController] openProfileForUser:[User me]];
 }
 
 #pragma mark NSCollectionView methods

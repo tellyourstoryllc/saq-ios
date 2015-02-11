@@ -27,6 +27,7 @@
 @property (nonatomic, strong) JSONProcessor* jsonProcessor;
 
 @property (nonatomic, strong) NSMutableArray* fayeIncomingMessages;
+@property (nonatomic, strong) User* currentUser;
 
 @end
 
@@ -219,7 +220,7 @@
     }];
 }
 
-- (void (^)(NSSet *entities, id responseObject, NSError *error)) authCallbackWithCompletion:(void (^)(BOOL authorized, NSError *error))completion {
+- (void (^)(NSSet *entities, id responseObject, NSError *error)) authCallbackWithCompletion:(void (^)(NSSet *entities, id responseObject, NSError *error, BOOL authorized))completion {
 
     return ^(NSSet *entities, id responseObject, NSError *error) {
 
@@ -240,10 +241,11 @@
             [App setPreference:@"user_id" object:user.id];
             [App setPreference:@"username" object:user.username];
             [App setPreference:@"token" object:user.token];
-            if (completion) completion(YES, nil);
+            [self setCurrentUser:user];
+            if (completion) completion(entities, responseObject, error, YES);
 
         } else {
-            if (completion) completion(NO, error);
+            if (completion) completion(entities, responseObject, error, NO);
         }
     };
 }
@@ -269,7 +271,7 @@
     _fayeEnabled = fayeEnabled;
     if(fayeEnabled) {
         on_default(^{
-            [self.fayeClient connectToServer];
+//            [self.fayeClient connectToServer];
         });
 
     } else if (self.fayeConnected){

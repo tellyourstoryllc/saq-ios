@@ -191,7 +191,7 @@
 
     [[Api fastApi] postPath:@"/users/create"
                    parameters:params
-                     callback:[[Api fastApi] authCallbackWithCompletion:^(BOOL success, NSError *error) {
+                     callback:[[Api fastApi] authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL success) {
         if (success) {
             PCLOG(@"noob.create_account.success");
             if (completion) completion(YES, nil);

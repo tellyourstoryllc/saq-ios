@@ -18,11 +18,13 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 
-    self.publishView = [StoryPublishView new];
-    [self.publishView sizeToFit];
-    [self.composeView addSubview:self.publishView];
+    [self.composeView removeFromSuperview];
+//    [self.cancelButton removeFromSuperview];
 
-    [self.publishButton removeFromSuperview];
+    self.viewportWidth = 100;
+    self.viewportHeight = 100;
+    self.cropToSquare = YES;
+    self.controlsYoverlap = -20;
 
     return self;
 }
@@ -30,29 +32,14 @@
 - (void) configureButtons {
     [super configureButtons];
     self.cancelButton.hidden = self.isRecording && !self.recordingPaused;
-
-    if (self.isComposing)
-        [self.publishView startAnimating];
 }
 
 - (void) layoutSubviews {
     [super layoutSubviews];
-
-    CGRect publishViewFrame = [self frameMinusKeyboard];
-    self.publishView.frame = CGRectSetBottomCenter(self.composeView.frame.size.width/2, publishViewFrame.size.height-10, self.publishView.frame);
 }
 
-- (void) didStopRecording {
-    [super didStopRecording];
-
-    CGRect r = [self.graffitiView convertRect:self.publishView.frame fromView:self.composeView];
-    [self.graffitiView addCutout:r];
-    [self.publishView startAnimating];
-}
-
-- (void) willStartPreviewing {
-    [super willStartPreviewing];
-    [self.publishView stopAnimating];
+- (void)setIsComposing:(BOOL)isComposing {
+    [super setIsComposing:isComposing];
 }
 
 @end

@@ -138,7 +138,7 @@ static Theme *current;
 }
 
 - (UIFont *)headlineFontWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"BebasNeueCashew" size:size];
+    return [UIFont fontWithName:@"LicensePlate" size:size];
 }
 
 - (UIColor*)cachedColorFromHexString:(NSString *)hexString {

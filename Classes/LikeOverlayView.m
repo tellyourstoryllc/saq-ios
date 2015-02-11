@@ -10,7 +10,6 @@
 #import "AFNetworkReachabilityManager.h"
 #import "PNUserPreferences.h"
 #import "UIImage+Utility.h"
-#import "UserAvatarView.h"
 #import "User.h"
 #import "App.h"
 

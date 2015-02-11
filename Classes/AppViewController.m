@@ -22,14 +22,9 @@
 #import "Directory.h"
 #import "SavedApiRequest.h"
 #import "SVProgressHUD.h"
-#import "DefaultWelcomePanel.h"
 #import "BlacklistedUsername.h"
 #import "PushPermissionManager.h"
 #import "AddressBookManager.h"
-
-#import "DefaultNoobViewController.h"
-#import "ContentImportObserver.h"
-#import "NewMediaEditController.h"
 
 @interface AppViewController ()
 
@@ -53,6 +48,7 @@
     [self setupAppearance];
 
     self.view.backgroundColor = COLOR(whiteColor);
+
     self.mainController = [[MainCarouselController alloc] init];
     self.splashViewController = [[SplashViewController alloc] init];
 
@@ -100,49 +96,21 @@
 }
 
 - (void) resetUI {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_noobViewController resetUI];
-        [_mainController resetUI];
-        [self chooseCurrentController];
-        [self openCamera];
-    });
-}
-
-- (UIViewController*)noobViewController {
-    if (!_noobViewController) {
-
-        // Select one of several designs for the noob controller, based on configuration:
-        NSString* noobControllerName = [Configuration stringFor:@"noob_controller"];
-
-        if (noobControllerName) {
-            Class noobClass = NSClassFromString([NSString stringWithFormat:@"%@NoobViewController", noobControllerName]);
-            if (noobClass) {
-                _noobViewController = [[noobClass alloc] init];
-            }
-        }
-
-        if (!_noobViewController) _noobViewController = [DefaultNoobViewController new];
-    }
-    return _noobViewController;
+    [_mainController resetUI];
+    [self chooseCurrentController];
 }
 
 - (void) chooseCurrentController {
     if ([Configuration shared]) {
-        if ([App isLoggedIn]) {
-            // Different transition
-            if (self.currentViewController == self.splashViewController) {
-                [self setCurrentViewController:self.mainController
-                                    transition:UIViewAnimationOptionTransitionFlipFromLeft
-                                      duration:1.0
-                                withAnimations:nil
-                                    completion:nil];
-            }
-            else {
-                [self setCurrentViewController:self.mainController];
-            }
+        if (self.currentViewController == self.splashViewController) {
+            [self setCurrentViewController:self.mainController
+                                transition:UIViewAnimationOptionTransitionFlipFromLeft
+                                  duration:1.0
+                            withAnimations:nil
+                                completion:nil];
         }
         else {
-            [self setCurrentViewController:self.noobViewController];
+            [self setCurrentViewController:self.mainController];
         }
     }
     else {
@@ -150,7 +118,6 @@
     }
 
     [self setNeedsStatusBarAppearanceUpdate];
-
 }
 
 #pragma mark override PNAppController defaults
@@ -178,37 +145,6 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:count];
 }
 
-// Open camera
-
-- (void) openCamera {
-    if ([App isLoggedIn]) {
-        [self.mainController openCamera];
-        [self.mainController.carousel setScrollEnabled:YES];
-    }
-}
-
-- (void) jumpToCamera {
-    if ([App isLoggedIn]) {
-        [self.mainController.carousel scrollToItemAtIndex:2 animated:NO];
-    }
-}
-
-- (void) openCameraForGroup:(Group*)group {
-    if ([App isLoggedIn]) {
-        if (group && !group.isMember) {
-            [[Api sharedApi] postPath:[NSString stringWithFormat:@"/groups/join/%@", group.id]
-                           parameters:nil
-                             callback:^(NSSet *entities, id responseObject, NSError *error) {
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     [self.mainController openCameraForGroup:group];
-                                 });
-                             }];
-        }
-        else {
-            [self.mainController openCameraForGroup:group];
-        }
-    }
-}
 
 // Navigate to group
 
@@ -229,22 +165,6 @@
     }
 }
 
-- (void) openOverview {
-    [self.mainController openInbox];
-}
-
-- (void) openFriends {
-    [self.mainController openFriends];
-}
-
-- (void) openNewStories {
-    [self.mainController openNewStories];
-}
-
-- (void) openProfileForUser:(User*)user {
-    [self.mainController openProfileForUser:user];
-}
-
 - (void) openSettings {
     [self.mainController openSettings];
 }
@@ -253,30 +173,8 @@
     [self.mainController openPeople];
 }
 
-- (void) openUnreadGroup {
-    if ([UIApplication visibleKeyboardHeight] > 0) return; // don't switch if the keyboard is open.
-
-    //    Group* unreadGroup = [[[GroupManager manager] unreadGroups] firstObject];
-    Group* unreadGroup = [[[GroupManager manager] groups] firstObject];
-    if (unreadGroup) {
-        on_main(^{
-            [self openGroup:unreadGroup];
-        });
-    }
-}
-
-- (void) importImage:(UIImage*)image withVideoUrl:(NSURL*)videoUrl andParams:(NSDictionary*)params {
-//    [self.mainController openProfileForUser:[User me]];
-    [self.mainController openCamera];
-
-    NSLog(@"import %@ %@", image, videoUrl);
-
-    NewMediaEditController* vc = [NewMediaEditController new];
-    vc.photo = image;
-    vc.videoUrl = videoUrl;
-    vc.info = params;
-    [self.mainController.cameraController presentViewController:vc animated:NO completion:nil];
-
+- (void) openMyStory {
+    [self.mainController openMyStory];
 }
 
 // Checkin
@@ -284,117 +182,59 @@
 - (void)checkinUsingFastApi:(BOOL)useFastApi callback:(void (^)(NSError* error))callback {
 
     Api *api = useFastApi ? [Api fastApi] : [Api sharedApi];
-
     [api postPath:@"/checkin"
        parameters:nil
-         callback:^(NSSet *entities, id responseObject, NSError *error) {
+         callback:[api authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
 
-             if (!error) self.didCheckIn = YES;
+        NSLog(@"CHECKIN: %@", responseObject);
 
-             PNLOG(@"checkin");
-//           NSLog(@"checkin? %@", responseObject);
+        if (!error) self.didCheckIn = YES;
 
-             [[NSNotificationCenter defaultCenter] postNotificationName:kLoginStateNotification object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLoginStateNotification object:nil userInfo:nil];
 
-             on_main(^{
-                 [self chooseCurrentController];
+        on_main(^{
+            [self chooseCurrentController];
 
-                 if (self.pendingPushOptions) {
-                     [self emitCommandsForPushOptions:self.pendingPushOptions];
-                     self.pendingPushOptions = nil;
-                 }
-             });
+            if (self.pendingPushOptions) {
+                [self emitCommandsForPushOptions:self.pendingPushOptions];
+                self.pendingPushOptions = nil;
+            }
+        });
 
-             if ([Configuration boolFor:@"fb_event_enable"]) {
-                 // Facebook SDK sucks, so put it on background thread so it can't do as much damage
-                 on_background(^{
-                     [FBAppEvents activateApp];
-                 });
-             }
+        if ([Configuration boolFor:@"fb_event_enable"]) {
+            // Facebook SDK sucks, so put it on background thread so it can't do as much damage
+            on_background(^{
+                [FBAppEvents activateApp];
+            });
+        }
 
-             // ==== Address book sync ====
+        if (callback) callback(error);
+        if (error) return;
 
-                //AddressBookManager* ab = [AddressBookManager manager];
-                //[ab syncCacheWithCompletion:^(BOOL success) {
-                // NSLog(@"%d address book entries", ab.itemCount);
-                //}];
+        [Api sharedApi].fayeEnabled = NO;
 
-             // ==== Blacklist ====
-             NSManagedObjectContext* moc = [App privateManagedObjectContext];
-             [moc performBlock:^{
-                 NSArray *blacklist = [Configuration settingFor:@"blacklisted_usernames"];
-                 if(blacklist) {
-                     for (NSString *name in blacklist) {
-                         BlacklistedUsername *b = [BlacklistedUsername findOrCreateById:name inContext:moc];
-                         b.existsOnServerValue = YES;
-                     }
-                     [moc save:nil];
-                 }
-             }];
+        [[MediaUploadManager manager] retryUploadsWithLimit:100];
 
-             // ====================
+        [[StoryManager manager] loadPublicFeedWithParams:nil
+                                           andCompletion:^(NSSet *stories) {
+                                           }];
 
-             if (callback) callback(error);
-             if (error) return;
-             if (![App isLoggedIn]) return;
+        if ([App isLoggedIn])
+            [[PushPermissionManager manager] requestWithCompletion:nil];
 
-             [User fetchFriendsWithCompletion:^(NSArray *userArray) {
-                 NSLog(@"FRIENDS? %@", userArray);
-             }];
-             
-             [[GroupManager manager] updateUnreadCount];
-             [[ContentImportObserver shared] performObservation];
-
-             [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-
-                 void (^voidBlock)() = ^() {
-                     [Api sharedApi].fayeEnabled = YES;
-
-                     [[GroupManager manager] updateUnreadCount];
-
-                     [[MediaUploadManager manager] retryUploadsWithLimit:100];
-
-                     // If no existing stories (i.e., after login or signup), make them all viewed.
-                     BOOL noStories = [[StoryManager manager] totalCount] == 0;
-                     [[StoryManager manager] loadPublicFeedWithParams:nil
-                                                  andCompletion:^(NSSet *stories) {
-                                                      if (noStories) {
-                                                          for (Story* story in stories) {
-                                                              [story markViewed];
-                                                          }
-                                                          [(Story*)[stories anyObject] save];
-                                                      }
-                                                  }];
-
-                     [[StoryManager manager] loadFriendFeedWithParams:nil
-                                                        andCompletion:^(NSSet *stories) {
-                                                            if (noStories) {
-                                                                for (Story* story in stories) {
-                                                                    [story markViewed];
-                                                                }
-                                                                [(Story*)[stories anyObject] save];
-                                                            }
-                                                        }];
-
-                     [[PushPermissionManager manager] requestWithCompletion:nil];
-                 };
-
-                 // Look for groups with missing messages and load again if any
-                 NSArray* groupsMissingMessages = [[groups allObjects] filteredArrayUsingBlock:^BOOL(Group* group, NSDictionary *bindings) {
-                     return group.isMissingMessages;
-                 }];
-
-                 if (groupsMissingMessages.count) {
-                     NSLog(@"loading convos again with last_seen_rank");
-                     [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-                         voidBlock();
-                     }];
-                 }
-                 else
-                     voidBlock();
-
-             }];
-         }];
+        //             [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
+        //                 // Look for groups with missing messages and load again if any
+        //                 NSArray* groupsMissingMessages = [[groups allObjects] filteredArrayUsingBlock:^BOOL(Group* group, NSDictionary *bindings) {
+        //                     return group.isMissingMessages;
+        //                 }];
+        //
+        //                 if (groupsMissingMessages.count) {
+        //                     [[GroupManager manager] refreshGroupsWithCompletion:nil];
+        //                 }
+        //             }];
+        
+    }]
+     ];
 }
 
 - (void)setupAppearance {
@@ -488,22 +328,9 @@
 
             if (group)
                 [self openGroup:group];
-            else
-                [[AppViewController sharedAppViewController] openOverview];
 
             [[GroupManager manager] refreshGroupsWithCompletion:nil];
             if ([source isEqualToString:@"widget"]) PNLOG(@"open_snap_from_widget");
-
-        } else if ([instructionType isEqualToString:@"feed"]) {
-            [[AppViewController sharedAppViewController] openNewStories];
-            if ([source isEqualToString:@"widget"]) PNLOG(@"open_story_from_widget");
-
-        } else if ([instructionType isEqualToString:@"user"]) {
-            // TO DO: navigate directly to a specific user via URL
-
-        } else if ([instructionType isEqualToString:@"invite"]) {
-            id group_id = [commandObject valueForKey:@"id"];
-            [App setPreference:@"invite_token" object:group_id];
 
         } else if ([instructionType isEqualToString:@"webview"] && [commandObject valueForKeyPath:@"url"]) {
             UINavigationController *nav = [WebViewController controllerInNavigationControllerWithURL:[NSURL URLWithString:[commandObject valueForKeyPath:@"url"]]];
@@ -604,11 +431,11 @@
 }
 
 -(BOOL)prefersStatusBarHidden {
-    return ([App isLoggedIn]) ? self.currentViewController.prefersStatusBarHidden : YES;
+    return NO;
 }
 
 - (BOOL)shouldAutorotate {
-    return YES;
+    return NO;
 }
 
 -(NSUInteger)supportedInterfaceOrientations {

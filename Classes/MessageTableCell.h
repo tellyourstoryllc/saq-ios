@@ -8,7 +8,6 @@
 #import "SkyMessage.h"
 #import "Group.h"
 #import "GroupViewController.h"
-#import "UserAvatarView.h"
 #import "ChatBubble.h"
 #import "MetaMessageView.h"
 #import "PillLabel.h"
@@ -43,7 +42,6 @@ extern const struct MarginSizes  {
 @property (nonatomic, strong) PNLabel* attachmentLabel; // <-- outside the chat bubble
 @property (nonatomic, strong) ChatBubble *chatBubble;
 @property (nonatomic, strong) PNLabel *chatBubbleLabel;
-@property (nonatomic, strong) UserAvatarView *avatarImage;
 
 @property (nonatomic, strong) SkyMessage* message;
 @property (nonatomic, assign) BOOL showTimestamp;

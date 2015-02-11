@@ -7,13 +7,7 @@
 
 #import "DefaultNoobPanelController.h"
 #import "LinearLoginPanel.h"
-#import "DefaultWelcomePanel.h"
-#import "NoobCamcorderPanel.h"
-#import "LinearGenderPanel.h"
-#import "LinearAgeGenderPanel.h"
-#import "LinearEmailPanel.h"
-#import "LinearLocationPanel.h"
-#import "LinearPhoneInputPanel.h"
+#import "LinearSignupPanel.h"
 #import "LinearCreateAccountPanel.h"
 
 @implementation DefaultNoobPanelController
@@ -24,10 +18,7 @@
     if (self) {
         self.panels = @[
                         [LinearLoginPanel new],
-                        [DefaultWelcomePanel new],
-                        [NoobCamcorderPanel new],
-                        [LinearEmailPanel new],
-                        [LinearAgeGenderPanel new],
+                        [LinearSignupPanel new],
                         [LinearCreateAccountPanel new],
                         ];
 

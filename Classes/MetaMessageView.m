@@ -32,8 +32,6 @@
     self = [super initWithFrame:frame];
     if (self) {
 
-        self.avatar = [[UserAvatarView alloc] init];
-
         self.label = [[PNLabel alloc] init];
         self.label.font = FONT_I(14);
         self.label.textColor = COLOR(defaultForegroundColor);
@@ -47,7 +45,6 @@
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
 
-        [self addSubview:self.avatar];
         [self addSubview:self.label];
         [self addSubview:self.imageView];
     }
@@ -110,7 +107,6 @@
                completion:^(User *user) {
                    if (user) {
                        self.actorName = user.displayName ?: @"Someone";
-                       self.avatar.user = user;
                    } else
                        self.actorName = @"Someone";
 
@@ -126,12 +122,10 @@
     CGRect b = self.bounds;
     CGFloat margin = 20;
 
-    self.avatar.frame = self.avatar.image ? CGRectMake(margin, 0, 40, 40) : CGRectZero;
-
     self.imageView.frame = self.imageView.image ? CGRectMake(0, 0, 40, 40) : CGRectZero;
     self.imageView.frame = CGRectSetTopRight(b.size.width-margin, 0, self.imageView.frame);
 
-    self.label.frame = CGRectMakeCorners(CGRectGetMaxX(self.avatar.frame), 0, CGRectGetMinX(self.imageView.frame), CGRectGetMaxY(self.imageView.frame));
+    self.label.frame = CGRectMakeCorners(0, 0, CGRectGetMinX(self.imageView.frame), CGRectGetMaxY(self.imageView.frame));
     self.label.frame = CGRectInset(self.label.frame, 4, 4);
 }
 

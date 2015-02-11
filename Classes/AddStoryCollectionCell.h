@@ -10,7 +10,6 @@
 #import "PNCamera.h"
 
 @interface AddStoryCamcorder : PNCamera
-- (void) snapWithCompletion:(void (^)(UIImage* snap))completion;
 @end
 
 @interface AddStoryCollectionCell : UICollectionViewCell

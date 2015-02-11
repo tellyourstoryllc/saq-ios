@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "Group.h"
 #import "CenterViewController.h"
-#import "StoryShareViewController.h"
 
-@interface GroupViewController : UIViewController <StoryShareViewControllerDelegate>
+@interface GroupViewController : UIViewController
 
 @property (nonatomic) Group *group;
 @property (nonatomic, weak) CenterViewController* cameraController;

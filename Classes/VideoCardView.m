@@ -9,7 +9,6 @@
 #import "VideoCardView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import "MediaOverlayView.h"
 #import "Flurry.h"
 #import "PNCircularProgressView.h"
 #import "Story.h"

@@ -17,9 +17,12 @@
 typedef void(^ApiRequestCallback)(NSSet *entities, id responseObject, NSError *error);
 
 @interface Api : PNAPIAdapter
+
 @property (nonatomic) FayeClient *fayeClient;
 @property (nonatomic) BOOL fayeEnabled;
 @property (nonatomic) BOOL fayeConnected;
+
+@property (nonatomic, readonly) User* currentUser;
 
 + (Api *)sharedApi;
 + (Api *)sharedApiForcingNewClient:(BOOL)force; // <-- needed for when we want to change the endpoint dynamically.
@@ -35,7 +38,7 @@ typedef void(^ApiRequestCallback)(NSSet *entities, id responseObject, NSError *e
        parameters:(NSDictionary*)parameters
          callback:(ApiRequestCallback)callback;
 
-- (void (^)(NSSet *entities, id responseObject, NSError *error)) authCallbackWithCompletion:(void (^)(BOOL authorized, NSError *error))completion;
+- (void (^)(NSSet *entities, id responseObject, NSError *error)) authCallbackWithCompletion:(void (^)(NSSet *entities, id responseObject, NSError *error, BOOL authorized))completion;
 
 - (void)sendMessage:(NSDictionary*)dict onChannel:(NSString*)channel;
 - (void)sendMessage:(NSDictionary*)dict onChannel:(NSString*)channel withExt:(NSDictionary*)ext;

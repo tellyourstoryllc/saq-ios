@@ -73,10 +73,6 @@ static NSDateFormatter *friendlyFormatter = nil;
         });
 
         self.backgroundColor = [UIColor clearColor];
-        self.avatarImage = [[UserAvatarView alloc] init];
-        self.avatarImage.userInteractionEnabled = YES;
-        [self.avatarImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(avatarTapped:)]];
-        self.showAvatar = NO;
 
         self.chatBubble = [[GroupChatBubble alloc] init];
         [self.chatBubble.textLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textLabelTapped:)]];
@@ -108,7 +104,6 @@ static NSDateFormatter *friendlyFormatter = nil;
         [self.contentView addSubview:self.nameLabel];
         [self.contentView addSubview:self.timeLabel];
         [self.contentView addSubview:self.attachmentLabel];
-        [self.contentView addSubview:self.avatarImage];
         [self.contentView addSubview:self.chatBubbleLabel];
         [self.contentView addSubview:self.metaView];
 
@@ -156,14 +151,7 @@ static NSDateFormatter *friendlyFormatter = nil;
     else
         self.nameLabel.frame = CGRectZero;
 
-    if (self.message.user.avatar_url) {
-        self.avatarImage.frame = CGRectMake(4.0, curY, avatarWidth, avatarWidth);
-    }
-    else {
-        self.avatarImage.frame = CGRectMake(4.0, curY+avatarWidth/2,0,0);
-    }
-
-    CGFloat bubbleX = CGRectGetMaxX(self.avatarImage.frame)+4;
+    CGFloat bubbleX = 4;
     CGSize bubbleSize = [GroupChatBubble sizeForMessage:self.message maxWidth:b.size.width-avatarWidth];
     self.chatBubble.frame = CGRectMake(bubbleX, curY, bubbleSize.width, bubbleSize.height);
 
@@ -198,11 +186,6 @@ static NSDateFormatter *friendlyFormatter = nil;
 
 #pragma mark - Setters / Getters
 
-- (void)setShowAvatar:(BOOL)showAvatar {
-    _showAvatar = showAvatar;
-    self.avatarImage.hidden = !showAvatar;
-}
-
 - (void)setMessage:(SkyMessage *)message {
     _message = message;
 
@@ -226,8 +209,6 @@ static NSDateFormatter *friendlyFormatter = nil;
                                                   NSForegroundColorAttributeName : COLOR(whiteColor)
                                                   }];
 
-    self.avatarImage.hidden = message.user.isMe || message.isMeta;
-    self.avatarImage.user = message.user;
     self.chatBubble.message = message;
     self.chatBubble.hidden = !message.hasAttachment && !message.hasText;
 

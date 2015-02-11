@@ -14,10 +14,8 @@
 #import "AlertView.h"
 #import "UIImageView+AFNetworking.h"
 
-#import "AvatarSettingsCell.h"
 #import "StatusSettingsCell.h"
 #import "StatusTextSettingsCell.h"
-#import "WallpaperSettingsCell.h"
 #import "NotificationSettingsCell.h"
 #import "SoundSettingsCell.h"
 #import "GraphicsSettingsCell.h"
@@ -60,10 +58,6 @@
     self.table.backgroundColor = COLOR(whiteColor);
     self.table.contentInset = UIEdgeInsetsMake(8,0,0,0);
 
-    // Avatar
-    AvatarSettingsCell* avatarCell = [[AvatarSettingsCell alloc] init];
-    avatarCell.controller = self;
-
     // Status
     StatusSettingsCell* statusCell = [[StatusSettingsCell alloc] init];
     StatusTextSettingsCell* statusTextCell = [[StatusTextSettingsCell alloc] init];
@@ -73,10 +67,6 @@
 
     // Sounds
     SoundSettingsCell* soundCell = [[SoundSettingsCell alloc] init];
-
-    // Wallpaper
-    WallpaperSettingsCell* wallpaperCell = [[WallpaperSettingsCell alloc] init];
-    wallpaperCell.controller = self;
 
     // Graphics prefs
     GraphicsSettingsCell* graphicsCell = [[GraphicsSettingsCell alloc] init];
