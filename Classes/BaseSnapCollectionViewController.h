@@ -25,6 +25,11 @@
 -(void)setupView;
 -(void)featureVideos;
 -(void)unfeatureVideos;
+- (void)hideOptions;
+
+- (void)featureVideoAt:(SnapCollectionCell*)target;
+- (SnapCollectionCell*)featureVideoAfter:(SnapCollectionCell*)target;
+
 -(int)featuredVideoLimit;
 -(NSArray*)visibleVideoCells;
 

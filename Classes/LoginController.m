@@ -12,8 +12,6 @@
 
 @interface LoginController()<UITextFieldDelegate>
 
-@property (nonatomic,strong) PNLabel* titleLabel;
-
 @property (nonatomic,strong) PNTextField* usernameField;
 @property (nonatomic,strong) PNTextField* passwordField;
 
@@ -30,10 +28,10 @@
 {
     UIFont* placeholderFont = FONT_I(18);
 
-    self.titleLabel = [PNLabel labelWithText:@"" andFont:FONT_B(18)];
-    [self.view addSubview:self.titleLabel];
-
     self.feedbackLabel = [PNLabel new];
+    self.feedbackLabel.textAlignment = NSTextAlignmentCenter;
+    self.feedbackLabel.textColor = COLOR(redColor);
+    self.feedbackLabel.font = FONT_B(16);
     [self.view addSubview:self.feedbackLabel];
 
     self.usernameField = [[PNTextField alloc] init];
@@ -101,11 +99,10 @@
     CGRect b = self.view.bounds;
     CGRect viz = [self.view frameMinusKeyboard];
 
-    self.titleLabel.frame = CGRectSetTopCenter(b.size.width/2, 70, self.titleLabel.frame);
-    self.feedbackLabel.frame = CGRectMakeCorners(4, CGRectGetMinY(self.titleLabel.frame),
-                                                 b.size.width-4, CGRectGetMaxY(self.titleLabel.frame));
+    self.feedbackLabel.frame = CGRectMakeCorners(4, 70,
+                                                 b.size.width-4, 100);
 
-    CGRect bb = CGRectMakeCorners(0, CGRectGetMaxY(self.titleLabel.frame), b.size.width, CGRectGetMaxY(viz));
+    CGRect bb = CGRectMakeCorners(0, CGRectGetMaxY(self.feedbackLabel.frame), b.size.width, CGRectGetMaxY(viz));
 
     CGFloat goldenY = bb.origin.y + bb.size.height*(1.f - 1.f/GOLDEN_MEAN);
 
@@ -125,9 +122,11 @@
                              withString:string];
 
     if (textField == self.usernameField) {
+        self.feedbackLabel.text = @"";
         if (newString.length > 0) [self checkUsername:newString];
     }
     else if (textField == self.passwordField) {
+        self.feedbackLabel.text = @"";
         [self checkPasswordString:newString];
     }
 
@@ -168,18 +167,14 @@
 - (void)checkUsername:(NSString*)name afterDelay:(NSTimeInterval)delay {
 
     self.isValidName = NO;
-    self.feedbackLabel.text = @"";
 
     NSString *regex = @"^[a-zA-Z0-9\\-]{2,16}$";
     NSString *atLeastOneLetterRegex = @"[a-zA-Z]";
     if ([name isMatchedByRegex:regex] && [name isMatchedByRegex:atLeastOneLetterRegex]) {
-
         self.isValidName = YES;
-        self.feedbackLabel.text = @"";
 
     } else {
         self.isValidName = NO;
-        self.feedbackLabel.text = @"";
     }
 }
 
@@ -191,6 +186,7 @@
     CGFloat bottom = [self.view frameMinusKeyboard].size.height;
 
     void (^block)() = ^() {
+        self.doneButton.hidden = ![self validInputs];
         self.doneButton.frame = [self validInputs] ? CGRectSetBottomLeft(0, bottom, self.doneButton.frame) : CGRectSetOrigin(0,bottom, self.doneButton.frame);
         [self.view setNeedsLayout];
     };
@@ -203,7 +199,27 @@
 }
 
 - (void)onSubmit {
-    NSLog(@"EH?");
+    if ([self validInputs]) {
+
+        [[Api sharedApi] postPath:@"/login"
+                       parameters:@{@"login":self.usernameField.text,
+                                    @"password":self.passwordField.text}
+                         callback:[[Api sharedApi] authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
+            NSLog(@"login: %@", responseObject);
+            on_main(^{
+                if (!error) {
+                    self.usernameField.text = nil;
+                    self.passwordField.text = nil;
+                    self.feedbackLabel.text = nil;
+                    [self.meController openStory];
+                }
+                else {
+                    self.feedbackLabel.text = @"Incorrect username and/or password";
+                }
+            });
+
+        }]];
+    }
 }
 
 @end

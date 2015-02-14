@@ -241,7 +241,7 @@
             [App setPreference:@"user_id" object:user.id];
             [App setPreference:@"username" object:user.username];
             [App setPreference:@"token" object:user.token];
-            [self setCurrentUser:user];
+            [[Api sharedApi] setCurrentUser:user];
             if (completion) completion(entities, responseObject, error, YES);
 
         } else {

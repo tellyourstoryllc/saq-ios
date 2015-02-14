@@ -20,6 +20,5 @@
 
 - (void) updateUnreadCount;
 - (void) refreshGroupsWithCompletion:(void (^)(NSSet* groups))completion;
-- (void) fillExtensionConduit;
 
 @end

@@ -14,15 +14,17 @@
 @class PeopleViewController;
 @class MeViewController;
 @class FriendViewController;
+@class PamphletViewController;
 
 @interface MainCarouselController : PNCarouselViewController {
     SystemSoundID receiveSoundID;
     SystemSoundID mentionSoundID;
 }
 
-@property (nonatomic, strong) InboxViewController* inboxController;
 @property (nonatomic, strong) PeopleViewController* peopleController;
 @property (nonatomic, strong) MeViewController* myStoryController;
+@property (nonatomic, strong) PamphletViewController* pamphletController;
+@property (nonatomic, strong) InboxViewController* inboxController;
 
 - (void) resetUI;
 

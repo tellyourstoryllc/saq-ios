@@ -21,7 +21,6 @@
 @property(nonatomic, retain) PhotoCardView* photoCard;
 @property(nonatomic, retain) VideoCardView* videoCard;
 @property(nonatomic, retain) TextCardView* textCard;
-@property(nonatomic, retain) UIView* isNewIndicator;
 @end
 
 @implementation SnapCardView
@@ -85,27 +84,29 @@
         self.exportButton.hidden = YES;
         [self addSubview:self.exportButton];
 
-        self.infoButton = [[SnapInfoIndicator alloc] initWithFrame:CGRectMake(0,0,60,60)];
-        self.infoButton.cornerRadius = 30;
-        [self.infoButton addTarget:self action:@selector(onInfo) forControlEvents:UIControlEventTouchUpInside];
-        self.infoButton.alpha = 0.5;
-        self.infoButton.hidden = YES;
-        [self addSubview:self.infoButton];
+        CGRect b = self.bounds;
+        self.screenView = [[UIView alloc] initWithFrame:b];
+        self.screenView.backgroundColor = [COLOR(whiteColor) colorWithAlphaComponent:0.7];
+        [self addSubview:self.screenView];
 
-        self.isNewIndicator = [UIView new];
-        [self addSubview:self.isNewIndicator];
+        self.optionView = [[UIView alloc] initWithFrame:CGRectSetOrigin(0, b.size.height, b)];
+        self.optionView.userInteractionEnabled = YES;
+        [self addSubview:self.optionView];
+
+        self.thanksButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0, 100, 40)];
+        self.thanksButton.userInteractionEnabled = YES;
+        self.thanksButton.titleLabel.font = FONT_B(14);
+        self.thanksButton.cornerRadius = 10;
+        self.thanksButton.selectedColor = [COLOR(greenColor) colorWithAlphaComponent:0.8];
+        self.thanksButton.buttonColor = [COLOR(grayColor) colorWithAlphaComponent:0.8];
+        [self.thanksButton setTitle:@"Say thanks" forState:UIControlStateNormal];
+        [self.thanksButton setTitle:@"Thanked" forState:UIControlStateSelected];
+        [self.thanksButton setTitleColor:COLOR(blackColor) forState:UIControlStateSelected];
+
+        self.thanksButton.frame = CGRectSetBottomCenter(b.size.width/2, b.size.height-2, self.thanksButton.frame);
+        [self.optionView addSubview:self.thanksButton];
 
         [self hideControls];
-
-        // To be notified of when unread count changes.
-        [[GroupManager manager] addObserver:self forKeyPath:@"unreadCount"
-                                    options:NSKeyValueObservingOptionNew
-                                    context:nil];
-
-        [[StoryManager manager] addObserver:self
-                                 forKeyPath:@"unreadCount"
-                                    options:NSKeyValueObservingOptionNew
-                                    context:nil];
     }
     return self;
 }
@@ -133,11 +134,7 @@
         self.usernameLabel.frame = CGRectSetTopRight(self.frame.size.width, 4, self.usernameLabel.frame);
     }
 
-    self.isNewIndicator.frame = CGRectMake(2,2,10,10);
-    self.isNewIndicator.layer.cornerRadius = 5;
-
     self.dismissButton.frame = CGRectSetOrigin(2,2, self.dismissButton.frame);
-    self.infoButton.frame = CGRectSetBottomRight(b.size.width-2, b.size.height-2, self.infoButton.frame);
     self.editButton.frame = CGRectSetTopRight(b.size.width-2, 2, self.editButton.frame);
     self.replyButton.frame = CGRectSetBottomCenter(b.size.width/2, b.size.height-2, self.replyButton.frame);
     self.exportButton.frame = CGRectSetBottomLeft(2, b.size.height-2, self.exportButton.frame);
@@ -148,16 +145,16 @@
     if (_message == message)
         return;
 
-    if (_message)
-        [_message removeObserver:self forKeyPath:@"updated_at"];
-
-    self.isNewIndicator.backgroundColor = [message isKindOfClass:[Story class]] ? COLOR(purpleColor) : COLOR(redColor);
-    self.isNewIndicator.hidden = !message.isNew || message.user.isMe;
-    self.infoButton.snap = message;
-
-    [message addObserver:self forKeyPath:@"updated_at" options:NSKeyValueObservingOptionNew context:nil];
-
+    [self.KVOController unobserve:_message];
     _message = message;
+    [self.KVOController observe:message keyPaths:@[@"liked"]
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              on_main(^{
+                                  self.thanksButton.selected = self.message.likedValue;
+                              });
+                          }];
+
     self.card = nil;
     self.photoCard.message = nil;
     self.videoCard.message = nil;
@@ -227,6 +224,8 @@
 
     self.card.message = self.message;
     self.card.delegate = self.delegate;
+    self.thanksButton.selected = self.message.likedValue;
+
     [self.card loadContentWithCompletion:completion];
 
     if (self.card != oldCard) {
@@ -258,7 +257,6 @@
     self.replyButton.hidden = YES;
     self.exportButton.hidden = YES;
     self.likeButton.hidden = YES;
-    self.infoButton.hidden = YES;
 
     [self.videoCard hideControls];
     [self.photoCard hideControls];
@@ -272,7 +270,6 @@
     self.replyButton.hidden = !self.showReplyButton;
     self.exportButton.hidden = !self.showExportButton;
     self.likeButton.hidden = !self.showLikeButton;
-    self.infoButton.hidden = !self.showInfoButton;
 
     [self.videoCard unhideControls];
     [self.photoCard unhideControls];
@@ -292,23 +289,27 @@
 
 - (void)didBecomeFeatured {
     self.isFeatured = YES;
+    CGRect b = self.bounds;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.screenView.frame = CGRectSetBottomLeft(0, 0, b);
+                     } completion:^(BOOL finished) {
+                     }];
     [self.card didBecomeFeatured];
 }
 
 - (void)willResignFeatured {
     [self.card willResignFeatured];
     self.isFeatured = NO;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.screenView.frame = self.bounds;
+                     } completion:^(BOOL finished) {
+                     }];
 }
 
 - (void)messageWasUpdated {
-    on_main(^{
-        self.isNewIndicator.hidden = !self.message.isNew || self.message.user.isMe;
-        [self.card messageWasUpdated];
-    });
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    [self messageWasUpdated];
+    [self.card messageWasUpdated];
 }
 
 - (void)setDelegate:(id<CardViewDelegate>)delegate {
@@ -326,11 +327,6 @@
 - (void)onEdit {
     if ([self.delegate respondsToSelector:@selector(card:didSelectEdit:)])
         [self.delegate card:self didSelectEdit:self.message];
-}
-
-- (void)onInfo {
-    if ([self.delegate respondsToSelector:@selector(card:didSelectInfo:)])
-        [self.delegate card:self didSelectInfo:self.message];
 }
 
 - (void)onLike {
@@ -360,11 +356,27 @@
     return _cachedHasVideo > 0;
 }
 
+- (void)didPresentOptions {
+    _isPresentingOptions = YES;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.optionView.frame = self.bounds;
+                     } completion:^(BOOL finished) {
+                     }];
+}
+
+- (void)willResignOptions {
+    _isPresentingOptions = NO;
+    CGRect b = self.bounds;
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.optionView.frame = CGRectSetOrigin(0, b.size.height, b);
+                     } completion:^(BOOL finished) {
+                     }];
+}
+
 - (void)dealloc {
     self.delegate = nil;
-    [self.message removeObserver:self forKeyPath:@"updated_at"];
-    [[GroupManager manager] removeObserver:self forKeyPath:@"unreadCount"];
-    [[StoryManager manager] removeObserver:self forKeyPath:@"unreadCount"];
 }
 
 @end
@@ -395,10 +407,6 @@
 
 - (void)onEdit {
     [self.snapCard onEdit];
-}
-
-- (void)onInfo {
-    [self.snapCard onInfo];
 }
 
 - (void)onLike {

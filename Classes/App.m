@@ -38,7 +38,7 @@
 
 +(BOOL)isLoggedIn {
     BOOL authenticated = [self token] != nil;
-    return authenticated && [self userId] != nil;
+    return authenticated && [self userId] != nil && [[User me] registeredValue];
 }
 
 +(void) logout {
@@ -209,10 +209,7 @@
 }
 
 + (int)simulatanenousVideoLimit {
-    int val = 0;
-    val = [[Configuration settingFor:@"video_limit"] intValue];
-    val = val ?: kSimultaneousVideoLimit;
-    return [self isCrappyDevice] ? val : 2*val;
+    return 1;
 }
 
 @end

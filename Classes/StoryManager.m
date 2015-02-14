@@ -43,11 +43,6 @@
         self.unreadUsers = [NSMutableArray arrayWithCapacity:8];
         [self updateUnreadCount];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initializeFetchController) name:kLoginStateNotification object:nil];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(fillExtensionConduit)
-                                                     name:UIApplicationWillResignActiveNotification
-                                                   object:nil];
     }
     return self;
 }
@@ -101,9 +96,6 @@
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self updateUnreadCount];
-    if (UIApplicationStateActive != [UIApplication sharedApplication].applicationState) {
-        [self fillExtensionConduit];
-    }
 }
 
 - (void)loadPublicFeedWithParams:(NSDictionary*)params
@@ -123,11 +115,6 @@
     }];
 }
 
-- (void)loadFriendFeedWithParams:(NSDictionary*)params
-                   andCompletion:(void (^)(NSSet* stories))completion {
-    [self loadFeedFromPath:@"/friend_feed" withParams:params andCompletion:completion];
-}
-
 - (void)loadFeedFromPath:(NSString*)path
               withParams:(NSDictionary*)params
            andCompletion:(void (^)(NSSet* stories))completion {
@@ -141,6 +128,8 @@
     [[Api sharedApi] postPath:path
                    parameters:mutableParams
                      callback:^(NSSet *entities, id responseObject, NSError *error) {
+
+                         NSLog(@"feedme: %@ %@", path, responseObject);
 
                          NSSet* allUsers = [NSSet setWithArray:[[[entities setOfClass:[Story class]] allObjects] valueForKey:@"user_id"]];
 
@@ -188,100 +177,6 @@
                          }
                      }
      ];
-}
-
-// Save most recent snaps (not sent by user) to conduit.
-- (void)fillExtensionConduit {
-
-    return;
-
-    //
-
-    static BOOL isFilling;
-    if (isFilling) return;
-    isFilling = YES;
-
-    [User fetchAllUsingPredicate:[NSPredicate predicateWithFormat:@"id != NULL AND id != %@ AND last_story != NULL AND last_story_at != NULL", [App userId]]
-                        sortedBy:[NSSortDescriptor sortDescriptorWithKey:@"last_story_at" ascending:NO]
-                           limit:5 offset:0 inContext:[App moc]
-                      completion:^(NSArray *objs) {
-
-                          if (objs.count == 0) return;
-
-                          [PNBackgroundTaskElf doIt:^(PNBackgroundTaskElf *elf) {
-
-                              __block ExtensionConduit* dooit = [ExtensionConduit shared];
-                              [dooit reloadCacheInfo];
-                              __block int count = 0;
-                              int x = 0;
-                              SkyMessage* msg;
-                              NSMutableArray* fetchMe = [NSMutableArray new];
-
-                              do {
-                                  User* u = [objs objectAtIndex:x];
-                                  msg = [u last_story];
-                                  if (msg.hasVideo || msg.hasImage) {
-                                      [fetchMe addObject:msg];
-                                      count++;
-                                  }
-                                  x++;
-                              } while (count < 3 && x < objs.count);
-
-                              // stories already in conduit:
-                              NSMutableArray* existingStoryIds = [[[dooit allStories] mapUsingBlock:^id(ExtensionConduitItem* item) {
-                                  return item.properties[@"story_id"];
-                              }] mutableCopy];
-
-                              dispatch_group_t fetchGroup = dispatch_group_create();
-
-                              // reverse order so that newest has the largest timestamp in the conduit.
-                              for (SkyMessage* m in fetchMe.reverseObjectEnumerator) {
-
-                                  // don't add if already there
-                                  if ([existingStoryIds containsObject:m.id]) {
-                                      NSLog(@"story %@ (%@) already in conduit", m.id, m.user.username);
-                                      continue;
-                                  }
-
-                                  dispatch_group_enter(fetchGroup);
-                                  __weak SkyMessage* weakMsg = m;
-                                  [m fetchMediaWithCompletion:^(UIImage *photo, NSURL *videoUrl, UIImage *videoOverlay) {
-                                      if (!weakMsg) {
-                                          dispatch_group_leave(fetchGroup);
-                                          return;
-                                      }
-
-                                      NSDictionary* props = @{@"created_at":weakMsg.created_at,
-                                                              @"username":weakMsg.user.username,
-                                                              @"story_id":weakMsg.id};
-                                      if (photo) {
-                                          UIImage* smallPhoto = [photo imageByScalingProportionallyToFit:CGSizeMake(240,400)];
-                                          NSLog(@"adding story photo %@", weakMsg.id);
-                                          [existingStoryIds addObject:weakMsg.id];
-                                          [dooit addStoryWithImage:smallPhoto properties:props];
-                                          dispatch_group_leave(fetchGroup);
-                                      }
-                                      else if (videoUrl) {
-                                          [weakMsg fetchVideoPreviewWithCompletion:^(NSURL *previewUrl) {
-                                              NSLog(@"adding story video %@", weakMsg.id);
-                                              [existingStoryIds addObject:weakMsg.id];
-                                              [dooit addStoryWithVideoUrl:previewUrl properties:props];
-                                              dispatch_group_leave(fetchGroup);
-                                          }];
-                                      }
-                                      else {
-                                          dispatch_group_leave(fetchGroup);
-                                      }
-                                  }]; // fetch
-                              } // for
-
-                              dispatch_group_notify(fetchGroup, dispatch_get_main_queue(), ^{
-                                  [dooit pruneStoriesToCount:3];
-                                  isFilling = NO;
-                                  [elf doneIt];
-                              });
-                          }];
-                      }];
 }
 
 -(void)dealloc {

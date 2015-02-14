@@ -43,11 +43,6 @@
                                                      name:kLoginStateNotification
                                                    object:nil];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(fillExtensionConduit)
-                                                     name:UIApplicationWillResignActiveNotification
-                                                   object:nil];
-
         self.unreadGroups = [NSMutableArray arrayWithCapacity:8];
     }
     return self;
@@ -115,9 +110,6 @@
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self updateUnreadCount];
-    if (UIApplicationStateActive != [UIApplication sharedApplication].applicationState) {
-        [self fillExtensionConduit];
-    }
 }
 
 - (void)refreshGroupsWithCompletion:(void (^)(NSSet* groups))completion {
@@ -155,93 +147,6 @@
 
                          if (completion) completion(groups);
                      }];
-}
-
-// Save 3 most recent snaps (not sent by user) to conduit.
-// The most recent is added *last*
-- (void)fillExtensionConduit {
-
-    static BOOL isFilling;
-    if (isFilling) return;
-    isFilling = YES;
-
-    __block NSArray* objs = self.fetchController.fetchedObjects;
-    if (objs.count == 0) return;
-
-    [PNBackgroundTaskElf doIt:^(PNBackgroundTaskElf *elf) {
-        __block ExtensionConduit* dooit = [ExtensionConduit shared];
-        [dooit reloadCacheInfo];
-
-        __block int count = 0;
-        int x = 0;
-        SkyMessage* msg;
-        NSMutableArray* fetchMe = [NSMutableArray new];
-        do {
-            Group* g = [objs objectAtIndex:x];
-            msg = g.lastOtherUserMessage;
-            if (!msg.user.isMe && (msg.hasVideo || msg.hasImage)) {
-                [fetchMe addObject:msg];
-                count++;
-            }
-            x++;
-        } while (count < 3 && x < objs.count);
-
-        // usernames already in conduit:
-        NSMutableArray* existingSnapIds = [[[dooit allSnaps] mapUsingBlock:^id(ExtensionConduitItem* item) {
-            return item.properties[@"snap_id"];
-        }] mutableCopy];
-
-        dispatch_group_t fetchGroup = dispatch_group_create();
-
-        // reverse order so that newest has the largest timestamp in the conduit.
-        for (SkyMessage* m in fetchMe.reverseObjectEnumerator) {
-
-            // don't add if already there
-            if ([existingSnapIds containsObject:m.id]) {
-                NSLog(@"snap %@ (%@) already in conduit", m.id, m.user.username);
-                continue;
-            }
-
-            dispatch_group_enter(fetchGroup);
-
-            __weak SkyMessage* weakMsg = m;
-            [m fetchMediaWithCompletion:^(UIImage *photo, NSURL *videoUrl, UIImage *videoOverlay) {
-                if (!weakMsg) {
-                    dispatch_group_leave(fetchGroup);
-                    return;
-                }
-
-                NSString* username = weakMsg.user.username ?: weakMsg.group.other_user.username ?: @"";
-                NSDictionary* props = @{@"created_at":weakMsg.created_at,
-                                        @"username":username,
-                                        @"snap_id":weakMsg.id};
-                if (photo) {
-                    UIImage* smallPhoto = [photo imageByScalingProportionallyToFit:CGSizeMake(240,400)];
-                    NSLog(@"adding snap photo %@", weakMsg.id);
-                    [existingSnapIds addObject:weakMsg.id];
-                    [dooit addSnapWithImage:smallPhoto properties:props];
-                    dispatch_group_leave(fetchGroup);
-                }
-                else if (videoUrl) {
-                    [weakMsg fetchVideoPreviewWithCompletion:^(NSURL *previewUrl) {
-                        NSLog(@"adding snap video %@", weakMsg.id);
-                        [existingSnapIds addObject:weakMsg.id];
-                        [dooit addSnapWithVideoUrl:previewUrl properties:props];
-                        dispatch_group_leave(fetchGroup);
-                    }];
-                }
-                else {
-                    dispatch_group_leave(fetchGroup);
-                }
-            }]; // fetch
-        } // for
-
-        dispatch_group_notify(fetchGroup, dispatch_get_main_queue(), ^{
-            [dooit pruneSnapsToCount:3];
-            isFilling = NO;
-            [elf doneIt];
-        });
-    }];
 }
 
 -(void)dealloc {

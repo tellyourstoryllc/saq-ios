@@ -253,10 +253,10 @@
     appearance = [UIBarButtonItem appearanceWhenContainedIn:[MainCarouselController class], nil];
 
     NSDictionary* buttonBarTextAttributes = @{NSFontAttributeName:FONT_B(14),
-                                              NSForegroundColorAttributeName:COLOR(whiteColor),
+                                              NSForegroundColorAttributeName:COLOR(darkGrayColor),
                                               NSShadowAttributeName:shadow};
     [appearance setTitleTextAttributes:buttonBarTextAttributes forState:UIControlStateNormal];
-    [appearance setTintColor:COLOR(whiteColor)];
+    [appearance setTintColor:COLOR(darkGrayColor)];
 
     buttonBarTextAttributes = @{NSFontAttributeName:FONT_B(14),
                                 NSShadowAttributeName:shadow};

@@ -9,7 +9,6 @@
 #import "PillLabel.h"
 #import "CalloutBubble.h"
 #import "User.h"
-#import "SnapInfoIndicator.h"
 
 @class SnapCardView;
 
@@ -21,7 +20,6 @@
 - (void)card:(SnapCardView*)card didSelectEdit:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectReply:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectExport:(SkyMessage*)snap;
-- (void)card:(SnapCardView*)card didSelectInfo:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectDismiss:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectLike:(SkyMessage*)snap;
 
@@ -49,7 +47,6 @@
 
 - (void)onEdit;
 - (void)onExport;
-- (void)onInfo;
 - (void)onLike;
 - (void)onDismiss;
 
@@ -63,7 +60,6 @@
 @property (nonatomic, strong) PNButton* exportButton;
 @property (nonatomic, strong) PNButton* editButton;
 @property (nonatomic, strong) UIView* replyButton;
-@property (nonatomic, strong) SnapInfoIndicator* infoButton;
 @property (nonatomic, strong) PNButton* likeButton;
 
 @property (nonatomic, strong) PillLabel* usernameLabel;
@@ -72,16 +68,21 @@
 @property (nonatomic, assign) id<CardViewDelegate> delegate;
 @property (nonatomic, assign) UIViewContentMode contentMode;
 
+@property (nonatomic, strong) UIView* screenView;
+
+@property (nonatomic, strong) UIView* optionView;
+@property (nonatomic, strong) PNButton* thanksButton;
+
 @property (nonatomic, assign) BOOL videoEnabled;
 @property (nonatomic, assign) BOOL audioEnabled;
 
 @property (nonatomic, assign) BOOL isAppearing;
 @property (nonatomic, assign) BOOL isFeatured;
+@property (nonatomic, assign) BOOL isPresentingOptions;
 
 @property (nonatomic, assign) BOOL showDismissButton;
 @property (nonatomic, assign) BOOL showEditButton;
 @property (nonatomic, assign) BOOL showExportButton;
-@property (nonatomic, assign) BOOL showInfoButton;
 @property (nonatomic, assign) BOOL showLikeButton;
 @property (nonatomic, assign) BOOL showReplyButton;
 @property (nonatomic, assign) BOOL showUsername;
@@ -101,5 +102,8 @@
 
 - (void)didBecomeFeatured;
 - (void)willResignFeatured;
+
+- (void)didPresentOptions;
+- (void)willResignOptions;
 
 @end

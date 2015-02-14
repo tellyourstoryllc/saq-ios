@@ -10,6 +10,7 @@
 #import "GraphicsSettingsCell.h"
 
 @interface SnapCollectionCell()
+
 @end
 
 @implementation SnapCollectionCell
@@ -35,14 +36,25 @@
     return self.card.isFeatured;
 }
 
+- (BOOL)isPresentingOptions {
+    return self.card.isPresentingOptions;
+}
+
 - (void)didBecomeFeatured {
-    BOOL showVideoPreview = [[PNUserPreferences shared] boolPreference:kShowAnimatedVideoPrefKey orDefault:YES];
-    if (showVideoPreview)
-        [self.card didBecomeFeatured];
+    [self.card didBecomeFeatured];
+    [self willResignOptions];
 }
 
 - (void)willResignFeatured {
     [self.card willResignFeatured];
+}
+
+- (void)didPresentOptions {
+    [self.card didPresentOptions];
+}
+
+- (void)willResignOptions {
+    [self.card willResignOptions];
 }
 
 - (void)dealloc {

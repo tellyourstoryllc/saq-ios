@@ -21,6 +21,7 @@ const CGFloat kSkyMessageVideoPreviewDim = 400.0f;
 
 @interface SkyMessage()
 @property (nonatomic,strong) NSAttributedString* cachedAttributedString;
+
 @end
 
 @implementation SkyMessage
@@ -356,11 +357,17 @@ const CGFloat kSkyMessageVideoPreviewDim = 400.0f;
 
 - (void)fetchImagePreviewWithCompletion:(void (^)(UIImage*))completion
 {
+
+    [self verifyLocalUrls];
+
     __weak SkyMessage* weakSelf = self;
     dispatch_async(self.fetchMediaQueue, ^{
         __strong SkyMessage* sself = weakSelf;
 
-        [sself verifyLocalUrls];
+//    __block SkyMessageID* objId = self.objectID;
+//    dispatch_async(self.fetchMediaQueue, ^{
+//        __strong SkyMessage* sself = (SkyMessage*)[[App privateManagedObjectContext] objectWithID:objId];
+
 
         if (sself.attachment_local_preview_url && sself.hasImage) {
             [[FastMediaLoader shared] loadImageForUrlString:sself.attachment_local_preview_url withCompletion:completion];
@@ -386,6 +393,10 @@ const CGFloat kSkyMessageVideoPreviewDim = 400.0f;
     dispatch_async(self.fetchMediaQueue, ^{
         __strong SkyMessage* sself = weakSelf;
 
+//    __block SkyMessageID* objId = self.objectID;
+//    dispatch_async(self.fetchMediaQueue, ^{
+//        __strong SkyMessage* sself = (SkyMessage*)[[App privateManagedObjectContext] objectWithID:objId];
+
         if (sself.hasVideo) {
             [sself fetchVideoWithCompletion:^(NSURL *fileUrl) {
                 [sself fetchOverlayWithCompletion:^(UIImage *overlay) {
@@ -407,11 +418,17 @@ const CGFloat kSkyMessageVideoPreviewDim = 400.0f;
 }
 
 - (void)fetchVideoPreviewWithCompletion:(void (^)(NSURL *))completion {
+
+    [self verifyLocalUrls];
+
     __weak SkyMessage* weakSelf = self;
     dispatch_async(self.fetchMediaQueue, ^{
         __strong SkyMessage* sself = weakSelf;
 
-        [sself verifyLocalUrls];
+        //    __block SkyMessageID* objId = self.objectID;
+        //    dispatch_async(self.fetchMediaQueue, ^{
+        //        __strong SkyMessage* sself = (SkyMessage*)[[App privateManagedObjectContext] objectWithID:objId];
+
 
         if (sself.attachment_local_preview_url && sself.hasVideo) {
             NSURL* pl = [NSURL URLWithString:sself.attachment_local_preview_url];

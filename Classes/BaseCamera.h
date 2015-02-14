@@ -15,6 +15,7 @@
 @interface BaseCamera : PNCamera
 
 @property (nonatomic, strong) UIImageView* snapshotView;
+@property (nonatomic, strong) UIImage* rawScreenshot;
 
 @property (nonatomic, assign) id<UIImagePickerControllerDelegate,UINavigationControllerDelegate> pickerDelegate;
 

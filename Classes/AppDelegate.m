@@ -305,6 +305,9 @@ void uncaughtExceptionHandler(NSException *exception) {
         [self commonActivation:^{}];
         return YES;
     }
+    else if ([[UIApplication sharedApplication] canOpenURL:url]) {
+        return [[UIApplication sharedApplication] openURL:url];
+    }
     else {
         [self commonActivation:^{}];
         return NO;
@@ -368,10 +371,6 @@ void uncaughtExceptionHandler(NSException *exception) {
         NSNumber* limit = [Configuration settingFor:@"remote_story_limit"] ?: @(25);
 
         [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-            [[StoryManager manager] loadFriendFeedWithParams:@{@"limit":limit}
-                                         andCompletion:^(NSSet *stories) {
-                                             handler(UIBackgroundFetchResultNewData);
-                                         }];
         }];
     }
     else
@@ -453,10 +452,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"fetchSnapUp.appdelegate download:%d upload:%d", shouldDownload, shouldUpload);
 
     [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-        [[StoryManager manager] loadFriendFeedWithParams:@{@"limit":@(25)}
-                                     andCompletion:^(NSSet *stories) {
-                                         completionHandler(stories.count+groups.count ? UIBackgroundFetchResultNewData : UIBackgroundFetchResultNoData);
-                                     }];
+                                         completionHandler(groups.count ? UIBackgroundFetchResultNewData : UIBackgroundFetchResultNoData);
     }];
 }
 

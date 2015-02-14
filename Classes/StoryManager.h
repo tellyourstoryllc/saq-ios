@@ -20,8 +20,5 @@
 - (void)updateUnreadCount;
 - (void)loadPublicFeedWithParams:(NSDictionary*)params
                    andCompletion:(void (^)(NSSet* stories))completion;
-- (void)loadFriendFeedWithParams:(NSDictionary*)params
-                   andCompletion:(void (^)(NSSet* stories))completion;
-- (void)fillExtensionConduit;
 
 @end

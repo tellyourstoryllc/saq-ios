@@ -38,11 +38,16 @@
         self.created_at = [NSDate dateWithTimeIntervalSince1970:correctedInterval];
     }
 
-    // Update last_story_at of User
-    [self.user updateIfLastStory:self];
+    if (!self.expires_at) {
+        NSTimeInterval one_hour = 3600;
+        self.expires_at = [NSDate dateWithTimeIntervalSinceNow:one_hour];
+    }
 
     // Delete placeholder
     [self deletePlaceholders];
+
+    // Update last_story_at of User
+    [self.user updateIfLastStory:self];
 
 }
 
@@ -62,11 +67,10 @@
         [cache waitForDisk];
 
         [[PNFaceDetector new] detectFaceInUIImage:image withCompletion:^(BOOL result) {
-//      [[PNFaceDetector new] detectFaceInVideoUrl:cacheUrl withCompletion:^(BOOL result) {
             if (result) [newParams setValue:@"yes" forKey:@"has_face"];
 
             [PNVideoCompressor compressVideoUrl:cacheUrl
-                                         preset:AVAssetExportPresetMediumQuality
+                                         preset:AVAssetExportPresetLowQuality
                                        filetype:AVFileTypeMPEG4
                                      exportWith:^(AVAssetExportSession *exportSession) {
                                          // Skip the first 0.2s to avoid possible black frame.
@@ -358,12 +362,17 @@
 
 - (void)fetchMediaWithCompletion:(void (^)(UIImage* photo, NSURL* videoUrl, UIImage* videoOverlay))completion {
 
+    // If a local file url exists, check to make sure file exists and load it from there..
+    [self verifyLocalUrls];
+
     __weak Story* weakSelf = self;
     dispatch_async(self.fetchMediaQueue, ^{
         __strong Story* sself = weakSelf;
 
-        // If a local file url exists, check to make sure file exists and load it from there..
-        [sself verifyLocalUrls];
+//    __block StoryID* objId = self.objectID;
+//    dispatch_async(self.fetchMediaQueue, ^{
+//        __strong Story* sself = (Story*)[[App privateManagedObjectContext] objectWithID:objId];
+
 
         if (sself.attachment_local_url) {
 
@@ -418,12 +427,18 @@
 #pragma mark Liking
 
 - (void)likeWithCompletion:(void (^)(NSSet *entities, id responseObject, NSError *error))completion {
-    [self.managedObjectContext performBlockAndWait:^{
-        self.likedValue = YES;
-        [self.managedObjectContext save:nil];
-    }];
-
-    if (completion) completion(nil, nil, nil);
+    if (self.likedValue) {
+        if (completion) completion(nil, nil, nil);
+    }
+    else {
+        [self.managedObjectContext performBlock:^{
+            self.likedValue = YES;
+            [self.managedObjectContext save:nil];
+            [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/like", self.id]
+                           parameters:nil
+                             callback:completion];
+        }];
+    }
 }
 
 - (void)unlikeWithCompletion:(void (^)(NSSet *entities, id responseObject, NSError *error))completion {

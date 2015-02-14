@@ -204,9 +204,13 @@ referenceSizeForFooterInSection:(NSInteger)section {
 - (void)card:(SnapCardView *)card didFinishPresenting:(SkyMessage *)snap {
     SnapCollectionCell* cell = [self cellForCard:card];
     if (cell) {
-        [cell willResignFeatured];
+        [self hideOptions];
 
-        if (!self.collection.isDecelerating && !self.collection.isDragging)
+        [cell willResignFeatured];
+        [cell didPresentOptions];
+
+        id success = [self featureVideoAfter:cell];
+        if (!success)
             [self featureVideos];
     }
 }
@@ -237,6 +241,37 @@ referenceSizeForFooterInSection:(NSInteger)section {
 - (void)unfeatureVideos {
     for (SnapCollectionCell* cell in [self visibleVideoCells]) {
         [cell willResignFeatured];
+    }
+}
+
+- (void)hideOptions {
+    for (SnapCollectionCell* cell in [self visibleVideoCells]) {
+        [cell willResignOptions];
+    }
+}
+
+- (SnapCollectionCell*)featureVideoAfter:(SnapCollectionCell*)currentCell {
+
+    SnapCollectionCell* lastCell = nil;
+    SnapCollectionCell* nextCell = nil;
+    for (SnapCollectionCell* cell in [[self visibleVideoCells] reverseObjectEnumerator]) {
+        if (lastCell == currentCell) {
+            nextCell = cell;
+            break;
+        }
+        lastCell = cell;
+    }
+
+    [nextCell didBecomeFeatured];
+    return nextCell;
+}
+
+- (void)featureVideoAt:(SnapCollectionCell*)target {
+    for (SnapCollectionCell* cell in [self visibleVideoCells]) {
+        if (cell == target) {
+            [cell didBecomeFeatured];
+            break;
+        }
     }
 }
 

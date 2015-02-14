@@ -38,6 +38,10 @@
         self.plusLabel.text = @"+";
         [self.contentView addSubview:self.plusLabel];
 
+        self.label = [PNLabel labelWithText:@"Add Your Story" andFont:FONT_B(12)];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.frame = CGRectSetBottomCenter(self.bounds.size.width/2, self.bounds.size.height-2, self.label.frame);
+        [self.contentView addSubview:self.label];
     }
     return self;
 }

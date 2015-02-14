@@ -39,6 +39,7 @@
 @property (nonatomic, assign) BOOL isSnapping;
 
 @property (nonatomic, assign) CGFloat savedBrightness;
+@property (nonatomic, strong) UILabel* timerLabel;
 
 @end
 
@@ -57,17 +58,18 @@
 
     return @[
              [GPUImageCropFilter class],
+             [GPUImagePixellateFilter class],
 
-             @{@"PNCompoundImageFilter":
-                   @{@"filters":
-                         @[
-                             @{@"GPUImageGrayscaleFilter":@{}},
-                             @{@"GPUImagePosterizeFilter":@{@"colorLevels":@(1)}},
-                             @{@"GPUImagePixellateFilter":@{@"fractionalWidthOfAPixel":@(.025)}},
-                             ]
-                     }
-               },
-
+//             @{@"PNCompoundImageFilter":
+//                   @{@"filters":
+//                         @[
+//                             @{@"GPUImageGrayscaleFilter":@{}},
+//                             @{@"GPUImagePosterizeFilter":@{@"colorLevels":@(1)}},
+//                             @{@"GPUImagePixellateFilter":@{@"fractionalWidthOfAPixel":@(.025)}},
+//                             ]
+//                     }
+//               },
+//
              ];
 }
 
@@ -78,7 +80,7 @@
              @"GPUImagePosterizeFilter":@{@"colorLevels":@(2)},
              @"GPUImageSaturationFilter":@{@"saturation":@(1.8)},
              @"GPUImageHalftoneFilter":@{@"fractionalWidthOfAPixel":@(.025)},
-             @"GPUImagePixellateFilter":@{@"fractionalWidthOfAPixel":@(.04)},
+             @"GPUImagePixellateFilter":@{@"fractionalWidthOfAPixel":@(.06)},
              @"GPUImagePolkaDotFilter":@{@"fractionalWidthOfAPixel":@(.03)},
              };
 }
@@ -95,6 +97,7 @@
 
     self.filteredAudio = NO;
 
+    self.cameraQuality = 0;
     self.compressVideo = NO;
     self.maxRecordingDuration = 300;
     self.pinchToZoom = NO;
@@ -150,12 +153,20 @@
     self.circleProgress.alpha = 0.0;
     [self.controlsView insertSubview:self.circleProgress belowSubview:self.recordButton];
 
+    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100,30)];
+    [self.controlsView addSubview:self.timerLabel];
+
     __weak BaseCamera* weakSelf = self;
     [self setRecordingProgressBlock:^(NSTimeInterval time, CGFloat progress) {
         CGFloat period = 30.f;
         int laps = time/period;
         CGFloat p = (time-laps*period) / period;
         [weakSelf.circleProgress setProgress:p];
+
+        NSUInteger minutes = (int)time / 60;
+        NSUInteger seconds = (int)time % 60;
+
+        weakSelf.timerLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
     }];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -196,6 +207,7 @@
     CGRect b = self.bounds;
 
     self.circleProgress.frame = CGRectInset(self.recordButton.frame, -20, -20);
+    self.timerLabel.frame = CGRectSetMiddleLeft(CGRectGetMaxX(self.recordButton.frame)+10, CGRectGetMidY(self.recordButton.frame), self.timerLabel.frame);
     self.stopRecordingButton.center = self.recordButton.center;
 
     self.snapshotView.frame = b;
@@ -222,6 +234,10 @@
 
     self.recordButton.buttonColor = COLOR(darkGrayColor);
     [self.recordButton.layer removeAllAnimations];
+
+    [self unfilteredScreenshotWithCompletion:^(UIImage *snap) {
+        self.rawScreenshot = snap;
+    }];
 
     PNLOG(@"video_start_recording");
 }
@@ -329,7 +345,8 @@
 }
 
 - (CGSize)movieSize {
-    return CGSizeMake(200, 200);
+//    return CGSizeMake(200, 200);
+    return CGSizeMake(100, 100);
 }
 
 - (void)didResetCamera
@@ -410,37 +427,39 @@
 }
 
 - (void) showRecordingProgress {
-    self.circleProgress.hidden = NO;
-
-    [UIView animateWithDuration:0.2
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.circleProgress.alpha = 1.0;
-                         self.circleProgress.transform = CGAffineTransformMakeScale(1.5, 1.5);
-                     } completion:^(BOOL finished) {
-
-                         [UIView animateWithDuration:0.4 delay:0.1 options:UIViewAnimationOptionCurveEaseIn
-                                          animations:^{
-                                              self.circleProgress.transform = CGAffineTransformMakeScale(1, 1);
-                                          }
-                                          completion:^(BOOL finished) {
-                                              self.circleProgress.transform = CGAffineTransformIdentity;
-                                          }];
-                     }];
+    self.timerLabel.hidden = NO;
+//    self.circleProgress.hidden = NO;
+//
+//    [UIView animateWithDuration:0.2
+//                          delay:0
+//                        options:UIViewAnimationOptionCurveEaseOut
+//                     animations:^{
+//                         self.circleProgress.alpha = 1.0;
+//                         self.circleProgress.transform = CGAffineTransformMakeScale(1.5, 1.5);
+//                     } completion:^(BOOL finished) {
+//
+//                         [UIView animateWithDuration:0.4 delay:0.1 options:UIViewAnimationOptionCurveEaseIn
+//                                          animations:^{
+//                                              self.circleProgress.transform = CGAffineTransformMakeScale(1, 1);
+//                                          }
+//                                          completion:^(BOOL finished) {
+//                                              self.circleProgress.transform = CGAffineTransformIdentity;
+//                                          }];
+//                     }];
 }
 
 - (void)hideRecordingProgress {
-    [UIView animateWithDuration:0.4
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         self.circleProgress.alpha = 0.5;
-                     } completion:^(BOOL finished) {
-                         [self.circleProgress setProgress:0];
-                         self.circleProgress.alpha = 0.0;
-                         self.circleProgress.hidden = YES;
-                     }];
+    self.timerLabel.hidden = YES;
+//    [UIView animateWithDuration:0.4
+//                          delay:0
+//                        options:UIViewAnimationOptionCurveEaseOut
+//                     animations:^{
+//                         self.circleProgress.alpha = 0.5;
+//                     } completion:^(BOOL finished) {
+//                         [self.circleProgress setProgress:0];
+//                         self.circleProgress.alpha = 0.0;
+//                         self.circleProgress.hidden = YES;
+//                     }];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {}

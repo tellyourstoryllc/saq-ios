@@ -294,7 +294,7 @@
 }
 
 - (NSArray*)associateWithStories {
-    NSArray* stories = [Story findAllUsingPredicate:[NSPredicate predicateWithFormat:@"user = NULL AND user_id = %@ AND id != NULL", self.id]
+    NSArray* stories = [Story findAllUsingPredicate:[NSPredicate predicateWithFormat:@"user = NULL AND user_id = %@ AND id != NULL AND deleted != YES", self.id]
                                             sortedBy:nil
                                                limit:0
                                              offset:0
@@ -306,7 +306,7 @@
 }
 
 - (void)updateLastStory {
-    Story* lastStory = [[Story findAllUsingPredicate:[NSPredicate predicateWithFormat:@"user = %@ AND id != NULL", self]
+    Story* lastStory = [[Story findAllUsingPredicate:[NSPredicate predicateWithFormat:@"user = %@ AND id != NULL AND deleted != YES", self]
                                             sortedBy:[NSSortDescriptor sortDescriptorWithKey:@"created_at" ascending:NO]
                                                limit:1 offset:0 inContext:self.managedObjectContext] lastObject];
     [self updateIfLastStory:lastStory];
@@ -323,7 +323,7 @@
             self.last_seen_story_at = story.created_at;
         }
         else if ([self.last_seen_story_at timeIntervalSinceDate:story.created_at] < 0) {
-                self.last_seen_story_at = story.created_at;
+            self.last_seen_story_at = story.created_at;
         }
     }
 }

@@ -78,20 +78,36 @@
     
     [self.carousel reloadData];
     self.carousel.currentItemIndex = 1;
+    self.carousel.scrollEnabled = NO;
+
+    [self.KVOController observe:[Api sharedApi]
+                        keyPath:@"currentUser"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              self.me = [User me];
+                              on_main(^{
+                                  [self updateNavBar];
+                              });
+                          }];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resignActive)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 -(void)setupView {
 
-    UIColor* navColor = COLOR(privateColor);
+    UIColor* navColor = COLOR(lightGrayColor);
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
     [shadow setShadowColor:nil];
     NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(32),
-                                        NSForegroundColorAttributeName:COLOR(whiteColor),
+                                        NSForegroundColorAttributeName:COLOR(blackColor),
                                         NSShadowAttributeName:shadow};
     [navBar setTitleTextAttributes:barTextAttributes];
     [navBar setBarTintColor:navColor];
-    [navBar setTintColor:COLOR(whiteColor)];
+    [navBar setTintColor:COLOR(blackColor)];
 
     [navBar setBackgroundImage:[UIImage blankImageWithSize:CGSizeMake(1, 1) color:[navColor colorWithAlphaComponent:0.88]]
                  forBarMetrics:UIBarMetricsDefault];
@@ -106,8 +122,22 @@
     }
 }
 
-- (void)onSettings {
-    [_myStory showOptions];
+- (void)onSettings
+{
+    PNActionSheet* as =
+    [[PNActionSheet alloc] initWithTitle:nil
+                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
+                                  if (buttonIndex == 0) {
+                                      [[Api sharedApi] postPath:@"/users/create_unregistered"
+                                                     parameters:nil
+                                                       callback:[[Api sharedApi] authCallbackWithCompletion:nil]];
+                                  }
+                              }
+                       cancelButtonTitle:@"Cancel"
+                  destructiveButtonTitle:nil
+                        otherButtonArray:@[@"Sign Out"]];
+    [as showInView:self.view];
+
 }
 
 - (void)onPeople {
@@ -143,41 +173,47 @@
                              callback:^(NSSet *entities, id responseObject, NSError *error) {
                                  if (!error)
                                      _completedAPIFetch = YES;
+                                 NSLog(@"my stories: %@", responseObject);
                              }];
         }
     }
 }
 
+- (void)resignActive {
+    _completedAPIFetch = NO;
+}
+
 - (void)didChangeFromController:(UIViewController*)fromController
                    toController:(UIViewController*)toController
                         atIndex:(NSInteger)index {
-    switch (index) {
-        case 0:
-            self.navigationItem.title = @"Sign In";
-            self.navigationItem.leftBarButtonItem = self.cancelBarButton;
-            self.navigationItem.rightBarButtonItem = nil;
+    [self updateNavBar];
+}
 
-            break;
+- (void) updateNavBar {
+    if (self.currentController == _login) {
+        self.navigationItem.title = @"Sign In";
+        self.navigationItem.leftBarButtonItem = self.cancelBarButton;
+        self.navigationItem.rightBarButtonItem = nil;
 
-        case 1:
-            self.navigationItem.title = @"My Story";
-            if (self.me.registeredValue) {
-                self.navigationItem.leftBarButtonItem = self.optionsBarButton;
-            }
-            else if (self.me.last_story) {
-                self.navigationItem.leftBarButtonItem = self.registerBarButton;
-            }
-            else {
-                self.navigationItem.leftBarButtonItem = self.loginBarButton;
-            }
-            self.navigationItem.rightBarButtonItem = self.peopleBarButton;
-            break;
+    }
+    else if (self.currentController == _myStory) {
+        self.navigationItem.title = @"My Story";
+        if (self.me.registeredValue) {
+            self.navigationItem.leftBarButtonItem = self.optionsBarButton;
+        }
+        else if (self.me.last_story) {
+            self.navigationItem.leftBarButtonItem = self.registerBarButton;
+        }
+        else {
+            self.navigationItem.leftBarButtonItem = self.loginBarButton;
+        }
+        self.navigationItem.rightBarButtonItem = self.peopleBarButton;
 
-        case 2:
-            self.navigationItem.title = @"Register";
-            self.navigationItem.leftBarButtonItem = self.cancelBarButton;
-            self.navigationItem.rightBarButtonItem = self.loginBarButton;
-            break;
+    }
+    else if (self.currentController == _signup) {
+        self.navigationItem.title = @"Register";
+        self.navigationItem.leftBarButtonItem = self.cancelBarButton;
+        self.navigationItem.rightBarButtonItem = self.loginBarButton;
     }
 }
 
@@ -196,7 +232,7 @@
 // --
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
+    return UIStatusBarStyleDefault;
 }
 
 - (BOOL)prefersStatusBarHidden {

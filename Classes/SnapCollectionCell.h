@@ -14,8 +14,12 @@
 
 @property (nonatomic, strong) SnapCardView* card;
 @property (nonatomic, readonly) BOOL isFeatured;
+@property (nonatomic, readonly) BOOL isPresentingOptions;
 
 - (void)didBecomeFeatured;
 - (void)willResignFeatured;
+
+- (void)didPresentOptions;
+- (void)willResignOptions;
 
 @end

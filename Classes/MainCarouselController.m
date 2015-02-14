@@ -18,14 +18,14 @@
 #import "PeopleViewController.h"
 #import "MeViewController.h"
 #import "SettingsViewController.h"
-
-#import "CETurnAnimationController.h"
+#import "PamphletViewController.h"
 
 @interface MainCarouselController()<UINavigationControllerDelegate>
 
-@property (nonatomic, strong) CarouselNavigationController* inboxNavController;
 @property (nonatomic, strong) CarouselNavigationController* peopleNavController;
 @property (nonatomic, strong) CarouselNavigationController* myStoryNavController;
+@property (nonatomic, strong) CarouselNavigationController* pamphletNavController;
+@property (nonatomic, strong) CarouselNavigationController* inboxNavController;
 
 @property (nonatomic, strong) CarouselTabView* tabView;
 
@@ -48,21 +48,25 @@
         self.myStoryNavController.carouselController = self;
         self.myStoryNavController.delegate = self;
 
-        self.inboxController = [[InboxViewController alloc] initWithNibName:nil bundle:nil];
-        self.inboxNavController = [[CarouselNavigationController alloc] initWithRootViewController:self.inboxController];
-        self.inboxNavController.carouselController = self;
-        self.inboxNavController.delegate = self;
+        self.pamphletController = [[PamphletViewController alloc] initWithNibName:nil bundle:nil];
+        self.pamphletNavController = [[CarouselNavigationController alloc] initWithRootViewController:self.pamphletController];
+        self.pamphletNavController.carouselController = self;
+        self.pamphletNavController.delegate = self;
+
+//        self.inboxController = [[InboxViewController alloc] initWithNibName:nil bundle:nil];
+//        self.inboxNavController = [[CarouselNavigationController alloc] initWithRootViewController:self.inboxController];
+//        self.inboxNavController.carouselController = self;
+//        self.inboxNavController.delegate = self;
 
         [self addChildViewController:self.myStoryNavController];
         [self addChildViewController:self.peopleNavController];
-        [self addChildViewController:self.inboxNavController];
+        [self addChildViewController:self.pamphletNavController];
+//        [self addChildViewController:self.inboxNavController];
         [self resetUI];
 
         self.tabView = [CarouselTabView new];
         self.tabView.carouselController = self;
 //        [self.view addSubview:self.tabView];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogin) name:kLoginStateNotification object:nil];
 
     }
     return self;
@@ -78,8 +82,8 @@
 
 - (void) resetUI {
     self.carousel.currentItemIndex = 1;
-    [self.inboxController reset];
     [self.peopleController reset];
+        [self.inboxController reset];
 }
 
 - (void) openPeople {
@@ -95,24 +99,24 @@
 }
 
 - (void) openGroup:(Group*)group {
-    if (group && ![group isEqual:[self currentGroup]]) {
-        NSString* groupId = group.id;
-        on_main(^{
-            GroupViewController* vc = [[GroupViewController alloc] init];
-            vc.group = [Group findById:groupId inContext:[App moc]];
-
-            if (self.carousel.currentItemIndex == 2) {
-                [self.inboxController.navigationController popToRootViewControllerAnimated:NO];
-                [self.inboxController.navigationController pushViewController:vc animated:YES];
-            }
-            else {
-                [self scrollToIndex:2 withCompletion:^{
-                    [self.inboxController.navigationController popToRootViewControllerAnimated:NO];
-                    [self.inboxController.navigationController pushViewController:vc animated:YES];
-                }];
-            }
-        });
-    }
+//    if (group && ![group isEqual:[self currentGroup]]) {
+//        NSString* groupId = group.id;
+//        on_main(^{
+//            GroupViewController* vc = [[GroupViewController alloc] init];
+//            vc.group = [Group findById:groupId inContext:[App moc]];
+//
+//            if (self.carousel.currentItemIndex == 2) {
+//                [self.inboxController.navigationController popToRootViewControllerAnimated:NO];
+//                [self.inboxController.navigationController pushViewController:vc animated:YES];
+//            }
+//            else {
+//                [self scrollToIndex:2 withCompletion:^{
+//                    [self.inboxController.navigationController popToRootViewControllerAnimated:NO];
+//                    [self.inboxController.navigationController pushViewController:vc animated:YES];
+//                }];
+//            }
+//        });
+//    }
 }
 
 - (void) openSettings {
@@ -175,10 +179,6 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
-}
-
-- (void)onLogin {
-//    self.myStoryController.user = [User me];
 }
 
 - (UIPanGestureRecognizer*) panGestureRecognizer {

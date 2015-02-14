@@ -35,10 +35,16 @@
 {
     UIFont* placeholderFont = FONT_I(18);
 
-    self.titleLabel = [PNLabel labelWithText:@"please register" andFont:FONT_B(18)];
+    self.titleLabel = [PNLabel labelWithText:@"Signing up allows you to login and manage your stories." andFont:FONT(16)];
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.textColor = COLOR(grayColor);
+    [self.titleLabel sizeToFitTextWidth:self.view.bounds.size.width-8];
     [self.view addSubview:self.titleLabel];
 
     self.feedbackLabel = [PNLabel new];
+    self.feedbackLabel.textAlignment = NSTextAlignmentCenter;
+    self.feedbackLabel.textColor = COLOR(redColor);
+    self.feedbackLabel.font = FONT_B(16);
     [self.view addSubview:self.feedbackLabel];
 
     self.subtitle = [PNLabel labelWithText:@"Your email address is 100% private." andFont:FONT(13)];
@@ -234,24 +240,31 @@
                                                                                 parameters:@{@"usernames":name}
                                                                                andCallback:^(NSData *data, NSHTTPURLResponse *response, id responseObject, NSSet *entities, NSError *error) {
 
-                                                                                   if (!error && entities.count == 0) {
-                                                                                       self.isValidName = YES;
-                                                                                       [self.view setNeedsLayout];
-                                                                                   }
-                                                                                   else if (data) {
-                                                                                       self.isValidName = NO;
-                                                                                       self.feedbackLabel.text = [NSString stringWithFormat:@"Sorry, <i>%@</i> is already taken.", name];
-                                                                                       [self.view setNeedsLayout];
-                                                                                   }
+                                                                                   on_main(^{
+                                                                                       if (!error && entities.count == 0) {
+                                                                                           self.isValidName = YES;
+                                                                                           self.titleLabel.hidden = NO;
+                                                                                           [self.view setNeedsLayout];
+                                                                                       }
+                                                                                       else if (data) {
+                                                                                           self.isValidName = NO;
+                                                                                           self.feedbackLabel.text = [NSString stringWithFormat:@"Sorry, %@ is not available.", name];
+                                                                                           self.titleLabel.hidden = YES;
+                                                                                           [self.view setNeedsLayout];
+                                                                                       }
+                                                                                   });
+
                                                                                }];
         self.checkUsernameAvailabilityTimer = [NSTimer scheduledTimerWithTimeInterval:delay target:self selector:@selector(checkAvailability) userInfo:nil repeats:NO];
 
     } else if (name.length > 16 ){
         self.isValidName = NO;
+        self.titleLabel.hidden = YES;
         self.feedbackLabel.text = @"Too many characters!";
 
     } else if (name.length > 1) {
         self.isValidName = NO;
+        self.titleLabel.hidden = YES;
         if (![name isMatchedByRegex:atLeastOneLetterRegex])
             self.feedbackLabel.text = @"Usernames must contain at least one letter.";
         else
@@ -260,6 +273,7 @@
 
     } else {
         self.isValidName = NO;
+        self.titleLabel.hidden = NO;
         self.feedbackLabel.text = @"";
         [self.view setNeedsLayout];
     }
@@ -280,6 +294,7 @@
     CGFloat bottom = [self.view.window frameMinusKeyboard].size.height;
 
     void (^block)() = ^() {
+        self.doneButton.hidden = ![self validInputs];
         self.doneButton.frame = [self validInputs] ? CGRectSetBottomLeft(0, bottom, self.doneButton.frame) : CGRectSetOrigin(0,bottom, self.doneButton.frame);
         [self.view setNeedsLayout];
     };
@@ -292,7 +307,21 @@
 }
 
 - (void)onSubmit {
-    NSLog(@"EH?");
+    if ([self validInputs]) {
+        NSMutableDictionary* params = [@{@"username":self.usernameField.text,
+                                         @"password":self.passwordField.text} mutableCopy];
+        if (self.emailField.text.length)
+            params[@"email"] = self.emailField.text;
+
+        [[Api sharedApi] postPath:@"/users/create"
+                       parameters:params
+                         callback:^(NSSet *entities, id responseObject, NSError *error) {
+                             NSLog(@"create user: %@", responseObject);
+                             self.usernameField.text = nil;
+                             self.passwordField.text = nil;
+                             [self.meController openStory];
+                         }];
+    }
 }
 
 @end

@@ -19,7 +19,6 @@
     self = [super initWithFrame:frame];
 
     [self.composeView removeFromSuperview];
-//    [self.cancelButton removeFromSuperview];
 
     self.viewportWidth = 100;
     self.viewportHeight = 100;

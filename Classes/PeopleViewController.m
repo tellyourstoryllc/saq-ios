@@ -38,6 +38,7 @@
 #import "StoryManager.h"
 
 #import "PNCircularProgressView.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
 @interface PeopleViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
 
@@ -54,6 +55,7 @@
 @property NSMutableArray *itemChanges;
 
 @property (nonatomic, assign) BOOL needsReload;
+@property (nonatomic, assign) int lastOffset;
 
 @end
 
@@ -69,6 +71,24 @@
     [self.collection registerClass:[AddStoryCollectionCell class] forCellWithReuseIdentifier:@"add_story"];
 
     [[StoryManager manager] addObserver:self forKeyPath:@"isLoading" options:NSKeyValueObservingOptionNew context:nil];
+
+    __weak PeopleViewController* weakSelf = self;
+    [self.collection addInfiniteScrollingWithActionHandler:^{
+
+        NSMutableDictionary *params = [ @{ @"limit" : @"40", @"offset" : @(weakSelf.lastOffset) } mutableCopy];
+
+        [[StoryManager manager] loadPublicFeedWithParams:params
+                                           andCompletion:^(NSSet *stories) {
+                                               [weakSelf.collection.infiniteScrollingView stopAnimating];
+
+                                               if(stories.count == 0) {
+                                                   weakSelf.collection.showsInfiniteScrolling = NO;
+                                               }
+                                               weakSelf.lastOffset += 40;
+                                           }];
+        
+    }];
+
 }
 
 -(void)setupView {
@@ -76,16 +96,16 @@
     [self initFetchedResultsController];
     self.featuredVideoLimit = [App simulatanenousVideoLimit];
 
-    UIColor* navColor = COLOR(publicColor);
+    UIColor* navColor = COLOR(blackColor);
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
     [shadow setShadowColor:nil];
     NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(32),
-                                        NSForegroundColorAttributeName:COLOR(blackColor),
+                                        NSForegroundColorAttributeName:COLOR(whiteColor),
                                         NSShadowAttributeName:shadow};
     [navBar setTitleTextAttributes:barTextAttributes];
     [navBar setBarTintColor:navColor];
-    [navBar setTintColor:COLOR(blackColor)];
+    [navBar setTintColor:COLOR(whiteColor)];
 
     [navBar setBackgroundImage:[UIImage blankImageWithSize:CGSizeMake(1, 1) color:[navColor colorWithAlphaComponent:0.88]]
                  forBarMetrics:UIBarMetricsDefault];
@@ -117,10 +137,9 @@
     if (self.fetchedResultsController)
         return;
 
-    NSString* myUserId = [App userId] ?: [[User me] id];
     NSManagedObjectContext* context = [App managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Story"];
-    request.predicate = [NSPredicate predicateWithFormat:@"in_feed = YES AND user.id != %@ AND id != NULL", myUserId];
+    request.predicate = [NSPredicate predicateWithFormat:@"deleted != YES AND id != NULL"];
     request.sortDescriptors = @[
                                 [NSSortDescriptor sortDescriptorWithKey:@"created_at" ascending:NO]
                                 ];
@@ -152,27 +171,28 @@
 
 #pragma mark NSCollectionView methods
 
--(NSInteger)addCellOffset {
-    return 0;
-}
-
 -(NSInteger)addCellSpacing {
-    return 10;
+    return 16;
 }
 
--(NSInteger)numberOfAddCellsForRow:(NSInteger)totalCells {
-    if (totalCells < [self addCellSpacing])
-        return 1;
-    else
-        return (totalCells + [self addCellOffset]) / [self addCellSpacing];
+-(NSInteger)numberOfAddCellsBeforeResult:(NSInteger)resultRow {
+    return 1 + (int)(resultRow/([self addCellSpacing]-1));
 }
 
--(BOOL)isRowAnAddCell:(NSInteger)row {
-    return (row - [self addCellOffset]) % [self addCellSpacing] == 0;
+-(NSInteger)numberOfAddCellsBeforeRow:(NSInteger)collectionRow {
+    return 1 + (int)(collectionRow/([self addCellSpacing]));
 }
 
--(NSInteger)actualRowFor:(NSInteger)row {
-    return row - [self numberOfAddCellsForRow:row];
+-(BOOL)isRowAnAddCell:(NSInteger)collectionRow {
+    return collectionRow % [self addCellSpacing] == 0;
+}
+
+-(NSInteger)collectionIndexForResult:(NSInteger)resultRow {
+    return resultRow + [self numberOfAddCellsBeforeResult:resultRow];
+}
+
+-(NSInteger)resultRowForCollectionRow:(NSInteger)collectionRow {
+    return collectionRow - [self numberOfAddCellsBeforeRow:collectionRow];
 }
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -182,7 +202,7 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     id sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
     NSInteger count = [sectionInfo numberOfObjects];
-    return count + [self numberOfAddCellsForRow:count];
+    return count + [self numberOfAddCellsBeforeResult:count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -198,7 +218,7 @@
         return cell;
     }
     else {
-        Story* story = [self.fetchedResultsController.fetchedObjects objectAtIndex:[self actualRowFor:indexPath.row]];
+        Story* story = [self.fetchedResultsController.fetchedObjects objectAtIndex:[self resultRowForCollectionRow:indexPath.row]];
         StoryCollectionCell* cell = (StoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"story" forIndexPath:indexPath];
         cell.card.delegate = self;
         cell.controller = self;
@@ -233,6 +253,21 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    id item = [collectionView cellForItemAtIndexPath:indexPath];
+    if ([item isKindOfClass:[StoryCollectionCell class]]) {
+        StoryCollectionCell* cell = (StoryCollectionCell*)item;
+        if (cell.isPresentingOptions) {
+            [cell.card.message likeWithCompletion:nil];
+        }
+        else if (cell.isFeatured) {
+            [self hideOptions];
+            [cell didPresentOptions];
+        }
+        else {
+            [self unfeatureVideos];
+            [self featureVideoAt:item];
+        }
+    }
 }
 
 #pragma mark NSFetchedResultsControllerDelegate
@@ -259,67 +294,81 @@
     forChangeType:(NSFetchedResultsChangeType)type
      newIndexPath:(NSIndexPath *)newIndexPath {
 
+    indexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:indexPath.row] inSection:indexPath.section];
+    newIndexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:newIndexPath.row] inSection:newIndexPath.section];
+
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
     switch(type) {
         case NSFetchedResultsChangeInsert:
             change[@(type)] = newIndexPath;
+            [_itemChanges addObject:change];
             break;
         case NSFetchedResultsChangeDelete:
             change[@(type)] = indexPath;
+            [_itemChanges addObject:change];
             break;
         case NSFetchedResultsChangeUpdate:
-            change[@(type)] = indexPath;
+//            change[@(type)] = indexPath;
             break;
         case NSFetchedResultsChangeMove:
             change[@(type)] = @[indexPath, newIndexPath];
+            [_itemChanges addObject:change];
             break;
     }
-    [_itemChanges addObject:change];
 }
 
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 
-    [self.collection performBatchUpdates:^{
-        for (NSDictionary *change in _sectionChanges) {
-            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                switch(type) {
-                    case NSFetchedResultsChangeInsert:
-                        [self.collection insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                        break;
-                    case NSFetchedResultsChangeDelete:
-                        [self.collection deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                        break;
-                    case NSFetchedResultsChangeMove:
-                    case NSFetchedResultsChangeUpdate:
-                        break;
-                }
-            }];
-        }
-        for (NSDictionary *change in _itemChanges) {
-            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                switch(type) {
-                    case NSFetchedResultsChangeInsert:
-                        [self.collection insertItemsAtIndexPaths:@[obj]];
-                        break;
-                    case NSFetchedResultsChangeDelete:
-                        [self.collection deleteItemsAtIndexPaths:@[obj]];
-                        break;
-                    case NSFetchedResultsChangeUpdate:
-                        // Cell should update itself using KVO or other means.
-                        break;
-                    case NSFetchedResultsChangeMove:
-                        [self.collection moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                        break;
-                }
-            }];
-        }
-    } completion:^(BOOL finished) {
-        _sectionChanges = nil;
-        _itemChanges = nil;
+    if (_itemChanges.count) {
+        [self.collection reloadData];
         [self collectionDidChange];
-    }];
+        ins(_itemChanges);
+    }
+
+    _itemChanges = nil;
+    _sectionChanges = nil;
+
+//    [self.collection performBatchUpdates:^{
+//        for (NSDictionary *change in _sectionChanges) {
+//            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+//                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+//                switch(type) {
+//                    case NSFetchedResultsChangeInsert:
+//                        [self.collection insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+//                        break;
+//                    case NSFetchedResultsChangeDelete:
+//                        [self.collection deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+//                        break;
+//                    case NSFetchedResultsChangeMove:
+//                    case NSFetchedResultsChangeUpdate:
+//                        break;
+//                }
+//            }];
+//        }
+//        for (NSDictionary *change in _itemChanges) {
+//            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+//                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+//                switch(type) {
+//                    case NSFetchedResultsChangeInsert:
+//                        [self.collection insertItemsAtIndexPaths:@[obj]];
+//                        break;
+//                    case NSFetchedResultsChangeDelete:
+//                        [self.collection deleteItemsAtIndexPaths:@[obj]];
+//                        break;
+//                    case NSFetchedResultsChangeUpdate:
+//                        // Cell should update itself using KVO or other means.
+//                        break;
+//                    case NSFetchedResultsChangeMove:
+//                        [self.collection moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+//                        break;
+//                }
+//            }];
+//        }
+//    } completion:^(BOOL finished) {
+//        _sectionChanges = nil;
+//        _itemChanges = nil;
+//        [self collectionDidChange];
+//    }];
 }
 
 // Convenience method
@@ -364,13 +413,12 @@
     });
 }
 
-
 - (void)onAddTapped {
     [[AppViewController sharedAppViewController] openMyStory];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 -(BOOL)prefersStatusBarHidden {
