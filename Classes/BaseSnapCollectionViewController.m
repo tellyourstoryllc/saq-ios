@@ -224,13 +224,8 @@ referenceSizeForFooterInSection:(NSInteger)section {
 
     int activateCount = self.featuredVideoLimit - videoCells.count + unfeaturedCells.count;
 
-    if (!self.featuredVideoLimit) {
+    if (activateCount > 0) {
         for (SnapCollectionCell* cell in unfeaturedCells) {
-            [cell didBecomeFeatured];
-        }
-    }
-    else if (activateCount > 0) {
-        for (SnapCollectionCell* cell in [[unfeaturedCells mutableCopy] shuffle]) {
             [cell didBecomeFeatured];
             activateCount--;
             if (!activateCount) break;
@@ -254,7 +249,7 @@ referenceSizeForFooterInSection:(NSInteger)section {
 
     SnapCollectionCell* lastCell = nil;
     SnapCollectionCell* nextCell = nil;
-    for (SnapCollectionCell* cell in [[self visibleVideoCells] reverseObjectEnumerator]) {
+    for (SnapCollectionCell* cell in [self visibleVideoCells]) {
         if (lastCell == currentCell) {
             nextCell = cell;
             break;
@@ -284,7 +279,17 @@ referenceSizeForFooterInSection:(NSInteger)section {
         else
             return NO;
     }];
-    return videoCells;
+
+    return [videoCells sortedArrayUsingComparator:^NSComparisonResult(UICollectionViewCell* cell1, UICollectionViewCell* cell2) {
+        NSInteger r1 = [[self.collection indexPathForCell:cell1] row];
+        NSInteger r2 = [[self.collection indexPathForCell:cell2] row];
+        if (r1 < r2)
+            return NSOrderedAscending;
+        else if (r1 > r2)
+            return NSOrderedDescending;
+        else
+            return NSOrderedSame;
+    }];
 }
 
 - (SnapCollectionCell*)cellForCard:(SnapCardView*)card {

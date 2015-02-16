@@ -129,8 +129,6 @@
                    parameters:mutableParams
                      callback:^(NSSet *entities, id responseObject, NSError *error) {
 
-                         NSLog(@"feedme: %@ %@", path, responseObject);
-
                          NSSet* allUsers = [NSSet setWithArray:[[[entities setOfClass:[Story class]] allObjects] valueForKey:@"user_id"]];
 
                          NSSet* storySet = [entities setOfClass:[Story class]];

@@ -8,12 +8,13 @@
 
 #import "MeViewController.h"
 
-#import "User.h"
 #import "Api.h"
 #import "App.h"
 #import "AppViewController.h"
-
 #import "AppDelegate.h"
+
+#import "User.h"
+#import "Story.h"
 
 #import "UIImageView+AFNetworking.h"
 
@@ -23,12 +24,10 @@
 #import "CalloutBubble.h"
 #import "PillLabel.h"
 
-#import "LoginController.h"
 #import "MyStoryController.h"
 #import "SignupController.h"
 
 @interface MeViewController () <UINavigationControllerDelegate> {
-    LoginController* _login;
     MyStoryController* _myStory;
     SignupController* _signup;
 }
@@ -36,7 +35,6 @@
 @property (nonatomic, strong) User* me;
 @property (nonatomic, assign) BOOL completedAPIFetch;
 
-@property (nonatomic, strong) UIBarButtonItem* loginBarButton;
 @property (nonatomic, strong) UIBarButtonItem* registerBarButton;
 @property (nonatomic, strong) UIBarButtonItem* cancelBarButton;
 @property (nonatomic, strong) UIBarButtonItem* optionsBarButton;
@@ -51,8 +49,6 @@
 
     self.view.backgroundColor = COLOR(defaultBackgroundColor);
 
-    _login = [LoginController new];
-    _login.meController = self;
     _myStory = [MyStoryController new];
     _myStory.meController = self;
     _signup = [SignupController new];
@@ -61,11 +57,9 @@
     self.carousel.vertical = YES;
     self.carousel.scrollEnabled = YES;
 
-    [self addChildViewController:_login];
     [self addChildViewController:_myStory];
     [self addChildViewController:_signup];
 
-    self.loginBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign In" style:UIBarButtonItemStylePlain target:self action:@selector(onLogin)];
     self.registerBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Register" style:UIBarButtonItemStylePlain target:self action:@selector(onRegister)];
     self.cancelBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(onCancel)];
     self.peopleBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"friends"]
@@ -73,11 +67,11 @@
     self.optionsBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-settings-filled"]
                                                               style:UIBarButtonItemStylePlain
                                                              target:self
-                                                             action:@selector(onSettings)];
+                                                             action:@selector(onOptions)];
     [self setupView];
     
     [self.carousel reloadData];
-    self.carousel.currentItemIndex = 1;
+    self.carousel.currentItemIndex = 0;
     self.carousel.scrollEnabled = NO;
 
     [self.KVOController observe:[Api sharedApi]
@@ -102,7 +96,7 @@
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
     [shadow setShadowColor:nil];
-    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(32),
+    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(26),
                                         NSForegroundColorAttributeName:COLOR(blackColor),
                                         NSShadowAttributeName:shadow};
     [navBar setTitleTextAttributes:barTextAttributes];
@@ -113,51 +107,27 @@
                  forBarMetrics:UIBarMetricsDefault];
     navBar.shadowImage = [UIImage new];
 
-    self.navigationItem.title = @"My Story";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Me" style:UIBarButtonItemStylePlain target:nil action:nil];
-
     if (!self.me) {
         self.me = [User me];
         [self.view setNeedsLayout];
     }
 }
 
-- (void)onSettings
-{
-    PNActionSheet* as =
-    [[PNActionSheet alloc] initWithTitle:nil
-                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
-                                  if (buttonIndex == 0) {
-                                      [[Api sharedApi] postPath:@"/users/create_unregistered"
-                                                     parameters:nil
-                                                       callback:[[Api sharedApi] authCallbackWithCompletion:nil]];
-                                  }
-                              }
-                       cancelButtonTitle:@"Cancel"
-                  destructiveButtonTitle:nil
-                        otherButtonArray:@[@"Sign Out"]];
-    [as showInView:self.view];
-
-}
-
 - (void)onPeople {
     [[AppViewController sharedAppViewController] openPeople];
 }
 
-- (void)onLogin {
-    [self.carousel scrollToItemAtIndex:0 animated:YES];
-}
-
 - (void)onRegister {
-    [self.carousel scrollToItemAtIndex:2 animated:YES];
+    [self.carousel scrollToItemAtIndex:1 animated:YES];
 }
 
 - (void)onCancel {
-    [self.carousel scrollToItemAtIndex:1 animated:YES];
+    [self.carousel scrollToItemAtIndex:0 animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self updateNavBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -190,43 +160,99 @@
 }
 
 - (void) updateNavBar {
-    if (self.currentController == _login) {
-        self.navigationItem.title = @"Sign In";
-        self.navigationItem.leftBarButtonItem = self.cancelBarButton;
-        self.navigationItem.rightBarButtonItem = nil;
-
-    }
-    else if (self.currentController == _myStory) {
-        self.navigationItem.title = @"My Story";
+    if (self.currentController == _myStory) {
+        self.navigationItem.title = @"Record Your Story";
         if (self.me.registeredValue) {
-            self.navigationItem.leftBarButtonItem = self.optionsBarButton;
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = self.optionsBarButton;
         }
         else if (self.me.last_story) {
             self.navigationItem.leftBarButtonItem = self.registerBarButton;
+            self.navigationItem.rightBarButtonItem = self.optionsBarButton;
         }
         else {
-            self.navigationItem.leftBarButtonItem = self.loginBarButton;
+            self.navigationItem.leftBarButtonItem = nil;
+            self.navigationItem.rightBarButtonItem = nil;
         }
-        self.navigationItem.rightBarButtonItem = self.peopleBarButton;
+//        self.navigationItem.rightBarButtonItem = self.peopleBarButton;
 
     }
     else if (self.currentController == _signup) {
         self.navigationItem.title = @"Register";
         self.navigationItem.leftBarButtonItem = self.cancelBarButton;
-        self.navigationItem.rightBarButtonItem = self.loginBarButton;
     }
 }
 
 - (void)openRegistration {
-    [self.carousel scrollToItemAtIndex:2 animated:YES];
-}
-
-- (void)openLogin {
-    [self.carousel scrollToItemAtIndex:0 animated:YES];
+    [self.carousel scrollToItemAtIndex:1 animated:YES];
 }
 
 - (void)openStory {
-    [self.carousel scrollToItemAtIndex:1 animated:YES];
+    [self.carousel scrollToItemAtIndex:0 animated:YES];
+}
+
+- (void)onOptions {
+
+    NSMutableArray* buttons = [NSMutableArray new];
+    if ([[User me] last_story])
+        [buttons addObject:@"Delete My Story"];
+
+    if ([App isLoggedIn])
+        [buttons addObject:@"Sign Out"];
+
+    PNActionSheet* as =
+    [[PNActionSheet alloc] initWithTitle:nil
+                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
+                                  if ([buttons[buttonIndex] isEqualToString:@"Sign Out"]) {
+                                      [[Api sharedApi] postPath:@"/users/create_unregistered"
+                                                     parameters:nil
+                                                       callback:[[Api sharedApi] authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
+                                          [self updateNavBar];
+                                      }]];
+                                  }
+                                  if ([buttons[buttonIndex] isEqualToString:@"Delete My Story"]) {
+                                      [self onDelete];
+                                  }
+                              }
+                       cancelButtonTitle:@"Cancel"
+                  destructiveButtonTitle:nil
+                        otherButtonArray:buttons];
+    [as showInView:self.view];
+
+}
+
+- (void)onDelete {
+    Story* story = [[User me] last_story];
+    if (!story.id) {
+        NSLog(@"cannot delete! %@", story);
+        return;
+    }
+
+    PNActionSheet* as =
+    [[PNActionSheet alloc] initWithTitle:@"You cannot undo this action. Confirm?"
+                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
+                                  if (buttonIndex == 0) {
+                                      [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/delete", story.id]
+                                                     parameters:nil
+                                                       callback:^(NSSet *entities, id responseObject, NSError *error) {
+                                                           User* me = [[Api sharedApi] currentUser];
+                                                           [me.managedObjectContext performBlock:^{
+                                                               Story* story = me.last_story;
+                                                               story.deletedValue = YES;
+                                                               me.last_story = nil;
+                                                               me.updated_at = [NSDate date];
+                                                               [me.managedObjectContext saveToRootWithCompletion:^(BOOL success, NSError *err) {
+                                                                   _myStory.user = me;
+                                                                   [self updateNavBar];
+                                                               }];
+                                                           }];
+                                                       }];
+                                  }
+                              }
+                       cancelButtonTitle:@"Cancel"
+                  destructiveButtonTitle:nil
+                        otherButtonArray:@[@"Yes, delete permanently"]];
+    [as showInView:self.view];
 }
 
 // --

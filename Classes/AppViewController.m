@@ -186,8 +186,6 @@
        parameters:nil
          callback:[api authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
 
-        NSLog(@"CHECKIN: %@", responseObject);
-
         if (!error) self.didCheckIn = YES;
 
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginStateNotification object:nil userInfo:nil];

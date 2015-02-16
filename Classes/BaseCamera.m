@@ -39,7 +39,6 @@
 @property (nonatomic, assign) BOOL isSnapping;
 
 @property (nonatomic, assign) CGFloat savedBrightness;
-@property (nonatomic, strong) UILabel* timerLabel;
 
 @end
 
@@ -109,8 +108,8 @@
     self.publishButtonColor = COLOR(greenColor);
 
     [self.recordButton setImage:nil forState:UIControlStateNormal];
-    self.recordButtonRadius = 30;
-    self.recordButton.cornerRadius = 30;
+    self.recordButtonRadius = 40;
+    self.recordButton.cornerRadius = 40;
     self.recordButton.disabledColor = COLOR(grayColor);
     self.recordButton.enabled = NO;
 
@@ -153,21 +152,7 @@
     self.circleProgress.alpha = 0.0;
     [self.controlsView insertSubview:self.circleProgress belowSubview:self.recordButton];
 
-    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,100,30)];
-    [self.controlsView addSubview:self.timerLabel];
-
     __weak BaseCamera* weakSelf = self;
-    [self setRecordingProgressBlock:^(NSTimeInterval time, CGFloat progress) {
-        CGFloat period = 30.f;
-        int laps = time/period;
-        CGFloat p = (time-laps*period) / period;
-        [weakSelf.circleProgress setProgress:p];
-
-        NSUInteger minutes = (int)time / 60;
-        NSUInteger seconds = (int)time % 60;
-
-        weakSelf.timerLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
-    }];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onWillResignActive)
@@ -207,7 +192,6 @@
     CGRect b = self.bounds;
 
     self.circleProgress.frame = CGRectInset(self.recordButton.frame, -20, -20);
-    self.timerLabel.frame = CGRectSetMiddleLeft(CGRectGetMaxX(self.recordButton.frame)+10, CGRectGetMidY(self.recordButton.frame), self.timerLabel.frame);
     self.stopRecordingButton.center = self.recordButton.center;
 
     self.snapshotView.frame = b;
@@ -427,7 +411,6 @@
 }
 
 - (void) showRecordingProgress {
-    self.timerLabel.hidden = NO;
 //    self.circleProgress.hidden = NO;
 //
 //    [UIView animateWithDuration:0.2
@@ -449,7 +432,6 @@
 }
 
 - (void)hideRecordingProgress {
-    self.timerLabel.hidden = YES;
 //    [UIView animateWithDuration:0.4
 //                          delay:0
 //                        options:UIViewAnimationOptionCurveEaseOut

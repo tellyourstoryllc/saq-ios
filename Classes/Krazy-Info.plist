@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10000</string>
+	<string>10002</string>
 	<key>FacebookAppID</key>
 	<string>534147816693934</string>
 	<key>LSApplicationCategoryType</key>
@@ -73,7 +73,7 @@
 		<string>Roboto-Bold.ttf</string>
 		<string>Roboto-BoldCondensed.ttf</string>
 		<string>Roboto-Light.ttf</string>
-    <string>LicensePlate.ttf</string>
+		<string>LicensePlate.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

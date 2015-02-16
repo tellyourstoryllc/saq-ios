@@ -22,14 +22,14 @@
     self.defaultButtonCornerRadius = 5;
     self.defaultButtonTitleColor = COLOR(whiteColor);
 
-    self.titleLabel.textColor = COLOR(orangeColor);
-    self.titleLabel.font = [UIFont fontWithName:@"Lato-Black" size:21];
+    self.titleLabel.textColor = COLOR(blackColor);
+    self.titleLabel.font = FONT_B(21);
 
     self.messageLabel.textColor = COLOR(blackColor);
     self.messageLabel.font = FONT(14);
 
     self.backgroundOverlay.backgroundColor = [COLOR(blackColor) colorWithAlphaComponent:0.888];
-    self.alertContainer.backgroundColor = COLOR(lightGrayColor);
+    self.alertContainer.backgroundColor = COLOR(whiteColor);
     self.alertContainer.alpha = 0.95;
 
     self.alertContainer.layer.cornerRadius = 5.0;

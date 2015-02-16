@@ -15,6 +15,8 @@
 @property (nonatomic, assign) BOOL cardWasFeatured;
 @property (nonatomic, assign) UIViewContentMode savedContentMode;
 
+@property (nonatomic, strong) PNButton* playButton;
+
 @end
 
 @implementation StoryCollectionCell
@@ -34,7 +36,14 @@
         [self.contentView addSubview:self.usernameLabel];
 
         CGFloat minDim = MIN(self.contentView.bounds.size.width, self.contentView.bounds.size.height);
-        CGFloat buttonDim = minDim/2.5;
+        CGFloat buttonDim = minDim/4;
+        self.playButton = [[PNButton alloc] initWithFrame:CGRectMake(4, 4, buttonDim, buttonDim)];
+        [self.playButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
+        [self.playButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
+        self.playButton.userInteractionEnabled = NO;
+        self.playButton.buttonColor = [COLOR(blackColor) colorWithAlphaComponent:0.7];
+        self.playButton.backgroundColor = [COLOR(whiteColor) colorWithAlphaComponent:0.8];
+        [self.contentView addSubview:self.playButton];
 
     }
 
@@ -66,10 +75,22 @@
     self.card.message = self.story;
     self.card.userInteractionEnabled = NO;
     [self.card hideControls];
+    self.playButton.hidden = YES;
 
     [self.card loadContentWithCompletion:^{
+        self.playButton.hidden = !self.card.hasVideo;
     }];
 
+}
+
+- (void)didBecomeFeatured {
+    [super didBecomeFeatured];
+    self.playButton.selected = YES;
+}
+
+- (void)willResignFeatured {
+    [super willResignFeatured];
+    self.playButton.selected = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

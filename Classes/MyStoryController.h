@@ -12,6 +12,7 @@
 @interface MyStoryController : UIViewController
 
 @property (nonatomic, assign) MeViewController* meController;
+@property (nonatomic, strong) User* user;
 
 - (void)showOptions;
 

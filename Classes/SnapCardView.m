@@ -85,11 +85,8 @@
         [self addSubview:self.exportButton];
 
         CGRect b = self.bounds;
-        self.screenView = [[UIView alloc] initWithFrame:b];
-        self.screenView.backgroundColor = [COLOR(whiteColor) colorWithAlphaComponent:0.7];
-        [self addSubview:self.screenView];
-
-        self.optionView = [[UIView alloc] initWithFrame:CGRectSetOrigin(0, b.size.height, b)];
+        self.optionView = [[UIView alloc] initWithFrame:CGRectSetOrigin(b.size.width, 0, b)];
+//        self.optionView.backgroundColor = [COLOR(whiteColor) colorWithAlphaComponent:0.7];
         self.optionView.userInteractionEnabled = YES;
         [self addSubview:self.optionView];
 
@@ -289,23 +286,12 @@
 
 - (void)didBecomeFeatured {
     self.isFeatured = YES;
-    CGRect b = self.bounds;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.screenView.frame = CGRectSetBottomLeft(0, 0, b);
-                     } completion:^(BOOL finished) {
-                     }];
     [self.card didBecomeFeatured];
 }
 
 - (void)willResignFeatured {
     [self.card willResignFeatured];
     self.isFeatured = NO;
-    [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.screenView.frame = self.bounds;
-                     } completion:^(BOOL finished) {
-                     }];
 }
 
 - (void)messageWasUpdated {
@@ -358,6 +344,7 @@
 
 - (void)didPresentOptions {
     _isPresentingOptions = YES;
+    self.optionView.frame = CGRectSetOrigin(-self.bounds.size.width, 0, self.bounds);
     [UIView animateWithDuration:0.3
                      animations:^{
                          self.optionView.frame = self.bounds;
@@ -370,7 +357,7 @@
     CGRect b = self.bounds;
     [UIView animateWithDuration:0.3
                      animations:^{
-                         self.optionView.frame = CGRectSetOrigin(0, b.size.height, b);
+                         self.optionView.frame = CGRectSetOrigin(b.size.width, 0, b);
                      } completion:^(BOOL finished) {
                      }];
 }

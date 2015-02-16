@@ -27,7 +27,6 @@
 
 @property (strong) PNLabel* filterLabel;
 @property (strong) UISwitch* filterSwitch;
-
 @property (strong) PNLabel* soundLabel;
 @property (strong) UISwitch* soundSwitch;
 
@@ -37,14 +36,11 @@
 @property (strong) PNButton* storyPlayButton;
 @property (strong) PNButton* cameraPlayButton;
 
-@property (strong) UIButton* optionsButton;
-
 @property (strong) PNVideoURLView* videoView;
 
 @property (strong) PNRichLabel* instructionLabel;
 @property (strong) PNLabel* thanksLabel;
 
-@property (nonatomic, strong) User* user;
 @property (strong) NSURL* draftUrl;
 
 @end
@@ -74,7 +70,7 @@
     self.activateButton.titleEdgeInsets = UIEdgeInsetsMake(4, 4, 4, 4);
     [self.recorderView addSubview:self.activateButton];
 
-    self.camera = [[StoryCamera alloc] initWithFrame:CGRectMake(0,0,b.size.width, 220)];
+    self.camera = [[StoryCamera alloc] initWithFrame:CGRectMake(0,0,b.size.width, 230)];
     self.camera.delegate = self;
 
     self.camera.frame = CGRectSetCenter(b.size.width/2, b.size.height/2, self.camera.frame);
@@ -84,7 +80,7 @@
 
     [self.recorderView addSubview:self.camera];
 
-    self.filterLabel = [PNLabel labelWithText:@"Anonymity filter: OFF" andFont:FONT_B(14)];
+    self.filterLabel = [PNLabel labelWithText:@"Blur face: OFF" andFont:FONT_B(14)];
     self.filterLabel.textAlignment = NSTextAlignmentCenter;
     [self.recorderView addSubview:self.filterLabel];
 
@@ -92,7 +88,7 @@
     [self.recorderView addSubview:self.filterSwitch];
     [self.filterSwitch addTarget:self action:@selector(onFilter) forControlEvents:UIControlEventValueChanged];
 
-    self.soundLabel = [PNLabel labelWithText:@"Voice distortion: OFF" andFont:FONT_B(14)];
+    self.soundLabel = [PNLabel labelWithText:@"Disguise voice: OFF" andFont:FONT_B(14)];
     self.soundLabel.textAlignment = NSTextAlignmentCenter;
     [self.recorderView addSubview:self.soundLabel];
 
@@ -132,15 +128,18 @@
 
     self.instructionLabel = [[PNRichLabel alloc] init];
     self.instructionLabel.font = FONT_B(20);
+    self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you got through it<br><br>3. No last names";
+
+    [self.instructionLabel sizeToFitTextWidth:self.view.bounds.size.width-16];
     [self.recorderView addSubview:self.instructionLabel];
 
     self.thanksLabel = [PNLabel new];
     self.thanksLabel.textAlignment = NSTextAlignmentCenter;
     [self.storyView addSubview:self.thanksLabel];
 
-    self.storyPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,60,60)];
+    self.storyPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,80,80)];
     self.storyPlayButton.buttonColor = COLOR(blackColor);
-    self.storyPlayButton.cornerRadius = 30;
+    self.storyPlayButton.cornerRadius = 40;
     [self.storyPlayButton setBorderWithColor:COLOR(blackColor) width:2.0];
     [self.storyPlayButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
     [self.storyPlayButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
@@ -157,9 +156,9 @@
         }
     }];
 
-    self.cameraPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,60,60)];
+    self.cameraPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,80,80)];
     self.cameraPlayButton.buttonColor = COLOR(blackColor);
-    self.cameraPlayButton.cornerRadius = 30;
+    self.cameraPlayButton.cornerRadius = 40;
     [self.cameraPlayButton setBorderWithColor:COLOR(blackColor) width:2.0];
     [self.cameraPlayButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
     [self.cameraPlayButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
@@ -179,12 +178,6 @@
     self.videoView = [PNVideoURLView new];
     self.videoView.userInteractionEnabled = NO;
     [self.storyView addSubview:self.videoView];
-
-    self.optionsButton = [UIButton new];
-    [self.optionsButton setTitle:@"Options" forState:UIControlStateNormal];
-    [self.optionsButton setTitleColor:COLOR(blackColor) forState:UIControlStateNormal];
-    [self.optionsButton addTarget:self action:@selector(onOptions) forControlEvents:UIControlEventTouchUpInside];
-    [self.storyView addSubview:self.optionsButton];
 
     [self.KVOController observe:self.camera keyPath:@"isRecording" options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
@@ -216,13 +209,13 @@
 
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusAuthorized) {
-        if (self.activateButton.hidden)
+        self.activateButton.hidden = YES;
+        self.camera.alpha = 1.0;
+        if (!self.camera.isComposing)
             [self.camera startPreview];
-        else
-            [self.activateButton setTitle:@"Activate camera ❭" forState:UIControlStateNormal];
     }
     else {
-        [self.activateButton setTitle:@"Allow Access to Mic & Camera ❭" forState:UIControlStateNormal];
+        [self.activateButton setTitle:@"START ❭" forState:UIControlStateNormal];
     }
 }
 
@@ -236,17 +229,19 @@
 
     CGRect b = self.view.bounds;
 
-    self.activateButton.frame = CGRectSetCenter(b.size.width/2, b.size.height*(1-1/GOLDEN_MEAN), self.activateButton.frame);
+    self.instructionLabel.frame = CGRectSetOrigin(8, 80, self.instructionLabel.frame);
+
+    self.activateButton.frame = CGRectSetTopCenter(b.size.width/2, CGRectGetMaxY(self.instructionLabel.frame)+20, self.activateButton.frame);
     self.camera.frame = CGRectSetTopCenter(b.size.width/2, CGRectGetMinY(self.activateButton.frame), self.camera.frame);
     self.videoView.frame = self.activateButton.frame;
 
+    self.filterSwitch.frame = CGRectSetBottomCenter(b.size.width/6, CGRectGetMaxY(self.activateButton.frame)+60, self.filterSwitch.frame);
     [self.filterLabel sizeToFitTextWidth:CGRectGetMinX(self.activateButton.frame)-8];
-    self.filterLabel.frame = CGRectSetTopRight(CGRectGetMinX(self.activateButton.frame)-4, CGRectGetMinY(self.activateButton.frame), self.filterLabel.frame);
-    self.filterSwitch.frame = CGRectSetTopCenter(CGRectGetMidX(self.filterLabel.frame), CGRectGetMaxY(self.filterLabel.frame)+4, self.filterSwitch.frame);
+    self.filterLabel.frame = CGRectSetTopCenter(b.size.width/6, CGRectGetMaxY(self.filterSwitch.frame), self.filterLabel.frame);
 
+    self.soundSwitch.frame = CGRectSetBottomCenter(5*b.size.width/6, CGRectGetMaxY(self.activateButton.frame)+60, self.soundSwitch.frame);
     [self.soundLabel sizeToFitTextWidth:CGRectGetMinX(self.activateButton.frame)-8];
-    self.soundLabel.frame = CGRectSetOrigin(CGRectGetMaxX(self.activateButton.frame)+4, CGRectGetMinY(self.activateButton.frame), self.soundLabel.frame);
-    self.soundSwitch.frame = CGRectSetTopCenter(CGRectGetMidX(self.soundLabel.frame), CGRectGetMaxY(self.soundLabel.frame)+4, self.soundSwitch.frame);
+    self.soundLabel.frame = CGRectSetTopCenter(5*b.size.width/6, CGRectGetMaxY(self.soundSwitch.frame), self.soundLabel.frame);
 
     // Place discard button at top right corner of video frame
     self.discardButton.frame = CGRectSetCenter(CGRectGetMaxX(self.activateButton.frame), CGRectGetMinY(self.activateButton.frame), self.discardButton.frame);
@@ -261,10 +256,6 @@
                                                     CGRectGetMaxY(self.activateButton.frame)+10,
                                                     self.cameraPlayButton.frame);
 
-    self.optionsButton.frame = CGRectMakeCorners(0, b.size.height-40, b.size.width, b.size.height);
-
-    self.instructionLabel.frame = CGRectMakeCorners(4, CGRectGetMaxY(self.camera.frame), b.size.width-4, b.size.height);
-
     self.thanksLabel.frame = self.instructionLabel.frame;
 }
 
@@ -272,7 +263,6 @@
     [super viewWillAppear:animated];
     [self configureView];
 
-    self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you got through it<br><br>3. No last names";
 }
 
 - (void)setUser:(User *)user {
@@ -322,20 +312,28 @@
 
 - (void)onOpenCamera {
 
-    [self.activateButton setTitle:nil forState:UIControlStateNormal];
-    self.camera.alpha = 0.0;
+    void (^block)() = ^() {
+        [self.activateButton setTitle:nil forState:UIControlStateNormal];
+        self.camera.alpha = 0.0;
 
-    [UIView animateWithDuration:1.337 animations:^{
-        self.activateButton.alpha = 0.0;
-        self.camera.alpha = 1.0;
+        [UIView animateWithDuration:1.337 animations:^{
+            self.activateButton.alpha = 0.0;
+            self.camera.alpha = 1.0;
+        }];
+
+        [self.camera startPreviewWithCompletion:^(BOOL success) {
+            self.activateButton.hidden = YES;
+        }];
+    };
+
+    AlertView* av = [[AlertView alloc] initWithTitle:@"Allow Camera and Mic?"
+                                             message:@"Access to your camera and microphone are needed to record your story."
+                                      andButtonArray:@[@"Yes", @"Not Now"]];
+
+    [av showWithCompletion:^(NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+            block();
     }];
-
-//    [self.label1 fadeOutOverDuration:1.0 fromColor:nil completion:nil afterDelay:0];
-
-    [self.camera startPreviewWithCompletion:^(BOOL success) {
-        self.activateButton.hidden = YES;
-    }];
-
 }
 
 - (void)configureView {
@@ -353,8 +351,6 @@
         weakSelf.cameraPlayButton.hidden = !weakSelf.camera.isComposing;
 
         weakSelf.instructionLabel.hidden = weakSelf.camera.isComposing;
-
-        weakSelf.optionsButton.hidden = weakSelf.videoView.videoUrl == nil;
 
         if (weakSelf.videoView.videoUrl) {
             weakSelf.storyView.hidden = NO;
@@ -403,29 +399,25 @@
 - (void)onFilter {
     if (self.filterSwitch.isOn) {
         self.camera.currentFilterIndex = 1;
-        self.filterLabel.text = @"Anonymity filter: ON";
+        self.filterLabel.text = @"Blur face: ON";
 
     }
     else {
         self.camera.currentFilterIndex = 0;
-        self.filterLabel.text = @"Anonymity filter: OFF";
+        self.filterLabel.text = @"Blur face: OFF";
     }
 }
 
 - (void)onSound {
     if (self.soundSwitch.isOn) {
         self.camera.filteredAudio = YES;
-        self.soundLabel.text = @"Voice distortion: ON";
+        self.soundLabel.text = @"Disguise voice: ON";
 
     }
     else {
         self.camera.filteredAudio = NO;
-        self.soundLabel.text = @"Voice distortion: OFF";
+        self.soundLabel.text = @"Disguise voice: OFF";
     }
-}
-
-- (void)onOptions {
-    [self showOptions];
 }
 
 - (void)publishStory {
@@ -441,55 +433,7 @@
                  [self.camera stopPreview];
              }];
 
-    [self.meController openRegistration];
-
-}
-
-- (void)showOptions {
-    PNActionSheet* as =
-    [[PNActionSheet alloc] initWithTitle:nil
-                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
-                                  if (buttonIndex == 0)
-                                      [self onDelete];
-                                  NSLog(@"%d",buttonIndex);
-                              }
-                       cancelButtonTitle:@"Cancel"
-                  destructiveButtonTitle:nil
-                        otherButtonArray:@[@"Delete My Story"]];
-    [as showInView:self.view];
-}
-
-- (void)onDelete {
-    Story* story = [[User me] last_story];
-    if (!story.id) {
-        NSLog(@"cannot delete! %@", story);
-        return;
-    }
-
-    PNActionSheet* as =
-    [[PNActionSheet alloc] initWithTitle:@"You cannot undo this action. Confirm?"
-                              completion:^(NSInteger buttonIndex, BOOL didCancel) {
-                                  if (buttonIndex == 0) {
-                                      [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/delete", story.id]
-                                                     parameters:nil
-                                                       callback:^(NSSet *entities, id responseObject, NSError *error) {
-                                                           User* me = [[Api sharedApi] currentUser];
-                                                           [me.managedObjectContext performBlock:^{
-                                                               Story* story = me.last_story;
-                                                               story.deletedValue = YES;
-                                                               me.last_story = nil;
-                                                               me.updated_at = [NSDate date];
-                                                               [me.managedObjectContext saveToRootWithCompletion:^(BOOL success, NSError *err) {
-                                                                   self.user = me;
-                                                               }];
-                                                           }];
-                                                       }];
-                                  }
-                              }
-                       cancelButtonTitle:@"Cancel"
-                  destructiveButtonTitle:nil
-                        otherButtonArray:@[@"Yes, delete permanently"]];
-    [as showInView:self.view];
+//    [self.meController openRegistration];
 }
 
 @end

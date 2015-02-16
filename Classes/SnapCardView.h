@@ -68,8 +68,6 @@
 @property (nonatomic, assign) id<CardViewDelegate> delegate;
 @property (nonatomic, assign) UIViewContentMode contentMode;
 
-@property (nonatomic, strong) UIView* screenView;
-
 @property (nonatomic, strong) UIView* optionView;
 @property (nonatomic, strong) PNButton* thanksButton;
 

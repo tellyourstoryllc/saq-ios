@@ -12,7 +12,6 @@
 @interface MeViewController : PNCarouselViewController
 
 - (void)openRegistration;
-- (void)openLogin;
 - (void)openStory;
 
 @end

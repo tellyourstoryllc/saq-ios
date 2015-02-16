@@ -120,18 +120,6 @@
     [self.collection reloadData];
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-
-    if ([self isViewVisible]) {
-        [self featureVideos];
-    }
-}
-
--(void)viewWillDisappear:(BOOL)animated {
-    [self unfeatureVideos];
-}
-
 -(void)initFetchedResultsController {
 
     if (self.fetchedResultsController)
@@ -139,7 +127,7 @@
 
     NSManagedObjectContext* context = [App managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Story"];
-    request.predicate = [NSPredicate predicateWithFormat:@"deleted != YES AND id != NULL"];
+    request.predicate = [NSPredicate predicateWithFormat:@"deleted != YES AND id != NULL AND in_feed = YES"];
     request.sortDescriptors = @[
                                 [NSSortDescriptor sortDescriptorWithKey:@"created_at" ascending:NO]
                                 ];
@@ -261,9 +249,11 @@
         }
         else if (cell.isFeatured) {
             [self hideOptions];
+            [cell willResignFeatured];
             [cell didPresentOptions];
         }
         else {
+            [self hideOptions];
             [self unfeatureVideos];
             [self featureVideoAt:item];
         }
@@ -322,7 +312,7 @@
     if (_itemChanges.count) {
         [self.collection reloadData];
         [self collectionDidChange];
-        ins(_itemChanges);
+        [self featureVideos];
     }
 
     _itemChanges = nil;
@@ -414,6 +404,7 @@
 }
 
 - (void)onAddTapped {
+    [self unfeatureVideos];
     [[AppViewController sharedAppViewController] openMyStory];
 }
 

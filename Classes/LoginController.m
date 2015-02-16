@@ -27,6 +27,7 @@
 - (void)viewDidLoad
 {
     UIFont* placeholderFont = FONT_I(18);
+    self.view.backgroundColor = COLOR(whiteColor);
 
     self.feedbackLabel = [PNLabel new];
     self.feedbackLabel.textAlignment = NSTextAlignmentCenter;
@@ -81,12 +82,10 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self updateDoneButtonWithAnimation:animated];
-
-    if ([self isViewVisible])
-        [self.usernameField becomeFirstResponder];
+    [self.usernameField becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -220,6 +219,10 @@
 
         }]];
     }
+}
+
+- (void)dealloc {
+    [self.view removeKeyboardControl];
 }
 
 @end

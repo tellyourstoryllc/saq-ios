@@ -9,15 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PNCamera.h"
 
-@interface AddStoryCamcorder : PNCamera
-@end
-
 @interface AddStoryCollectionCell : UICollectionViewCell
 
-@property (nonatomic, strong) AddStoryCamcorder* camcorder;
 @property (nonatomic, readonly) PNLabel* plusLabel;
-
-- (void)startCamera;
-- (void)stopCamera;
 
 @end

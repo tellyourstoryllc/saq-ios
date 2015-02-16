@@ -66,7 +66,7 @@
 
         self.tabView = [CarouselTabView new];
         self.tabView.carouselController = self;
-//        [self.view addSubview:self.tabView];
+        [self.view addSubview:self.tabView];
 
     }
     return self;
