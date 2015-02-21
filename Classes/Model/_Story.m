@@ -10,6 +10,7 @@ const struct StoryAttributes StoryAttributes = {
 	.last_comment_seen_at = @"last_comment_seen_at",
 	.last_comments_count = @"last_comments_count",
 	.permission = @"permission",
+	.status = @"status",
 	.viewed = @"viewed",
 };
 
@@ -136,6 +137,8 @@ const struct StoryRelationships StoryRelationships = {
 }
 
 @dynamic permission;
+
+@dynamic status;
 
 @dynamic viewed;
 

@@ -287,6 +287,11 @@
 		344D80811A26AC710094E652 /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3429332218FEB0AC00076998 /* GPUImage.framework */; };
 		344D84231900DC3E00095489 /* volume.png in Resources */ = {isa = PBXBuildFile; fileRef = 344D84211900DC3E00095489 /* volume.png */; };
 		344D84241900DC3E00095489 /* volume@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 344D84221900DC3E00095489 /* volume@2x.png */; };
+		344DF37B1A9857DE00764BFF /* EyeMaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 344DF37A1A9857DE00764BFF /* EyeMaskManager.m */; };
+		344DF37E1A98741B00764BFF /* help.png in Resources */ = {isa = PBXBuildFile; fileRef = 344DF37C1A98741B00764BFF /* help.png */; };
+		344DF37F1A98741B00764BFF /* help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 344DF37D1A98741B00764BFF /* help@2x.png */; };
+		344DF3821A9874D700764BFF /* record.png in Resources */ = {isa = PBXBuildFile; fileRef = 344DF3801A9874D700764BFF /* record.png */; };
+		344DF3831A9874D700764BFF /* record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 344DF3811A9874D700764BFF /* record@2x.png */; };
 		344F1FA81A60F12200470056 /* PeopleViewSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344F1FA71A60F12200470056 /* PeopleViewSearchController.m */; };
 		344F1FAE1A617C4700470056 /* BaseSnapCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344F1FAD1A617C4700470056 /* BaseSnapCollectionViewController.m */; };
 		344F1FB11A62417A00470056 /* PersonCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 344F1FB01A62417A00470056 /* PersonCollectionCell.m */; };
@@ -1171,6 +1176,12 @@
 		344D807D1A2558150094E652 /* UIImage+Noise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Noise.m"; sourceTree = "<group>"; };
 		344D84211900DC3E00095489 /* volume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = volume.png; sourceTree = "<group>"; };
 		344D84221900DC3E00095489 /* volume@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "volume@2x.png"; sourceTree = "<group>"; };
+		344DF3791A9857DE00764BFF /* EyeMaskManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EyeMaskManager.h; sourceTree = "<group>"; };
+		344DF37A1A9857DE00764BFF /* EyeMaskManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyeMaskManager.m; sourceTree = "<group>"; };
+		344DF37C1A98741B00764BFF /* help.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = help.png; sourceTree = "<group>"; };
+		344DF37D1A98741B00764BFF /* help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help@2x.png"; sourceTree = "<group>"; };
+		344DF3801A9874D700764BFF /* record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = record.png; sourceTree = "<group>"; };
+		344DF3811A9874D700764BFF /* record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "record@2x.png"; sourceTree = "<group>"; };
 		344F1FA61A60F12200470056 /* PeopleViewSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleViewSearchController.h; sourceTree = "<group>"; };
 		344F1FA71A60F12200470056 /* PeopleViewSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleViewSearchController.m; sourceTree = "<group>"; };
 		344F1FAC1A617C4700470056 /* BaseSnapCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseSnapCollectionViewController.h; sourceTree = "<group>"; };
@@ -2279,6 +2290,8 @@
 		344365EA182EC19E009D72A6 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				344DF3791A9857DE00764BFF /* EyeMaskManager.h */,
+				344DF37A1A9857DE00764BFF /* EyeMaskManager.m */,
 				344365EB182EC19E009D72A6 /* GlamourFilter.h */,
 				344365EC182EC19E009D72A6 /* GlamourFilter.m */,
 				34A8898018DEB55B00A452D4 /* PN1972Filter.h */,
@@ -3002,6 +3015,8 @@
 				347D6C2718F5E7B70039F3B1 /* heart-filled@2x.png */,
 				347D6C2818F5E7B70039F3B1 /* heart.png */,
 				347D6C2918F5E7B70039F3B1 /* heart@2x.png */,
+				344DF37C1A98741B00764BFF /* help.png */,
+				344DF37D1A98741B00764BFF /* help@2x.png */,
 				34677A8F1904C85B00F04036 /* home.png */,
 				34677A901904C85B00F04036 /* home@2x.png */,
 				34073CB618CCF07700104FE9 /* human.png */,
@@ -3070,6 +3085,8 @@
 				C53FE91018514C51000DB34C /* placeholder-user-avatar@2x.png */,
 				346BC81218552D7800684DDD /* plus.png */,
 				346BC81318552D7800684DDD /* plus@2x.png */,
+				344DF3801A9874D700764BFF /* record.png */,
+				344DF3811A9874D700764BFF /* record@2x.png */,
 				34B1AF5C18E88AD300CB47B4 /* repeat.png */,
 				34B1AF5D18E88AD300CB47B4 /* repeat@2x.png */,
 				34785475197469DF009D2B68 /* reply.png */,
@@ -3807,6 +3824,7 @@
 				3479075919267AA700092595 /* Roboto-Light.ttf in Resources */,
 				3468AFA018BD3C9E002CC63B /* Lato-Black.ttf in Resources */,
 				C53FE91218514C51000DB34C /* placeholder-group-avatar@2x.png in Resources */,
+				344DF3821A9874D700764BFF /* record.png in Resources */,
 				3400A458194632FF00D020A5 /* top-bubble-right-mask.png in Resources */,
 				34C104C418AC299E00141BC6 /* left-arrow.png in Resources */,
 				3428B3141A47A92300F573A8 /* lock@2x.png in Resources */,
@@ -3835,6 +3853,7 @@
 				34CBBB5518D2256D004F2D89 /* type-black@2x.png in Resources */,
 				3477B22318D180D600350B41 /* down@2x.png in Resources */,
 				347D6C3518F5E7B70039F3B1 /* star@2x.png in Resources */,
+				344DF3831A9874D700764BFF /* record@2x.png in Resources */,
 				C5915CDE184E8126007C183A /* chat-bubble-white@2x.png in Resources */,
 				3468AFA718BD3C9E002CC63B /* Lato-Light.ttf in Resources */,
 				3428B3201A47AA5800F573A8 /* link@2x.png in Resources */,
@@ -3914,10 +3933,12 @@
 				34C3C85C19452EC100C62B4A /* left-bubble-mask.png in Resources */,
 				346BC8101855279C00684DDD /* paper-clip.png in Resources */,
 				34864198198F2D11000D6AE8 /* x@2x.png in Resources */,
+				344DF37F1A98741B00764BFF /* help@2x.png in Resources */,
 				341853DA18E41601004D956D /* message.png in Resources */,
 				346BC8111855279C00684DDD /* paper-clip@2x.png in Resources */,
 				34753B8E18C261590063D39B /* search.png in Resources */,
 				34583F67185D067F0011D913 /* door@2x.png in Resources */,
+				344DF37E1A98741B00764BFF /* help.png in Resources */,
 				34073CC018CCF07700104FE9 /* frog.png in Resources */,
 				34DD172A1841D00B0018DA9F /* album@2x.png in Resources */,
 				3412274418505E3F006DC02A /* input-photo.png in Resources */,
@@ -4298,6 +4319,7 @@
 				3443673A182EC735009D72A6 /* UIPopoverController+FlatUI.m in Sources */,
 				34864185198C71F4000D6AE8 /* PhotoCardView.m in Sources */,
 				34DEAE2A18BAE2B000D17359 /* _UserPreference.m in Sources */,
+				344DF37B1A9857DE00764BFF /* EyeMaskManager.m in Sources */,
 				34436683182EC19F009D72A6 /* PNMailComposeViewController.m in Sources */,
 				34321F1F19EBC559002124AA /* MeViewController.m in Sources */,
 				34D2323D1883C75C00DC9E9E /* RHPerson.m in Sources */,

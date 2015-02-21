@@ -24,24 +24,24 @@
     self = [super initWithFrame:frame];
 
     self.meButton = [PNButton new];
-    self.meButton.disabledColor = COLOR(privateColor);
+    self.meButton.disabledColor = COLOR(greenColor);
     [self.meButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onMe)]];
-    [self.meButton setImage:[UIImage tintedImageNamed:@"me" color:[self.meButton.disabledColor darken:15]] forState:UIControlStateNormal];
-    [self.meButton setImage:[UIImage tintedImageNamed:@"me" color:COLOR(whiteColor)] forState:UIControlStateDisabled];
+    [self.meButton setImage:[UIImage tintedImageNamed:@"record" color:[self.meButton.disabledColor darken:15]] forState:UIControlStateNormal];
+    [self.meButton setImage:[UIImage tintedImageNamed:@"record" color:COLOR(grayColor)] forState:UIControlStateDisabled];
     [self addSubview:self.meButton];
 
     self.peopleButton = [PNButton new];
-    self.peopleButton.disabledColor = COLOR(publicColor);
+    self.peopleButton.disabledColor = COLOR(turquoiseColor);
     [self.peopleButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onPeople)]];
-    [self.peopleButton setImage:[UIImage tintedImageNamed:@"contacts" color:[self.peopleButton.disabledColor darken:15]] forState:UIControlStateNormal];
-    [self.peopleButton setImage:[UIImage tintedImageNamed:@"contacts" color:COLOR(blackColor)] forState:UIControlStateDisabled];
+    [self.peopleButton setImage:[UIImage tintedImageNamed:@"play-icon" color:[self.peopleButton.disabledColor darken:15]] forState:UIControlStateNormal];
+    [self.peopleButton setImage:[UIImage tintedImageNamed:@"play-icon" color:COLOR(whiteColor)] forState:UIControlStateDisabled];
     [self addSubview:self.peopleButton];
 
     self.linksButton = [PNButton new];
-    self.linksButton.disabledColor = COLOR(purpleColor);
+    self.linksButton.disabledColor = COLOR(blueColor);
     [self.linksButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLinks)]];
-    [self.linksButton setImage:[UIImage tintedImageNamed:@"link" color:[self.linksButton.disabledColor darken:15]] forState:UIControlStateNormal];
-    [self.linksButton setImage:[UIImage tintedImageNamed:@"link" color:COLOR(whiteColor)] forState:UIControlStateDisabled];
+    [self.linksButton setImage:[UIImage tintedImageNamed:@"help" color:[self.linksButton.disabledColor darken:15]] forState:UIControlStateNormal];
+    [self.linksButton setImage:[UIImage tintedImageNamed:@"help" color:COLOR(whiteColor)] forState:UIControlStateDisabled];
     [self addSubview:self.linksButton];
 
 //    self.inboxButton = [PNButton new];

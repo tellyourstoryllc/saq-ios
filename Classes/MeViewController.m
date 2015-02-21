@@ -92,11 +92,11 @@
 
 -(void)setupView {
 
-    UIColor* navColor = COLOR(lightGrayColor);
+    UIColor* navColor = COLOR(greenColor);
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
     [shadow setShadowColor:nil];
-    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(26),
+    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(18),
                                         NSForegroundColorAttributeName:COLOR(blackColor),
                                         NSShadowAttributeName:shadow};
     [navBar setTitleTextAttributes:barTextAttributes];

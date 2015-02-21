@@ -39,4 +39,6 @@
 
 - (UIPanGestureRecognizer*) panGestureRecognizer;
 
+- (void) setScrollEnabled:(BOOL)enabled;
+
 @end

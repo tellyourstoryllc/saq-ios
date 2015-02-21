@@ -226,10 +226,14 @@ referenceSizeForFooterInSection:(NSInteger)section {
 
     if (activateCount > 0) {
         for (SnapCollectionCell* cell in unfeaturedCells) {
+            NSLog(@"ACTIVATE: %@", cell);
             [cell didBecomeFeatured];
             activateCount--;
             if (!activateCount) break;
         }
+    }
+    else {
+        NSLog(@"Count zero! %d %d %d", self.featuredVideoLimit, videoCells.count, unfeaturedCells.count);
     }
 }
 

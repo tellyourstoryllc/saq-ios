@@ -39,34 +39,34 @@ static Theme *current;
     
     // Colors
     self.blackColor = @"#232C33";
-    self.blueColor = @"#69d2e7";
+    self.blueColor = @"#235474";
     self.darkBlueColor = @"#556270";
-    self.lightBlueColor = @"#a7dbd8";
+    self.lightBlueColor = @"#aff2f3";
     self.whiteColor = @"#FFFFFF";
 
     self.darkGrayColor = @"#6D6D6D";
-    self.grayColor = @"#B4B4B4";
+    self.grayColor = @"#9b9b9b";
     self.lightGrayColor = @"#dcdcdc";
 
-    self.greenColor = @"#D5F26D";
-    self.turquoiseColor = @"#4ecdc4";
+    self.greenColor = @"#e9f2d9";
+    self.turquoiseColor = @"#1aa6a8";
     self.purpleColor = @"#a13d95";
     self.orangeColor = @"#fa6900";
     self.pinkColor = @"#ff6b6b";
-    self.redColor = @"#c44d58";
+    self.redColor = @"#972f49";
     self.yellowColor = @"#FFC60E";
 
     self.defaultForegroundColor = @"#354751";
-    self.defaultNavigationColor = self.orangeColor;
+    self.defaultNavigationColor = self.turquoiseColor;
     self.defaultBackgroundColor = @"#eeeeee"; // self.lightGrayColor;
     self.usernameColor = self.blueColor;
-    self.navTitleColor = self.blackColor;
+    self.navTitleColor = self.whiteColor;
     self.defaultTableTextColor = self.darkGrayColor;
 
-    self.privateColor = self.orangeColor;
+    self.privateColor = self.greenColor;
     self.friendColor = self.turquoiseColor;
-    self.publicColor = self.greenColor;
-    self.messageColor = self.purpleColor;
+    self.publicColor = self.turquoiseColor;
+    self.messageColor = self.blueColor;
     
     // Fonts
     self.font = @"Lato-Regular";
@@ -138,7 +138,7 @@ static Theme *current;
 }
 
 - (UIFont *)headlineFontWithSize:(CGFloat)size {
-    return [UIFont fontWithName:@"LicensePlate" size:size];
+    return [UIFont fontWithName:@"Menlo-Bold" size:size];
 }
 
 - (UIColor*)cachedColorFromHexString:(NSString *)hexString {

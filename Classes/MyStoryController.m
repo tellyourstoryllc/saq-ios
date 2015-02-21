@@ -19,6 +19,8 @@
 
 @interface MyStoryController()<PNCameraDelegate, CardViewDelegate>
 
+@property (nonatomic, strong) Story* story;
+
 @property (strong) UIView* recorderView;
 @property (strong) UIView* storyView;
 
@@ -40,6 +42,9 @@
 
 @property (strong) PNRichLabel* instructionLabel;
 @property (strong) PNLabel* thanksLabel;
+@property (strong) PNLabel* statusLabel;
+
+@property (strong) PNRichLabel* tosLabel;
 
 @property (strong) NSURL* draftUrl;
 
@@ -73,7 +78,7 @@
     self.camera = [[StoryCamera alloc] initWithFrame:CGRectMake(0,0,b.size.width, 230)];
     self.camera.delegate = self;
 
-    self.camera.frame = CGRectSetCenter(b.size.width/2, b.size.height/2, self.camera.frame);
+    self.camera.frame = CGRectSetCenter(b.size.width/2, b.size.height/3, self.camera.frame);
     self.camera.alpha = 0.0;
     self.camera.cameraView.layer.borderColor = [COLOR(blackColor) CGColor];
     self.camera.cameraView.layer.borderWidth = 2.f;
@@ -120,14 +125,21 @@
     self.publishButton.cornerRadius = 10;
     self.publishButton.titleLabel.font = FONT_B(18);
     [self.publishButton setTitleColor:COLOR(whiteColor) forState:UIControlStateNormal];
-    [self.publishButton setTitle:@"Add My Story" forState:UIControlStateNormal];
+    [self.publishButton setTitle:@"Submit Story" forState:UIControlStateNormal];
     [self.recorderView addSubview:self.publishButton];
     [self.publishButton setTappedBlock:^{
         [weakSelf publishStory];
     }];
 
+    self.tosLabel = [[PNRichLabel alloc] init];
+    self.tosLabel.text = @"By submitting, you agree to the <a href=https://google.com>Terms of Service</a>";
+    self.tosLabel.font = FONT(12);
+    self.tosLabel.textAlignment = RTTextAlignmentCenter;
+    [self.tosLabel sizeToFitTextWidth:self.view.bounds.size.width];
+    [self.recorderView addSubview:self.tosLabel];
+
     self.instructionLabel = [[PNRichLabel alloc] init];
-    self.instructionLabel.font = FONT_B(20);
+    self.instructionLabel.font = FONT_B(18);
     self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you got through it<br><br>3. No last names";
 
     [self.instructionLabel sizeToFitTextWidth:self.view.bounds.size.width-16];
@@ -137,9 +149,9 @@
     self.thanksLabel.textAlignment = NSTextAlignmentCenter;
     [self.storyView addSubview:self.thanksLabel];
 
-    self.storyPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,80,80)];
+    self.storyPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,60,60)];
     self.storyPlayButton.buttonColor = COLOR(blackColor);
-    self.storyPlayButton.cornerRadius = 40;
+    self.storyPlayButton.cornerRadius = 30;
     [self.storyPlayButton setBorderWithColor:COLOR(blackColor) width:2.0];
     [self.storyPlayButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
     [self.storyPlayButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
@@ -156,28 +168,34 @@
         }
     }];
 
-    self.cameraPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,80,80)];
+    self.cameraPlayButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,60,60)];
     self.cameraPlayButton.buttonColor = COLOR(blackColor);
-    self.cameraPlayButton.cornerRadius = 40;
+    self.cameraPlayButton.cornerRadius = 30;
     [self.cameraPlayButton setBorderWithColor:COLOR(blackColor) width:2.0];
     [self.cameraPlayButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
     [self.cameraPlayButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
     [self.recorderView addSubview:self.cameraPlayButton];
 
     [self.cameraPlayButton setTappedBlock:^{
-        if (weakSelf.camera.player.isPlaying) {
+        if (weakSelf.camera.player.isPlaying)
             [weakSelf.camera pauseVideoPlayback];
-            weakSelf.cameraPlayButton.selected = NO;
-        }
-        else {
+        else
             [weakSelf.camera startVideoPlayback];
-            weakSelf.cameraPlayButton.selected = YES;
-        }
     }];
+
+    [self.KVOController observe:self.camera.player keyPath:@"isPlaying"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              weakSelf.cameraPlayButton.selected = weakSelf.camera.player.isPlaying;
+                          }];
 
     self.videoView = [PNVideoURLView new];
     self.videoView.userInteractionEnabled = NO;
     [self.storyView addSubview:self.videoView];
+
+    self.statusLabel = [PNLabel new];
+    self.statusLabel.font = FONT_B(18);
+    [self.storyView addSubview:self.statusLabel];
 
     [self.KVOController observe:self.camera keyPath:@"isRecording" options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
@@ -189,13 +207,13 @@
                               [weakSelf configureView];
                           }];
 
-    self.user = [[Api sharedApi] currentUser];
+    self.user = [User me];
 
     [self.KVOController observe:[Api sharedApi]
                         keyPath:@"currentUser"
                         options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
-                              weakSelf.user = [[Api sharedApi] currentUser];
+                              weakSelf.user = [User me];
                           }];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -206,6 +224,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+
+    [self onSound];
+    [self onFilter];
 
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus == AVAuthorizationStatusAuthorized) {
@@ -257,12 +278,13 @@
                                                     self.cameraPlayButton.frame);
 
     self.thanksLabel.frame = self.instructionLabel.frame;
+    self.statusLabel.frame = CGRectSetTopCenter(CGRectGetMidX(self.storyPlayButton.frame), CGRectGetMaxY(self.storyPlayButton.frame)+8, self.statusLabel.frame);
+    self.tosLabel.frame = CGRectSetBottomCenter(CGRectGetMidX(self.publishButton.frame), CGRectGetMinY(self.publishButton.frame), self.tosLabel.frame);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self configureView];
-
 }
 
 - (void)setUser:(User *)user {
@@ -271,6 +293,8 @@
 
     void (^updateBlock)(User*) = ^(User* user) {
         Story* story = user.last_story;
+        self.story = story;
+
         if (story) {
             [story fetchMediaWithCompletion:^(UIImage *photo, NSURL *videoUrl, UIImage *videoOverlay) {
                 self.videoView.videoUrl = videoUrl;
@@ -308,6 +332,20 @@
                           }];
 
     updateBlock(user);
+}
+
+- (void)setStory:(Story *)story {
+    if (_story == story)
+        return;
+
+    [self.KVOController unobserve:_story];
+    _story = story;
+    [self.KVOController observe:_story keyPath:@"updated_at"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              [self updateStatus];
+                          }];
+    [self updateStatus];
 }
 
 - (void)onOpenCamera {
@@ -351,6 +389,7 @@
         weakSelf.cameraPlayButton.hidden = !weakSelf.camera.isComposing;
 
         weakSelf.instructionLabel.hidden = weakSelf.camera.isComposing;
+        weakSelf.tosLabel.hidden = weakSelf.publishButton.hidden;
 
         if (weakSelf.videoView.videoUrl) {
             weakSelf.storyView.hidden = NO;
@@ -361,6 +400,15 @@
             weakSelf.recorderView.hidden = NO;
         }
     });
+}
+
+- (void)updateStatus {
+    if ([_user.last_story.status isEqualToString:@"review"])
+        self.statusLabel.text = @"In Review";
+    else
+        self.statusLabel.text = nil;
+
+    [self.statusLabel sizeToFit];
 }
 
 - (void)stopAllPlayback {
@@ -430,10 +478,17 @@
                  params:params
              completion:^(Story *newStory) {
                  self.user = newStory.user;
+                 self.story = newStory;
                  [self.camera stopPreview];
              }];
 
-//    [self.meController openRegistration];
+    AlertView* av = [[AlertView alloc] initWithTitle:@"Submitting Story.."
+                                             message:@"We strongly suggest you create an account. This will allow you to log-in and edit/change/delete your story in the future"
+                                      andButtonArray:@[@"OK", @"Not Now"]];
+    [av showWithCompletion:^(NSInteger buttonIndex) {
+        if (buttonIndex == 0)
+            [self.meController openRegistration];
+    }];
 }
 
 @end

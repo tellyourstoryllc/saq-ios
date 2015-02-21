@@ -181,12 +181,7 @@
 
 - (void)checkinUsingFastApi:(BOOL)useFastApi callback:(void (^)(NSError* error))callback {
 
-    Api *api = useFastApi ? [Api fastApi] : [Api sharedApi];
-    [api postPath:@"/checkin"
-       parameters:nil
-         callback:[api authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
-
-        if (!error) self.didCheckIn = YES;
+    void (^afterAuthBlock)(NSSet*, id, NSError*) = ^(NSSet *entities, id responseObject, NSError *error) {
 
         [[NSNotificationCenter defaultCenter] postNotificationName:kLoginStateNotification object:nil userInfo:nil];
 
@@ -210,16 +205,30 @@
         if (error) return;
 
         [Api sharedApi].fayeEnabled = NO;
-
         [[MediaUploadManager manager] retryUploadsWithLimit:100];
-
         [[StoryManager manager] loadPublicFeedWithParams:nil
                                            andCompletion:^(NSSet *stories) {
                                            }];
+    };
 
-        if ([App isLoggedIn])
-            [[PushPermissionManager manager] requestWithCompletion:nil];
+    Api *api = useFastApi ? [Api fastApi] : [Api sharedApi];
+    [api postPath:@"/checkin"
+       parameters:nil
+         callback:[api authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
 
+        if (!error) self.didCheckIn = YES;
+
+        if (authorized)
+            afterAuthBlock(entities, responseObject, error);
+        else
+            [api postPath:@"/users/create_unregistered"
+               parameters:nil
+                 callback:[api authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
+                if (authorized)
+                    afterAuthBlock(entities, responseObject, error);
+            }]];
+
+    }]];
         //             [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
         //                 // Look for groups with missing messages and load again if any
         //                 NSArray* groupsMissingMessages = [[groups allObjects] filteredArrayUsingBlock:^BOOL(Group* group, NSDictionary *bindings) {
@@ -230,9 +239,6 @@
         //                     [[GroupManager manager] refreshGroupsWithCompletion:nil];
         //                 }
         //             }];
-        
-    }]
-     ];
 }
 
 - (void)setupAppearance {
@@ -251,10 +257,8 @@
     appearance = [UIBarButtonItem appearanceWhenContainedIn:[MainCarouselController class], nil];
 
     NSDictionary* buttonBarTextAttributes = @{NSFontAttributeName:FONT_B(14),
-                                              NSForegroundColorAttributeName:COLOR(darkGrayColor),
                                               NSShadowAttributeName:shadow};
     [appearance setTitleTextAttributes:buttonBarTextAttributes forState:UIControlStateNormal];
-    [appearance setTintColor:COLOR(darkGrayColor)];
 
     buttonBarTextAttributes = @{NSFontAttributeName:FONT_B(14),
                                 NSShadowAttributeName:shadow};
@@ -361,6 +365,10 @@
             }
         }
     }
+}
+
+- (void) setCarouselEnabled:(BOOL)enabled {
+    [self.mainController setScrollEnabled:enabled];
 }
 
 - (void) emitCommandsForPushOptions:(NSDictionary*)options {

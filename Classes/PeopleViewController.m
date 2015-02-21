@@ -36,6 +36,7 @@
 
 #import "AppViewController.h"
 #import "StoryManager.h"
+#import "PushPermissionManager.h"
 
 #import "PNCircularProgressView.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
@@ -56,6 +57,8 @@
 
 @property (nonatomic, assign) BOOL needsReload;
 @property (nonatomic, assign) int lastOffset;
+
+@property (nonatomic, assign) BOOL shouldSkipPush;
 
 @end
 
@@ -96,11 +99,11 @@
     [self initFetchedResultsController];
     self.featuredVideoLimit = [App simulatanenousVideoLimit];
 
-    UIColor* navColor = COLOR(blackColor);
+    UIColor* navColor = COLOR(turquoiseColor);
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
     [shadow setShadowColor:nil];
-    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(32),
+    NSDictionary* barTextAttributes = @{NSFontAttributeName:HEADFONT(24),
                                         NSForegroundColorAttributeName:COLOR(whiteColor),
                                         NSShadowAttributeName:shadow};
     [navBar setTitleTextAttributes:barTextAttributes];
@@ -118,6 +121,17 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.collection reloadData];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (!self.shouldSkipPush) {
+        self.shouldSkipPush = YES;
+        [self unfeatureVideos];
+        [[PushPermissionManager manager] requestWithCompletion:^(NSData *token) {
+            [self featureVideos];
+        }];
+    }
 }
 
 -(void)initFetchedResultsController {

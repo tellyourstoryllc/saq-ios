@@ -11,6 +11,7 @@ extern const struct StoryAttributes {
 	__unsafe_unretained NSString *last_comment_seen_at;
 	__unsafe_unretained NSString *last_comments_count;
 	__unsafe_unretained NSString *permission;
+	__unsafe_unretained NSString *status;
 	__unsafe_unretained NSString *viewed;
 } StoryAttributes;
 
@@ -72,6 +73,10 @@ extern const struct StoryRelationships {
 @property (nonatomic, strong) NSString* permission;
 
 //- (BOOL)validatePermission:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* status;
+
+//- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* viewed;
 
@@ -147,6 +152,9 @@ extern const struct StoryRelationships {
 
 - (NSString*)primitivePermission;
 - (void)setPrimitivePermission:(NSString*)value;
+
+- (NSString*)primitiveStatus;
+- (void)setPrimitiveStatus:(NSString*)value;
 
 - (NSNumber*)primitiveViewed;
 - (void)setPrimitiveViewed:(NSNumber*)value;

@@ -13,15 +13,15 @@
 
 #else
 
-#define kProdServerAddress @"https://tys-api.snap.io"
-#define kProdFastServerAddress @"https://tys-api.snap.io"
-#define kProdSlowServerAddress @"https://tys-api.snap.io"
-#define kProdSocketAddress @"https://tys-api.snap.io:8080/faye"
+//#define kProdServerAddress @"https://tys-api.snap.io"
+//#define kProdFastServerAddress @"https://tys-api.snap.io"
+//#define kProdSlowServerAddress @"https://tys-api.snap.io"
+//#define kProdSocketAddress @"https://tys-api.snap.io:8080/faye"
 
-//#define kProdServerAddress @"http://tys-staging-api.snap.io"
-//#define kProdFastServerAddress @"http://tys-staging-api.snap.io"
-//#define kProdSlowServerAddress @"http://tys-staging-api.snap.io"
-//#define kProdSocketAddress @"https://tys-staging-api.snap.io:8080/faye"
+#define kProdServerAddress @"http://tys-staging-api.snap.io"
+#define kProdFastServerAddress @"http://tys-staging-api.snap.io"
+#define kProdSlowServerAddress @"http://tys-staging-api.snap.io"
+#define kProdSocketAddress @"https://tys-staging-api.snap.io:8080/faye"
 
 #endif
 

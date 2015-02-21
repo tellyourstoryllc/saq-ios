@@ -105,7 +105,7 @@
     self.minRecordingDuration = 0.5f;
 
     [self.publishButton setBorderWithColor:[UIColor clearColor] width:0];
-    self.publishButtonColor = COLOR(greenColor);
+    self.publishButton.buttonColor = COLOR(greenColor);
 
     [self.recordButton setImage:nil forState:UIControlStateNormal];
     self.recordButtonRadius = 40;
@@ -137,7 +137,7 @@
     self.playButton.highlightedColor = COLOR(orangeColor);
     self.playButton.selectedColor = [COLOR(darkGrayColor) colorWithAlphaComponent:0.3];
 
-    self.recordButtonColor = [COLOR(redColor) colorWithAlphaComponent:1.0];
+    self.recordButton.buttonColor = COLOR(redColor);
 
     self.viewportBackgroundColor = COLOR(blackColor);
 
@@ -223,6 +223,7 @@
         self.rawScreenshot = snap;
     }];
 
+    [[AppViewController sharedAppViewController] setCarouselEnabled:NO];
     PNLOG(@"video_start_recording");
 }
 
@@ -239,6 +240,9 @@
     [self configureButtons];
 
     self.recordButton.enabled = NO;
+
+    [[AppViewController sharedAppViewController] setCarouselEnabled:YES];
+
 }
 
 - (void) didAbortRecording {
@@ -248,17 +252,18 @@
     self.recordPressGesture.minimumPressDuration = 0.3;
     self.isVineRecording = NO;
     [self configureButtons];
+    [[AppViewController sharedAppViewController] setCarouselEnabled:YES];
 }
 
 - (void) didFinishVideoPlayback {
-    [super didFinishVideoPlayback];
-    // Keep looping
+    // Reset to beginning, but DON'T replay
+    self.playButton.selected = NO;
     self.player.currentPlaybackTime = 0.0;
-    [self.player play];
+    NSLog(@"DONE? %@", self.playButton);
 }
 
 - (void) willStartPreviewing {
-    self.recordButton.buttonColor = self.recordButtonColor;
+    self.recordButton.buttonColor = COLOR(redColor);
 }
 
 - (void)startPreviewWithCompletion:(void (^)(BOOL success))completion {

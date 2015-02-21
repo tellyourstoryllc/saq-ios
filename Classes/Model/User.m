@@ -41,7 +41,7 @@
 }
 
 + (User*)me {
-    return [self meInContext:[App moc]];
+    return [[Api sharedApi] currentUser] ?: [self meInContext:[App moc]];
 }
 
 + (User*)meInContext:(NSManagedObjectContext*)moc {

@@ -26,15 +26,15 @@
 + (AppViewController*)sharedAppViewController;
 
 - (void) resetUI;
+- (void) setCarouselEnabled:(BOOL)enabled;
 
 - (void) openMyStory;
 - (void) openPeople;
 - (void) openGroup:(Group*)group;
-
 - (void) openSettings;
 
 - (void) checkinUsingFastApi:(BOOL)useFastApi callback:(void (^)(NSError* error))callback;
-
 - (void) emitCommandsForPushOptions:(NSDictionary*)options;
+
 
 @end

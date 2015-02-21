@@ -83,14 +83,15 @@ typedef void(^PushPermissionCallback)(NSData* token);
             self.skipAlert = YES;
 
             NSString* permissionRequestTitle = @"Allow Push Notifications";
-            NSString* permissionRequestMessage = [NSString stringWithFormat:@"Please allow notifications so you can be notified of new snaps and stories."];
+            NSString* permissionRequestMessage = [NSString stringWithFormat:@"This app works better if you enable notifications."];
 
             PNUIAlertView* alert = [[PNUIAlertView alloc] initWithTitle:permissionRequestTitle
                                                                 message:permissionRequestMessage
-                                                         andButtonArray:@[@"OK"]];
+                                                         andButtonArray:@[@"OK", @"Not now"]];
 
             [alert showWithCompletion:^(NSInteger buttonIndex) {
-                registerBlock();
+                if (buttonIndex == 0)
+                    registerBlock();
             }];
         }
         else {

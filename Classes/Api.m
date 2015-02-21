@@ -143,6 +143,7 @@
         self.fayeQueue = dispatch_queue_create("com.perceptualnet.api.faye", DISPATCH_QUEUE_SERIAL);
         self.fayeIncomingMessages = [NSMutableArray new];
         self.jsonProcessor = [JSONProcessor singleton];
+        self.currentUser = [User meInContext:[App managedObjectContext]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onLogin) name:kLoginStateNotification object:nil];
     }
     return self;
@@ -237,11 +238,16 @@
         }
 
         if(user && [user token]) {
-            NSLog(@"AUTH user: %@", user);
-            [App setPreference:@"user_id" object:user.id];
-            [App setPreference:@"username" object:user.username];
-            [App setPreference:@"token" object:user.token];
-            [[Api sharedApi] setCurrentUser:user];
+            __block UserID* userObjId = user.objectID;
+            NSManagedObjectContext* context = [App managedObjectContext];
+            [context performBlockAndWait:^{
+                User* user = (User*)[context objectWithID:userObjId];
+                [App setPreference:@"user_id" object:user.id];
+                [App setPreference:@"username" object:user.username];
+                [App setPreference:@"token" object:user.token];
+                [[Api sharedApi] setCurrentUser:user];
+                NSLog(@"AUTH user: %@", user);
+            }];
             if (completion) completion(entities, responseObject, error, YES);
 
         } else {

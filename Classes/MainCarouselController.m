@@ -74,7 +74,7 @@
 
 - (void) viewDidLoad {
     [super viewDidLoad];
-    self.tabView.frame = CGRectSetBottomLeft(0, self.view.frame.size.height, CGRectMake(0, 0, self.view.frame.size.width, 35));
+    self.tabView.frame = CGRectSetBottomLeft(0, self.view.frame.size.height, CGRectMake(0, 0, self.view.frame.size.width, 40));
 
     // This sets the initial carousel panel of the application:
     self.carousel.currentItemIndex = 1;
@@ -201,6 +201,17 @@
        didShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
     [self updateTabView];
+}
+
+- (void) setScrollEnabled:(BOOL)enabled {
+    if (enabled) {
+        self.carousel.scrollEnabled = YES;
+        self.tabView.userInteractionEnabled = YES;
+    }
+    else {
+        self.carousel.scrollEnabled = NO;
+        self.tabView.userInteractionEnabled = NO;
+    }
 }
 
 @end
