@@ -13,15 +13,6 @@
 #import "AlertView.h"
 #import "StatusView.h"
 #import "PNCircularProgressView.h"
-
-#import "PNImageMultiplyFilter.h"
-#import "PNVerticalMirrorFilter.h"
-#import "PNHorizontalMirrorFilter.h"
-#import "PNKaleidoscopeFilter.h"
-#import "MultiBulgeFilter.h"
-#import "PNPixellateFilter.h"
-#import "PNContrastLevelsColorFilter.h"
-
 #import "ArrowBox.h"
 
 @interface BaseCamera() {
@@ -30,16 +21,10 @@
 }
 
 @property (nonatomic, assign) BOOL skipMicrophoneWarning;
-
 @property (nonatomic, strong) PNCircularProgressView* circleProgress;
-
 @property (nonatomic, strong) UITapGestureRecognizer* doubleTapGesture;
-
-@property (nonatomic, assign) BOOL isVineRecording;
 @property (nonatomic, assign) BOOL isSnapping;
-
 @property (nonatomic, assign) CGFloat savedBrightness;
-
 @end
 
 @implementation BaseCamera
@@ -57,19 +42,8 @@
 
     return @[
              [GPUImageCropFilter class],
-             [GPUImagePixellateFilter class],
-
-//             @{@"PNCompoundImageFilter":
-//                   @{@"filters":
-//                         @[
-//                             @{@"GPUImageGrayscaleFilter":@{}},
-//                             @{@"GPUImagePosterizeFilter":@{@"colorLevels":@(1)}},
-//                             @{@"GPUImagePixellateFilter":@{@"fractionalWidthOfAPixel":@(.025)}},
-//                             ]
-//                     }
-//               },
-//
-             ];
+             self.eyeFilter,
+             [GPUImagePixellateFilter class]];
 }
 
 - (NSDictionary*)filterParams {
@@ -87,6 +61,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 
+    self.detectFaces = YES;
     self.resumeRecordingDelay = 0.1;
     self.cropToSquare = YES;
     self.showFlipButton = NO;
@@ -108,20 +83,17 @@
     self.publishButton.buttonColor = COLOR(greenColor);
 
     [self.recordButton setImage:nil forState:UIControlStateNormal];
+    [self.recordButton setImage:[UIImage imageNamed:@"stop-icon"] forState:UIControlStateSelected];
     self.recordButtonRadius = 40;
     self.recordButton.cornerRadius = 40;
     self.recordButton.disabledColor = COLOR(grayColor);
+    self.recordButton.selectedColor = COLOR(grayColor);
     self.recordButton.enabled = NO;
 
     [self.cancelButton setImage:[UIImage tintedImageNamed:@"x" color:COLOR(whiteColor)] forState:UIControlStateNormal];
     self.cancelButton.buttonColor = [COLOR(blackColor) colorWithAlphaComponent:0.66];
 
     [self.discardButton setImage:[UIImage tintedImageNamed:@"x" color:COLOR(whiteColor)] forState:UIControlStateNormal];
-
-//    self.stopRecordingButton.frame = CGRectMake(0,0,60,60);
-//    [self.stopRecordingButton setImage:nil forState:UIControlStateNormal];
-//    self.stopRecordingButton.buttonColor = COLOR(purpleColor);
-//    self.stopRecordingButton.alpha = 0.8;
 
     self.snapshotView = [[UIImageView alloc] initWithFrame:self.bounds];
     [self.composeView addSubview:self.snapshotView];
@@ -184,6 +156,12 @@
 
     self.savedBrightness = [[UIScreen mainScreen] brightness];
 
+    // Audio filtering
+    self.audioFilter = [BaseAudioFilter new];
+    [self setAudioFilteringBlock:^(AudioBuffer audioBuffer) {
+        [weakSelf.audioFilter processAudioData:audioBuffer];
+    }];
+
     return self;
 }
 
@@ -192,10 +170,23 @@
     CGRect b = self.bounds;
 
     self.circleProgress.frame = CGRectInset(self.recordButton.frame, -20, -20);
-    self.stopRecordingButton.center = self.recordButton.center;
 
     self.snapshotView.frame = b;
     self.composeView.frame = self.cameraView.frame;
+}
+
+- (EyeMaskFilter*)eyeFilter {
+    if (!_eyeFilter) {
+        _eyeFilter = [EyeMaskFilter new];
+        _eyeFilter.eyeSize = .28f;
+        _eyeFilter.eyeFadeStartRadius = 0.8f;
+
+        __weak BaseCamera* weakSelf = self;
+        [self addFaceUpdateCallback:^(CIFaceFeature *face, CGRect clap, UIDeviceOrientation orientation) {
+            [weakSelf.eyeFilter updateFace:face forClap:clap andOrientation:orientation];
+        }];
+    }
+    return _eyeFilter;
 }
 
 - (void) didStartRecording {
@@ -210,29 +201,9 @@
     [self configureButtons];
 }
 
-- (void) startVineRecording {
-    if (self.isVineRecording) return;
-
-    self.isVineRecording = YES;
-    [self resumeRecording];
-
-    self.recordButton.buttonColor = COLOR(darkGrayColor);
-    [self.recordButton.layer removeAllAnimations];
-
-    [self unfilteredScreenshotWithCompletion:^(UIImage *snap) {
-        self.rawScreenshot = snap;
-    }];
-
-    [[AppViewController sharedAppViewController] setCarouselEnabled:NO];
-    PNLOG(@"video_start_recording");
-}
-
 - (void) didStopRecording {
 
-    if (self.isVineRecording) {
-        self.isVineRecording = NO;
-        [self hideRecordingProgress];
-    }
+    [self hideRecordingProgress];
 
     AudioServicesPlaySystemSound(myStopSoundID);
 
@@ -240,9 +211,9 @@
     [self configureButtons];
 
     self.recordButton.enabled = NO;
+    self.recordButton.selected = NO;
 
     [[AppViewController sharedAppViewController] setCarouselEnabled:YES];
-
 }
 
 - (void) didAbortRecording {
@@ -250,7 +221,6 @@
     self.circleProgress.alpha = 0.0;
     self.circleProgress.hidden = YES;
     self.recordPressGesture.minimumPressDuration = 0.3;
-    self.isVineRecording = NO;
     [self configureButtons];
     [[AppViewController sharedAppViewController] setCarouselEnabled:YES];
 }
@@ -259,7 +229,6 @@
     // Reset to beginning, but DON'T replay
     self.playButton.selected = NO;
     self.player.currentPlaybackTime = 0.0;
-    NSLog(@"DONE? %@", self.playButton);
 }
 
 - (void) willStartPreviewing {
@@ -269,10 +238,8 @@
 - (void)startPreviewWithCompletion:(void (^)(BOOL success))completion {
     void (^completionBlock)(BOOL) = ^(BOOL suc) {
         [self configureButtons];
-        [self startRecordingWithCompletion:^(BOOL success) {
-            if (completion) completion(success);
-            self.recordButton.enabled = YES;
-        }];
+        if (completion) completion(suc);
+        self.recordButton.enabled = YES;
     };
 
     self.recordingPaused = YES;
@@ -285,7 +252,7 @@
 }
 
 - (void)updateForRecordingTime:(NSTimeInterval)currentSeconds {
-    self.stopRecordingButton.hidden = currentSeconds == 0.0 || (1.0*currentSeconds < self.minRecordingDuration);
+    self.recordButton.selected = self.isRecording ? 1.0*currentSeconds > self.minRecordingDuration : NO;
 }
 
 - (void)recordPressed:(UILongPressGestureRecognizer *)gesture {
@@ -295,10 +262,20 @@
 }
 
 - (void)recordTapped {
-    if (!self.isVineRecording) {
+    if (!self.isRecording) {
+
+        [[AppViewController sharedAppViewController] setCarouselEnabled:NO];
+
+        self.recordButton.buttonColor = COLOR(darkGrayColor);
+        [self.recordButton.layer removeAllAnimations];
+
+        [self unfilteredScreenshotWithCompletion:^(UIImage *snap) {
+            self.rawScreenshot = snap;
+        }];
+
         [self startRecordingWithCompletion:^(BOOL success) {
             [self showRecordingProgress];
-            [self startVineRecording];
+            [self resumeRecording];
         }];
     }
     else {
@@ -310,11 +287,6 @@
     if (gesture.state == UIGestureRecognizerStateEnded) {
         [self swapCameraWithCompletion:nil];
     }
-}
-
-- (void) didSwipeToFilter:(GPUImageOutput<GPUImageInput> *)filter {
-    PNLOG(@"switch_filter");
-    [[PNUserPreferences shared] setPreference:@"camcorder_last_filter_index" object:@(self.currentFilterIndex)];
 }
 
 - (NSUInteger) frameRate {
@@ -365,10 +337,6 @@
 }
 
 - (void) configureButtons {
-
-//    self.stopRecordingButton.hidden = !self.isRecording || !self.recordingPaused;
-
-    self.swapCameraButton.hidden = self.isComposing;
     self.discardButton.hidden = !self.isComposing;
 }
 

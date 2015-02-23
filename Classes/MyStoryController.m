@@ -64,7 +64,7 @@
     CGRect b = self.view.bounds;
     __weak MyStoryController* weakSelf = self;
 
-    self.view.backgroundColor = COLOR(whiteColor);
+    self.view.backgroundColor = COLOR(defaultBackgroundColor);
 
     self.activateButton = [[PNButton alloc] initWithFrame: CGRectMake(0,0,100,100)];
     self.activateButton.buttonColor = COLOR(blackColor);
@@ -99,7 +99,7 @@
 
     self.soundSwitch = [UISwitch new];
     [self.recorderView addSubview:self.soundSwitch];
-    [self.soundSwitch addTarget:self action:@selector(onSound) forControlEvents:UIControlEventValueChanged];
+    [self.soundSwitch addTarget:self action:@selector(onSoundSwitch) forControlEvents:UIControlEventValueChanged];
 
 //    self.soundButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,100,50)];
 //    [self.soundButton setBorderWithColor:COLOR(blackColor) width:1.0];
@@ -197,12 +197,9 @@
     self.statusLabel.font = FONT_B(18);
     [self.storyView addSubview:self.statusLabel];
 
-    [self.KVOController observe:self.camera keyPath:@"isRecording" options:NSKeyValueObservingOptionNew
-                          block:^(id observer, id object, NSDictionary *change) {
-                              [weakSelf configureView];
-                          }];
-
-    [self.KVOController observe:self.camera keyPath:@"isComposing" options:NSKeyValueObservingOptionNew
+    [self.KVOController observe:self.camera
+                       keyPaths:@[@"isRecording", @"isPreviewing", @"isComposing"]
+                        options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
                               [weakSelf configureView];
                           }];
@@ -228,15 +225,15 @@
     [self onSound];
     [self onFilter];
 
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if (authStatus == AVAuthorizationStatusAuthorized) {
-        self.activateButton.hidden = YES;
-        self.camera.alpha = 1.0;
-        if (!self.camera.isComposing)
-            [self.camera startPreview];
-    }
-    else {
-        [self.activateButton setTitle:@"START ❭" forState:UIControlStateNormal];
+    if (!self.camera.isComposing) {
+        BOOL started = [self.camera startPreviewIfAuthorized];
+        if (started) {
+            self.activateButton.hidden = YES;
+            self.camera.alpha = 1.0;
+        }
+        else {
+            [self.activateButton setTitle:@"START ❭" forState:UIControlStateNormal];
+        }
     }
 }
 
@@ -328,7 +325,7 @@
                           block:^(id observer, id object, NSDictionary *change) {
                               updateBlock(self.user);
                               if (!self.camera.isRecording && [self isViewVisible])
-                                  [self.camera startPreview];
+                                  [self.camera startPreviewIfAuthorized];
                           }];
 
     updateBlock(user);
@@ -379,10 +376,11 @@
     __weak MyStoryController* weakSelf = self;
 
     on_main(^{
-        weakSelf.filterLabel.hidden = !weakSelf.camera.isRecording;
-        weakSelf.filterSwitch.hidden = !weakSelf.camera.isRecording;
-        weakSelf.soundLabel.hidden = !weakSelf.camera.isRecording;
-        weakSelf.soundSwitch.hidden = !weakSelf.camera.isRecording;
+        BOOL hideControls = !weakSelf.camera.isRecording && !weakSelf.camera.isPreviewing;
+        weakSelf.filterLabel.hidden = hideControls;
+        weakSelf.filterSwitch.hidden = hideControls;
+        weakSelf.soundLabel.hidden = hideControls;
+        weakSelf.soundSwitch.hidden = hideControls;
 
         weakSelf.discardButton.hidden = !weakSelf.camera.isComposing;
         weakSelf.publishButton.hidden = !weakSelf.camera.isComposing;
@@ -420,7 +418,7 @@
 
 - (void)restoreCamera {
     if (!self.camera.isComposing)
-        [self.camera startPreview];
+        [self.camera startPreviewIfAuthorized];
 }
 
 #pragma mark camera delegate mathods
@@ -454,6 +452,20 @@
         self.camera.currentFilterIndex = 0;
         self.filterLabel.text = @"Blur face: OFF";
     }
+}
+
+- (void)onSoundSwitch {
+    if (self.soundSwitch.isOn) {
+        AlertView* av = [[AlertView alloc] initWithTitle:@"Disguise Voice" message:@"How do you want your voice altered?" andButtonArray:@[@"High pitch", @"Lower pitch"]];
+        [av showWithCompletion:^(NSInteger buttonIndex) {
+            if (buttonIndex == 0)
+                self.camera.audioFilter.pitchOne = 7;
+            else
+                self.camera.audioFilter.pitchOne = -5;
+        }];
+    }
+
+    [self onSound];
 }
 
 - (void)onSound {

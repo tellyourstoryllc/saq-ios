@@ -23,7 +23,6 @@
 #import "SavedApiRequest.h"
 #import "SVProgressHUD.h"
 #import "BlacklistedUsername.h"
-#import "PushPermissionManager.h"
 #import "AddressBookManager.h"
 
 @interface AppViewController ()

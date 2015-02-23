@@ -97,7 +97,7 @@
     [super viewDidAppear:animated];
 
     __weak BaseSnapCollectionViewController* weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([weakSelf isViewVisible]) {
             [weakSelf featureVideos];
         }
@@ -178,8 +178,12 @@ referenceSizeForFooterInSection:(NSInteger)section {
 }
 
 - (void)collectionDidChange {
-    if ([self isViewVisible])
-        [self featureVideos];
+    __weak BaseSnapCollectionViewController* weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([weakSelf isViewVisible]) {
+            [weakSelf featureVideos];
+        }
+    });
 };
 
 #pragma mark UIScrollViewDelegate methods
@@ -226,14 +230,10 @@ referenceSizeForFooterInSection:(NSInteger)section {
 
     if (activateCount > 0) {
         for (SnapCollectionCell* cell in unfeaturedCells) {
-            NSLog(@"ACTIVATE: %@", cell);
             [cell didBecomeFeatured];
             activateCount--;
             if (!activateCount) break;
         }
-    }
-    else {
-        NSLog(@"Count zero! %d %d %d", self.featuredVideoLimit, videoCells.count, unfeaturedCells.count);
     }
 }
 

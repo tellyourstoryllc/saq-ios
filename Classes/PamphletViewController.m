@@ -22,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = COLOR(defaultBackgroundColor);
+
     UIColor* navColor = COLOR(blueColor);
     UINavigationBar* navBar = self.navigationController.navigationBar;
     NSShadow* shadow = [NSShadow new];
@@ -38,13 +40,13 @@
     navBar.shadowImage = [UIImage new];
 
     self.navigationItem.title = @"Help";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Resources" style:UIBarButtonItemStylePlain target:nil action:nil];
+//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:nil action:nil];
 
     self.loginBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Sign In" style:UIBarButtonItemStylePlain target:self action:@selector(onLogin)];
     self.navigationItem.rightBarButtonItem = self.loginBarButton;
 
     self.body = [[PNRichLabel alloc] initWithFrame:CGRectMake(8, 70, self.view.bounds.size.width-16, self.view.bounds.size.height-70)];
-    self.body.text = @"If you are in danger, please <b><font color='#0000ff'><a href=tel:911>CALL 911</a></font></b>.<br><br>To speak to a sexual assault counselor, call <font color='#0000ff'><a href=tel:800-656-4673>800-656-4673</a></font><br><br>We need volunteers to help us screen videos.  To volunteer, email <font color='#0000ff'><a href=mailo:volunteer@tellyourstory.org>volunteer@tellyourstory.org</a></font><br><br>For technical assistance, email <font color='#0000ff'><a href=mailto:techsupport@tellyourstory.org>techsupport@tellyourstory.org</a></font>";
+    self.body.text = @"If you are in danger, please <b><font color='#09577A'><a href=tel:911>CALL 911</a></font></b>.<br><br>To speak to a sexual assault counselor, call <font color='#09577A'><a href=tel:800-656-4673>800-656-4673</a></font><br><br>We need volunteers to help us screen videos.  To volunteer, email <font color='#09577A'><a href=mailto:volunteer@tellyourstory.org>volunteer@tellyourstory.org</a></font><br><br>For technical assistance, email <a href=mailto:techsupport@tellyourstory.org><font color='#09577A'>techsupport@tellyourstory.org</font></a>";
     self.body.textColor = COLOR(blackColor);
     self.body.font = FONT(16);
     [self.view addSubview:self.body];

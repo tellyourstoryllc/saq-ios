@@ -46,7 +46,6 @@
 		34073CDA18CD493800104FE9 /* MultiBulgeFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34073CD918CD493800104FE9 /* MultiBulgeFilter.m */; };
 		34089D201892CECB00EEBD1A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 34089D1F1892CECB00EEBD1A /* Default.png */; };
 		34089D221892CED400EEBD1A /* Default-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 34089D211892CED400EEBD1A /* Default-568h.png */; };
-		340AEFFE1A88FF7D005AA632 /* LicensePlate.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 340AEFFD1A88FF7D005AA632 /* LicensePlate.ttf */; };
 		340AF0011A893254005AA632 /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340AF0001A893254005AA632 /* LoginController.m */; };
 		340AF0041A893260005AA632 /* SignupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340AF0031A893260005AA632 /* SignupController.m */; };
 		340AF0071A8934ED005AA632 /* MyStoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 340AF0061A8934ED005AA632 /* MyStoryController.m */; };
@@ -143,7 +142,6 @@
 		3428B3211A47AA5800F573A8 /* flag.png in Resources */ = {isa = PBXBuildFile; fileRef = 3428B31B1A47AA5800F573A8 /* flag.png */; };
 		3428B3221A47AA5800F573A8 /* flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3428B31C1A47AA5800F573A8 /* flag@2x.png */; };
 		3429331518FCEA1900076998 /* GroupChatBubble.m in Sources */ = {isa = PBXBuildFile; fileRef = 3429331418FCEA1900076998 /* GroupChatBubble.m */; };
-		3429331B18FDC35300076998 /* gtw.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3429331818FDC35300076998 /* gtw.otf */; };
 		34321F1F19EBC559002124AA /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34321F1E19EBC559002124AA /* MeViewController.m */; };
 		34321F2219EBCBF5002124AA /* AddStoryCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34321F2119EBCBF5002124AA /* AddStoryCollectionCell.m */; };
 		34321F2519ECC3E0002124AA /* PNVideoResampler.m in Sources */ = {isa = PBXBuildFile; fileRef = 34321F2419ECC3E0002124AA /* PNVideoResampler.m */; };
@@ -173,6 +171,8 @@
 		343CA58F19D22093002558DF /* InboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343CA58E19D22093002558DF /* InboxViewController.m */; };
 		343CA59219D220A1002558DF /* SnapCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 343CA59119D220A1002558DF /* SnapCollectionCell.m */; };
 		343CA59519D22473002558DF /* SnapCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 343CA59419D22473002558DF /* SnapCollectionLayout.m */; };
+		343E42D81A9B90DE00333C95 /* PNAudioFilteringMovieWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 343E42D71A9B90DE00333C95 /* PNAudioFilteringMovieWriter.m */; };
+		343E42DB1A9B955F00333C95 /* BaseAudioFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 343E42D91A9B955F00333C95 /* BaseAudioFilter.mm */; };
 		344090071A45B1C900928A79 /* SpinnerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 344090061A45B1C900928A79 /* SpinnerImageView.m */; };
 		3440900A1A45B54B00928A79 /* PNSimpleWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 344090091A45B54B00928A79 /* PNSimpleWebView.m */; };
 		3440DA72195DEB3D002648DF /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 3440DA71195DEB3D002648DF /* UIImage+Resize.m */; };
@@ -330,6 +330,9 @@
 		3468AFA918BD3C9E002CC63B /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3468AF9F18BD3C9E002CC63B /* Lato-Regular.ttf */; };
 		3469ED7C18BC35B700967FDE /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3469ED7A18BC35B700967FDE /* EGOCache.m */; };
 		346A8EB61A55288C00265C55 /* UIView+PostStoryAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 346A8EB51A55288C00265C55 /* UIView+PostStoryAnimation.m */; };
+		346B38B91A9A5D9E00A6CC78 /* EyeMaskFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 346B38B81A9A5D9E00A6CC78 /* EyeMaskFilter.m */; };
+		346B38BC1A9B714700A6CC78 /* NovitoNova-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 346B38BA1A9B714700A6CC78 /* NovitoNova-Regular.otf */; };
+		346B38BD1A9B714700A6CC78 /* NovitoNova-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 346B38BB1A9B714700A6CC78 /* NovitoNova-Thin.otf */; };
 		346BC8101855279C00684DDD /* paper-clip.png in Resources */ = {isa = PBXBuildFile; fileRef = 346BC80E1855279C00684DDD /* paper-clip.png */; };
 		346BC8111855279C00684DDD /* paper-clip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 346BC80F1855279C00684DDD /* paper-clip@2x.png */; };
 		346BC81418552D7800684DDD /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 346BC81218552D7800684DDD /* plus.png */; };
@@ -729,7 +732,6 @@
 		34073CD918CD493800104FE9 /* MultiBulgeFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiBulgeFilter.m; sourceTree = "<group>"; };
 		34089D1F1892CECB00EEBD1A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		34089D211892CED400EEBD1A /* Default-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h.png"; sourceTree = "<group>"; };
-		340AEFFD1A88FF7D005AA632 /* LicensePlate.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LicensePlate.ttf; sourceTree = "<group>"; };
 		340AEFFF1A893254005AA632 /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		340AF0001A893254005AA632 /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
 		340AF0021A893260005AA632 /* SignupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupController.h; sourceTree = "<group>"; };
@@ -882,7 +884,6 @@
 		3428B31C1A47AA5800F573A8 /* flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flag@2x.png"; sourceTree = "<group>"; };
 		3429331318FCEA1900076998 /* GroupChatBubble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupChatBubble.h; sourceTree = "<group>"; };
 		3429331418FCEA1900076998 /* GroupChatBubble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupChatBubble.m; sourceTree = "<group>"; };
-		3429331818FDC35300076998 /* gtw.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = gtw.otf; sourceTree = "<group>"; };
 		3429332218FEB0AC00076998 /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GPUImage.framework; path = Dependencies/PNetGPUImage/build/GPUImage.framework; sourceTree = "<group>"; };
 		34321F1D19EBC559002124AA /* MeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeViewController.h; sourceTree = "<group>"; };
 		34321F1E19EBC559002124AA /* MeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeViewController.m; sourceTree = "<group>"; };
@@ -938,6 +939,10 @@
 		343CA59119D220A1002558DF /* SnapCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapCollectionCell.m; sourceTree = "<group>"; };
 		343CA59319D22473002558DF /* SnapCollectionLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnapCollectionLayout.h; sourceTree = "<group>"; };
 		343CA59419D22473002558DF /* SnapCollectionLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnapCollectionLayout.m; sourceTree = "<group>"; };
+		343E42D61A9B90DE00333C95 /* PNAudioFilteringMovieWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNAudioFilteringMovieWriter.h; sourceTree = "<group>"; };
+		343E42D71A9B90DE00333C95 /* PNAudioFilteringMovieWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNAudioFilteringMovieWriter.m; sourceTree = "<group>"; };
+		343E42D91A9B955F00333C95 /* BaseAudioFilter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BaseAudioFilter.mm; sourceTree = "<group>"; };
+		343E42DA1A9B955F00333C95 /* BaseAudioFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseAudioFilter.h; sourceTree = "<group>"; };
 		344090051A45B1C900928A79 /* SpinnerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpinnerImageView.h; sourceTree = "<group>"; };
 		344090061A45B1C900928A79 /* SpinnerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpinnerImageView.m; sourceTree = "<group>"; };
 		344090081A45B54B00928A79 /* PNSimpleWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNSimpleWebView.h; sourceTree = "<group>"; };
@@ -1237,6 +1242,10 @@
 		3469ED7A18BC35B700967FDE /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		346A8EB41A55287300265C55 /* UIView+PostStoryAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+PostStoryAnimation.h"; sourceTree = "<group>"; };
 		346A8EB51A55288C00265C55 /* UIView+PostStoryAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PostStoryAnimation.m"; sourceTree = "<group>"; };
+		346B38B71A9A5D9E00A6CC78 /* EyeMaskFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EyeMaskFilter.h; sourceTree = "<group>"; };
+		346B38B81A9A5D9E00A6CC78 /* EyeMaskFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EyeMaskFilter.m; sourceTree = "<group>"; };
+		346B38BA1A9B714700A6CC78 /* NovitoNova-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NovitoNova-Regular.otf"; sourceTree = "<group>"; };
+		346B38BB1A9B714700A6CC78 /* NovitoNova-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NovitoNova-Thin.otf"; sourceTree = "<group>"; };
 		346BC80E1855279C00684DDD /* paper-clip.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paper-clip.png"; sourceTree = "<group>"; };
 		346BC80F1855279C00684DDD /* paper-clip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "paper-clip@2x.png"; sourceTree = "<group>"; };
 		346BC81218552D7800684DDD /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
@@ -2163,6 +2172,8 @@
 		344365B9182EC19E009D72A6 /* AudioProcessing */ = {
 			isa = PBXGroup;
 			children = (
+				343E42D61A9B90DE00333C95 /* PNAudioFilteringMovieWriter.h */,
+				343E42D71A9B90DE00333C95 /* PNAudioFilteringMovieWriter.m */,
 				34EA290A1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.h */,
 				34EA290B1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.mm */,
 			);
@@ -2290,6 +2301,8 @@
 		344365EA182EC19E009D72A6 /* Filters */ = {
 			isa = PBXGroup;
 			children = (
+				346B38B71A9A5D9E00A6CC78 /* EyeMaskFilter.h */,
+				346B38B81A9A5D9E00A6CC78 /* EyeMaskFilter.m */,
 				344DF3791A9857DE00764BFF /* EyeMaskManager.h */,
 				344DF37A1A9857DE00764BFF /* EyeMaskManager.m */,
 				344365EB182EC19E009D72A6 /* GlamourFilter.h */,
@@ -2620,7 +2633,6 @@
 		3468AF5718BD35D5002CC63B /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3429331818FDC35300076998 /* gtw.otf */,
 				3468AF9618BD3C9E002CC63B /* Lato-Black.ttf */,
 				3468AF9718BD3C9E002CC63B /* Lato-BlackItalic.ttf */,
 				3468AF9818BD3C9E002CC63B /* Lato-Bold.ttf */,
@@ -2631,10 +2643,11 @@
 				3468AF9D18BD3C9E002CC63B /* Lato-Light.ttf */,
 				3468AF9E18BD3C9E002CC63B /* Lato-LightItalic.ttf */,
 				3468AF9F18BD3C9E002CC63B /* Lato-Regular.ttf */,
-				340AEFFD1A88FF7D005AA632 /* LicensePlate.ttf */,
 				3479075419267AA700092595 /* Roboto-Bold.ttf */,
 				3479075519267AA700092595 /* Roboto-BoldCondensed.ttf */,
 				3479075619267AA700092595 /* Roboto-Light.ttf */,
+				346B38BA1A9B714700A6CC78 /* NovitoNova-Regular.otf */,
+				346B38BB1A9B714700A6CC78 /* NovitoNova-Thin.otf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -2803,6 +2816,8 @@
 				34E28D0E1A51EAE600900979 /* MessagePublishView.m */,
 				34FB610F19EEB1BE0079F3D0 /* StoryCamera.h */,
 				34FB611019EEB1BE0079F3D0 /* StoryCamera.m */,
+				343E42D91A9B955F00333C95 /* BaseAudioFilter.mm */,
+				343E42DA1A9B955F00333C95 /* BaseAudioFilter.h */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -3787,6 +3802,7 @@
 				34DD171F1841B8BD0018DA9F /* eraser.png in Resources */,
 				34B1AF6918E942DA00CB47B4 /* flash-off@2x.png in Resources */,
 				34DD17251841B8BD0018DA9F /* undo.png in Resources */,
+				346B38BD1A9B714700A6CC78 /* NovitoNova-Thin.otf in Resources */,
 				3400A456194632FF00D020A5 /* top-bubble-left-mask.png in Resources */,
 				34E76E0118F9B564009F19F6 /* repost@2x.png in Resources */,
 				34D438141A854DF8003C88A6 /* knowme-bw2.png in Resources */,
@@ -3834,7 +3850,6 @@
 				34B1AF5F18E88AD300CB47B4 /* repeat@2x.png in Resources */,
 				34E76E0818F9B603009F19F6 /* timer.png in Resources */,
 				34436644182EC19E009D72A6 /* camera-icon@2x.png in Resources */,
-				340AEFFE1A88FF7D005AA632 /* LicensePlate.ttf in Resources */,
 				344D84241900DC3E00095489 /* volume@2x.png in Resources */,
 				3479075719267AA700092595 /* Roboto-Bold.ttf in Resources */,
 				3428B3221A47AA5800F573A8 /* flag@2x.png in Resources */,
@@ -3891,6 +3906,7 @@
 				3400A457194632FF00D020A5 /* top-bubble-left-mask@2x.png in Resources */,
 				34073CBF18CCF07700104FE9 /* squirrel@2x.png in Resources */,
 				34DD172E1841D1E40018DA9F /* video_camera@2x.png in Resources */,
+				346B38BC1A9B714700A6CC78 /* NovitoNova-Regular.otf in Resources */,
 				343996AB190DBDFE00AF8AA8 /* stop-icon@2x.png in Resources */,
 				3477B22218D180D600350B41 /* down.png in Resources */,
 				3468AFA818BD3C9E002CC63B /* Lato-LightItalic.ttf in Resources */,
@@ -3963,7 +3979,6 @@
 				34073CBD18CCF07700104FE9 /* human@2x.png in Resources */,
 				34A889A218E100CD00A452D4 /* pncamcorder-record-start.wav in Resources */,
 				34E76E1818FA48C8009F19F6 /* tag-filled@2x.png in Resources */,
-				3429331B18FDC35300076998 /* gtw.otf in Resources */,
 				3428B31F1A47AA5800F573A8 /* link.png in Resources */,
 				34A889A418E100CD00A452D4 /* pncamcorder-shutter.wav in Resources */,
 				3468AFA118BD3C9E002CC63B /* Lato-BlackItalic.ttf in Resources */,
@@ -4150,6 +4165,7 @@
 				C5F33217183AB191008A0659 /* MessageTableCell.m in Sources */,
 				347D6C5C18F67FA50039F3B1 /* UIButton+WebCache.m in Sources */,
 				340CE733185220CE00BA2C89 /* AlertView.m in Sources */,
+				346B38B91A9A5D9E00A6CC78 /* EyeMaskFilter.m in Sources */,
 				3443666E182EC19F009D72A6 /* PNAPIAdapter.m in Sources */,
 				34D4380E1A84B419003C88A6 /* CEPanAnimationController.m in Sources */,
 				34436740182EC735009D72A6 /* UIToolbar+FlatUI.m in Sources */,
@@ -4336,6 +4352,7 @@
 				34E1DFD81846695100095944 /* BasePanel.m in Sources */,
 				3443673F182EC735009D72A6 /* UITableViewCell+FlatUI.m in Sources */,
 				34CBBB5B18D235B8004F2D89 /* _DeletedGroup.m in Sources */,
+				343E42DB1A9B955F00333C95 /* BaseAudioFilter.mm in Sources */,
 				342735461A3FE93D003C1C94 /* BitmapCropManipulator.m in Sources */,
 				3423E3811868008000229E0A /* GraphicsSettingsCell.m in Sources */,
 				34D4C12B18F061CE001403F7 /* PNProgress.m in Sources */,
@@ -4363,6 +4380,7 @@
 				34D232381883C75C00DC9E9E /* RHAddressBookGeoResult.m in Sources */,
 				343CA59219D220A1002558DF /* SnapCollectionCell.m in Sources */,
 				34436795182EC79D009D72A6 /* RegexKitLite.m in Sources */,
+				343E42D81A9B90DE00333C95 /* PNAudioFilteringMovieWriter.m in Sources */,
 				344F1FBC1A64ECBC00470056 /* NSObject+FBKVOController.m in Sources */,
 				347D6C5E18F67FA50039F3B1 /* UIImage+MultiFormat.m in Sources */,
 				34DEAE2918BAE2B000D17359 /* _UserGroupPreference.m in Sources */,

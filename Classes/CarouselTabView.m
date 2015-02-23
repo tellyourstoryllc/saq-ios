@@ -27,7 +27,7 @@
     self.meButton.disabledColor = COLOR(greenColor);
     [self.meButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onMe)]];
     [self.meButton setImage:[UIImage tintedImageNamed:@"record" color:[self.meButton.disabledColor darken:15]] forState:UIControlStateNormal];
-    [self.meButton setImage:[UIImage tintedImageNamed:@"record" color:COLOR(grayColor)] forState:UIControlStateDisabled];
+    [self.meButton setImage:[UIImage tintedImageNamed:@"record" color:COLOR(whiteColor)] forState:UIControlStateDisabled];
     [self addSubview:self.meButton];
 
     self.peopleButton = [PNButton new];

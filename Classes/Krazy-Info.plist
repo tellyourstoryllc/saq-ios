@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>10002</string>
+	<string>10003</string>
 	<key>FacebookAppID</key>
 	<string>534147816693934</string>
 	<key>LSApplicationCategoryType</key>
@@ -69,11 +69,11 @@
 		<string>Lato-Light.ttf</string>
 		<string>Lato-LightItalic.ttf</string>
 		<string>Lato-Regular.ttf</string>
-		<string>gtw.otf</string>
 		<string>Roboto-Bold.ttf</string>
 		<string>Roboto-BoldCondensed.ttf</string>
 		<string>Roboto-Light.ttf</string>
-		<string>LicensePlate.ttf</string>
+		<string>NovitoNova-Regular.otf</string>
+		<string>NovitoNova-Thin.otf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

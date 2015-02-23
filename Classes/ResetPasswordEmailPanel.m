@@ -17,7 +17,6 @@
 #import "AlertView.h"
 #import "PNUserPreferences.h"
 #import "SSKeychain.h"
-#import "PushPermissionManager.h"
 #import "UILabel+FadeEffect.h"
 
 @interface ResetPasswordEmailPanel() <UITextFieldDelegate>

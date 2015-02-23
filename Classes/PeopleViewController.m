@@ -326,7 +326,6 @@
     if (_itemChanges.count) {
         [self.collection reloadData];
         [self collectionDidChange];
-        [self featureVideos];
     }
 
     _itemChanges = nil;

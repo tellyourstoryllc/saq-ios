@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "PNCamera.h"
-#import "iCarousel.h"
+#import "BaseAudioFilter.h"
+#import "EyeMaskFilter.h"
 
 @class CameraController;
 
 @interface BaseCamera : PNCamera
+
+@property (nonatomic, strong) BaseAudioFilter* audioFilter;
+@property (nonatomic, strong) EyeMaskFilter* eyeFilter;
 
 @property (nonatomic, strong) UIImageView* snapshotView;
 @property (nonatomic, strong) UIImage* rawScreenshot;
@@ -20,7 +24,6 @@
 @property (nonatomic, assign) id<UIImagePickerControllerDelegate,UINavigationControllerDelegate> pickerDelegate;
 
 - (void) configureButtons;
-- (void) startVineRecording;
 - (UIImage*) scaleImageToFillView:(UIImage*)image;
 
 @end
