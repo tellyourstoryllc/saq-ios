@@ -31,6 +31,7 @@
 @property (nonatomic, assign) BOOL isLoading;
 @property (nonatomic, assign) BOOL shouldStartPlaying;
 
+
 @end
 
 @implementation VideoCardView
@@ -118,6 +119,12 @@
         self.isPlaying = YES;
         self.avPlayer.muted = !self.snapCard.audioEnabled;
         self.screenshotView.hidden = YES;
+
+        if (CMTIME_IS_VALID(self.snapCard.shouldStartPlayingAtTime)) {
+            [self.avPlayer seekToTime:self.snapCard.shouldStartPlayingAtTime];
+            self.snapCard.shouldStartPlayingAtTime = CMTimeMake(0, -1);
+        }
+
         [self.avPlayer play];
         self.shouldStartPlaying = NO;
         self.playbackTimer = self.playbackTimer ?: [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(playbackTicked:) userInfo:nil repeats:YES];
@@ -158,6 +165,7 @@
 
             if (!weakSelf.avPlayer) {
                 weakSelf.avPlayer = [AVPlayer playerWithPlayerItem:weakSelf.avPlayerItem];
+                weakSelf.snapCard.videoPlayer = weakSelf.avPlayer;
                 [weakSelf subscribeToNotifications];
             }
             else {
@@ -383,6 +391,7 @@
     [self.avPlayer removeObserver:self forKeyPath:@"status"];
     self.avPlayer = nil;
     self.avPlayerItem = nil;
+    self.snapCard.videoPlayer = nil;
     [self.playbackTimer invalidate];
 }
 

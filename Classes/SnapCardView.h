@@ -71,6 +71,8 @@
 @property (nonatomic, strong) UIView* optionView;
 @property (nonatomic, strong) PNButton* thanksButton;
 
+@property (nonatomic, assign) AVPlayer* videoPlayer;
+
 @property (nonatomic, assign) BOOL videoEnabled;
 @property (nonatomic, assign) BOOL audioEnabled;
 
@@ -87,6 +89,8 @@
 
 @property (nonatomic, readonly) BOOL hasImage;
 @property (nonatomic, readonly) BOOL hasVideo;
+
+@property (nonatomic, assign) CMTime shouldStartPlayingAtTime;
 
 - (void)hideControls;
 - (void)unhideControls;

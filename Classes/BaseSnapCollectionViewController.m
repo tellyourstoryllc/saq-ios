@@ -13,6 +13,7 @@
 @interface BaseSnapCollectionViewController ()
 
 @property (nonatomic, weak) SkyMessage* lastFeaturedStory;
+@property (nonatomic, assign) CMTime lastFeaturedStoryTime;
 
 @end
 
@@ -102,7 +103,8 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([weakSelf isViewVisible]) {
             if (weakSelf.lastFeaturedStory) {
-                [weakSelf featureStory:self.lastFeaturedStory];
+                SnapCollectionCell* cell = [weakSelf featureStory:self.lastFeaturedStory];
+                cell.card.shouldStartPlayingAtTime = weakSelf.lastFeaturedStoryTime;
             }
             else
                 [weakSelf featureVideos];
@@ -113,6 +115,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     SnapCollectionCell* cell = (SnapCollectionCell*)[[self featuringVideos] firstObject];
     self.lastFeaturedStory = cell.card.message;
+    self.lastFeaturedStoryTime = cell.card.videoPlayer.currentTime;
     [self unfeatureVideos];
 }
 
@@ -289,13 +292,14 @@ referenceSizeForFooterInSection:(NSInteger)section {
     }
 }
 
-- (void)featureStory:(SkyMessage*)target {
+- (SnapCollectionCell*)featureStory:(SkyMessage*)target {
     for (SnapCollectionCell* cell in [self visibleVideoCells]) {
         if ([cell.card.message isEqual:target]) {
             [cell didBecomeFeatured];
-            break;
+            return cell;
         }
     }
+    return nil;
 }
 
 - (NSArray*)visibleVideoCells {

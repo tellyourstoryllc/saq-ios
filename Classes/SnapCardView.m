@@ -5,7 +5,6 @@
 
 #import "SnapCardView.h"
 #import "Story.h"
-
 #import "PhotoCardView.h"
 #import "VideoCardView.h"
 #import "TextCardView.h"
@@ -18,9 +17,10 @@
     int _cachedHasVideo;
 }
 
-@property(nonatomic, retain) PhotoCardView* photoCard;
-@property(nonatomic, retain) VideoCardView* videoCard;
-@property(nonatomic, retain) TextCardView* textCard;
+@property (nonatomic, retain) PhotoCardView* photoCard;
+@property (nonatomic, retain) VideoCardView* videoCard;
+@property (nonatomic, retain) TextCardView* textCard;
+
 @end
 
 @implementation SnapCardView
@@ -173,6 +173,12 @@
     [self.photoCard setContentMode:contentMode];
     [self.videoCard setContentMode:contentMode];
     [self.textCard setContentMode:contentMode];
+}
+
+- (void)setShouldStartPlayingAtTime:(CMTime)shouldStartPlayingAtTime {
+    _shouldStartPlayingAtTime = shouldStartPlayingAtTime;
+    if (CMTIME_IS_VALID(shouldStartPlayingAtTime))
+        [self.videoPlayer seekToTime:shouldStartPlayingAtTime];
 }
 
 - (void)updateContentWithFetch:(BOOL)fetchIfUnknown
