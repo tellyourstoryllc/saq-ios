@@ -173,11 +173,6 @@
         <attribute name="attachment_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="client_metadata" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
-            <userInfo>
-                <entry key="local" value="YES"/>
-            </userInfo>
-        </attribute>
         <attribute name="delivered_at" optional="YES" attributeType="Date" syncable="YES">
             <userInfo>
                 <entry key="local" value="YES"/>
@@ -197,7 +192,7 @@
             </userInfo>
         </attribute>
         <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="liked" optional="YES" attributeType="Boolean" syncable="YES">
+        <attribute name="liked" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
             <userInfo>
                 <entry key="local" value="YES"/>
             </userInfo>
@@ -205,6 +200,11 @@
         <attribute name="likes_count" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="link_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="obliterated" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES">
+            <userInfo>
+                <entry key="local" value="YES"/>
+            </userInfo>
+        </attribute>
         <attribute name="original_message_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rank" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
@@ -418,7 +418,7 @@
         <element name="Like" positionX="0" positionY="0" width="128" height="75"/>
         <element name="SavedApiRequest" positionX="0" positionY="0" width="128" height="238"/>
         <element name="SkyAccount" positionX="0" positionY="0" width="128" height="150"/>
-        <element name="SkyMessage" positionX="0" positionY="0" width="128" height="643"/>
+        <element name="SkyMessage" positionX="0" positionY="0" width="128" height="645"/>
         <element name="SkyTag" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Story" positionX="0" positionY="0" width="128" height="240"/>
         <element name="Theme" positionX="0" positionY="0" width="128" height="585"/>

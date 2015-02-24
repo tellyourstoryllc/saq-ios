@@ -67,7 +67,7 @@
 
         self.circleProgress = [[PNCircularProgressView alloc] initWithFrame:CGRectMake(0,0,b.size.width/3,b.size.width/3)];
         self.circleProgress.lineWidth = 3;
-        self.circleProgress.tintColor = COLOR(blackColor);
+        self.circleProgress.tintColor = COLOR(yellowColor);
         self.circleProgress.hidden = YES;
         [self addSubview:self.circleProgress];
 

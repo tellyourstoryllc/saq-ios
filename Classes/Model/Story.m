@@ -39,8 +39,8 @@
     }
 
     if (!self.expires_at) {
-        NSTimeInterval one_hour = 3600;
-        self.expires_at = [NSDate dateWithTimeIntervalSinceNow:one_hour];
+        NSTimeInterval five_minutes = 5*60;
+        self.expires_at = [NSDate dateWithTimeIntervalSinceNow:five_minutes];
     }
 
     // Delete placeholder
@@ -331,6 +331,17 @@
 
         [moc save:nil];
     }];
+}
+
++ (void)prune {
+    NSManagedObjectContext* context = [App privateManagedObjectContext];
+    NSArray* expired = [self findAllUsingPredicate:[NSPredicate predicateWithFormat:@"expires_at < %@" argumentArray:@[[NSDate date]]]
+                                         inContext:context];
+    for (Story* story in expired) {
+        [story delete];
+    }
+
+    [context saveToRootWithCompletion:nil];
 }
 
 - (void)delete {

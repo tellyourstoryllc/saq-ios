@@ -161,7 +161,7 @@
 
 - (void) updateNavBar {
     if (self.currentController == _myStory) {
-        self.navigationItem.title = @"Record Your Story";
+        self.navigationItem.title = @"Tell Your Story";
         if (self.me.registeredValue) {
             self.navigationItem.leftBarButtonItem = nil;
             self.navigationItem.rightBarButtonItem = self.optionsBarButton;
@@ -193,7 +193,7 @@
 
 - (void)onOptions {
 
-    NSMutableArray* buttons = [NSMutableArray new];
+    __block NSMutableArray* buttons = [NSMutableArray new];
     if ([[User me] last_story])
         [buttons addObject:@"Delete My Story"];
 
@@ -203,14 +203,18 @@
     PNActionSheet* as =
     [[PNActionSheet alloc] initWithTitle:nil
                               completion:^(NSInteger buttonIndex, BOOL didCancel) {
-                                  if ([buttons[buttonIndex] isEqualToString:@"Sign Out"]) {
+                                  if (buttons.count <= buttonIndex)
+                                      return;
+
+                                  NSString* buttonText = buttons[buttonIndex];
+                                  if ([buttonText isEqualToString:@"Sign Out"]) {
                                       [[Api sharedApi] postPath:@"/users/create_unregistered"
                                                      parameters:nil
                                                        callback:[[Api sharedApi] authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
                                           [self updateNavBar];
                                       }]];
                                   }
-                                  if ([buttons[buttonIndex] isEqualToString:@"Delete My Story"]) {
+                                  else if ([buttonText isEqualToString:@"Delete My Story"]) {
                                       [self onDelete];
                                   }
                               }
@@ -235,15 +239,17 @@
                                       [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/delete", story.id]
                                                      parameters:nil
                                                        callback:^(NSSet *entities, id responseObject, NSError *error) {
-                                                           User* me = [[Api sharedApi] currentUser];
+                                                           User* me = [User me];
                                                            [me.managedObjectContext performBlock:^{
                                                                Story* story = me.last_story;
-                                                               story.deletedValue = YES;
+                                                               story.obliteratedValue = YES;
+                                                               NSLog(@"DELETING: %@", story);
                                                                me.last_story = nil;
                                                                me.updated_at = [NSDate date];
                                                                [me.managedObjectContext saveToRootWithCompletion:^(BOOL success, NSError *err) {
                                                                    _myStory.user = me;
                                                                    [self updateNavBar];
+                                                                   NSLog(@"DELETING? %@", story);
                                                                }];
                                                            }];
                                                        }];

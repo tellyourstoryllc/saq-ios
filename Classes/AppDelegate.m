@@ -179,8 +179,7 @@ void uncaughtExceptionHandler(NSException *exception) {
          [self.window makeKeyAndVisible];
     }
 
-    float delay = [App isLoggedIn] ? 2.0 : 0.0;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)),
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 
                        // Rate limit.. don't checkin more than once every 30 seconds.
@@ -193,11 +192,6 @@ void uncaughtExceptionHandler(NSException *exception) {
                        lastCheckin = [NSDate date];
                        [[AppViewController sharedAppViewController] checkinUsingFastApi:NO callback:nil];
                    });
-
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        // If we call this immediately then the dialog doesn't appear, so wait
-//        [[UserReviewPrompter prompter] run];
-//    });
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -208,6 +202,7 @@ void uncaughtExceptionHandler(NSException *exception) {
     self.snapchatTimer = nil;
     self.enteredBackgroundAt = [NSDate date];
     [Api sharedApi].fayeEnabled = NO;
+    [Story prune];
     [SkyMessage prunePlaceholders];
     [[SDImageCache sharedImageCache] clearMemory];
     [Flurry pauseBackgroundSession];

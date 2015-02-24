@@ -13,15 +13,15 @@
 
 #else
 
-//#define kProdServerAddress @"https://tys-api.snap.io"
-//#define kProdFastServerAddress @"https://tys-api.snap.io"
-//#define kProdSlowServerAddress @"https://tys-api.snap.io"
-//#define kProdSocketAddress @"https://tys-api.snap.io:8080/faye"
+#define kProdServerAddress @"https://tys-api.snap.io"
+#define kProdFastServerAddress @"https://tys-api.snap.io"
+#define kProdSlowServerAddress @"https://tys-api.snap.io"
+#define kProdSocketAddress @"https://tys-api.snap.io:8080/faye"
 
-#define kProdServerAddress @"http://tys-staging-api.snap.io"
-#define kProdFastServerAddress @"http://tys-staging-api.snap.io"
-#define kProdSlowServerAddress @"http://tys-staging-api.snap.io"
-#define kProdSocketAddress @"https://tys-staging-api.snap.io:8080/faye"
+//#define kProdServerAddress @"http://tys-staging-api.snap.io"
+//#define kProdFastServerAddress @"http://tys-staging-api.snap.io"
+//#define kProdSlowServerAddress @"http://tys-staging-api.snap.io"
+//#define kProdSocketAddress @"https://tys-staging-api.snap.io:8080/faye"
 
 #endif
 
@@ -30,7 +30,7 @@
 
 #define kAppTitle                   @"TellYourStory"
 #define kCustomURLScheme            @"tys"
-#define kAppStoreId                 353714517
+#define kAppStoreId                 967392417
 #define kAppGroupId                 @"group.org.tellyourstory"
 
 #define kWebrootURL                 @"http://tellyourstory.org"
@@ -44,7 +44,7 @@
 #if DEBUG
 #define kFlurryAPIKey               @"GJ257XXYQGIZLGAUWXC3"
 #else
-#define kFlurryAPIKey               @"HXZFM9KY95XM93SJJP3X"
+#define kFlurryAPIKey               @"G8HPMJSVB7FQ4HNK8BPK"
 #endif
 
 #define kAdminPhrase                @"morimoto"

@@ -141,7 +141,7 @@
 
     NSManagedObjectContext* context = [App managedObjectContext];
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Story"];
-    request.predicate = [NSPredicate predicateWithFormat:@"deleted != YES AND id != NULL AND in_feed = YES"];
+    request.predicate = [NSPredicate predicateWithFormat:@"obliterated != YES AND id != NULL AND in_feed = YES"];
     request.sortDescriptors = @[
                                 [NSSortDescriptor sortDescriptorWithKey:@"created_at" ascending:NO]
                                 ];
@@ -204,7 +204,8 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     id sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
     NSInteger count = [sectionInfo numberOfObjects];
-    return count + [self numberOfAddCellsBeforeResult:count];
+    int result = count + [self numberOfAddCellsBeforeResult:count];
+    return result;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -220,7 +221,8 @@
         return cell;
     }
     else {
-        Story* story = [self.fetchedResultsController.fetchedObjects objectAtIndex:[self resultRowForCollectionRow:indexPath.row]];
+        NSIndexPath* adjustedPath = [NSIndexPath indexPathForRow:[self resultRowForCollectionRow:indexPath.row] inSection:0];
+        Story* story = [self.fetchedResultsController objectAtIndexPath:adjustedPath];
         StoryCollectionCell* cell = (StoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"story" forIndexPath:indexPath];
         cell.card.delegate = self;
         cell.controller = self;
@@ -264,7 +266,6 @@
         else if (cell.isFeatured) {
             [self hideOptions];
             [cell willResignFeatured];
-            [cell didPresentOptions];
         }
         else {
             [self hideOptions];
@@ -388,8 +389,7 @@
             [self.circleProgress startSpinProgressBackgroundLayer];
         }
         else {
-            NSString* emptyLabelString = [Configuration stringFor:@"empty_feed_notice"] ?: [NSString stringWithFormat:@"?"];
-            self.billboard.text = emptyLabelString;
+            self.billboard.text = nil;
             self.circleProgress.hidden = YES;
             [self.circleProgress stopSpinProgressBackgroundLayer];
         }

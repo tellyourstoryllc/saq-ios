@@ -87,10 +87,10 @@ typedef void(^PushPermissionCallback)(NSData* token);
 
             PNUIAlertView* alert = [[PNUIAlertView alloc] initWithTitle:permissionRequestTitle
                                                                 message:permissionRequestMessage
-                                                         andButtonArray:@[@"OK", @"Not now"]];
+                                                         andButtonArray:@[@"Not now", @"OK"]];
 
             [alert showWithCompletion:^(NSInteger buttonIndex) {
-                if (buttonIndex == 0)
+                if (buttonIndex == 1)
                     registerBlock();
             }];
         }

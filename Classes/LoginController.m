@@ -9,6 +9,7 @@
 #import "LoginController.h"
 #import "Api.h"
 #import "DAKeyboardControl.h"
+#import "AppViewController.h"
 
 @interface LoginController()<UITextFieldDelegate>
 
@@ -204,13 +205,13 @@
                        parameters:@{@"login":self.usernameField.text,
                                     @"password":self.passwordField.text}
                          callback:[[Api sharedApi] authCallbackWithCompletion:^(NSSet *entities, id responseObject, NSError *error, BOOL authorized) {
-            NSLog(@"login: %@", responseObject);
             on_main(^{
                 if (!error) {
                     self.usernameField.text = nil;
                     self.passwordField.text = nil;
                     self.feedbackLabel.text = nil;
-                    [self.meController openStory];
+                    [[AppViewController sharedAppViewController] openMyStory];
+                    [self.navigationController popViewControllerAnimated:NO];
                 }
                 else {
                     self.feedbackLabel.text = @"Incorrect username and/or password";

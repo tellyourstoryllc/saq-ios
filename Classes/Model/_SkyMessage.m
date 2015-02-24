@@ -20,7 +20,6 @@ const struct SkyMessageAttributes SkyMessageAttributes = {
 	.attachment_url = @"attachment_url",
 	.client_metadata = @"client_metadata",
 	.created_at = @"created_at",
-	.deleted = @"deleted",
 	.delivered_at = @"delivered_at",
 	.duration = @"duration",
 	.expires_at = @"expires_at",
@@ -32,6 +31,7 @@ const struct SkyMessageAttributes SkyMessageAttributes = {
 	.likes_count = @"likes_count",
 	.link_url = @"link_url",
 	.longitude = @"longitude",
+	.obliterated = @"obliterated",
 	.original_message_id = @"original_message_id",
 	.rank = @"rank",
 	.source = @"source",
@@ -85,11 +85,6 @@ const struct SkyMessageRelationships SkyMessageRelationships = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"deletedValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"deleted"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"durationValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"duration"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -117,6 +112,11 @@ const struct SkyMessageRelationships SkyMessageRelationships = {
 	}
 	if ([key isEqualToString:@"longitudeValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"longitude"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"obliteratedValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"obliterated"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -201,26 +201,6 @@ const struct SkyMessageRelationships SkyMessageRelationships = {
 @dynamic client_metadata;
 
 @dynamic created_at;
-
-@dynamic deleted;
-
-- (BOOL)deletedValue {
-	NSNumber *result = [self deleted];
-	return [result boolValue];
-}
-
-- (void)setDeletedValue:(BOOL)value_ {
-	[self setDeleted:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveDeletedValue {
-	NSNumber *result = [self primitiveDeleted];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveDeletedValue:(BOOL)value_ {
-	[self setPrimitiveDeleted:[NSNumber numberWithBool:value_]];
-}
 
 @dynamic delivered_at;
 
@@ -350,6 +330,26 @@ const struct SkyMessageRelationships SkyMessageRelationships = {
 
 - (void)setPrimitiveLongitudeValue:(float)value_ {
 	[self setPrimitiveLongitude:[NSNumber numberWithFloat:value_]];
+}
+
+@dynamic obliterated;
+
+- (BOOL)obliteratedValue {
+	NSNumber *result = [self obliterated];
+	return [result boolValue];
+}
+
+- (void)setObliteratedValue:(BOOL)value_ {
+	[self setObliterated:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveObliteratedValue {
+	NSNumber *result = [self primitiveObliterated];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveObliteratedValue:(BOOL)value_ {
+	[self setPrimitiveObliterated:[NSNumber numberWithBool:value_]];
 }
 
 @dynamic original_message_id;

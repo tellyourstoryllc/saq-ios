@@ -317,9 +317,11 @@
                        parameters:params
                          callback:^(NSSet *entities, id responseObject, NSError *error) {
                              NSLog(@"create user: %@", responseObject);
-                             self.usernameField.text = nil;
-                             self.passwordField.text = nil;
-                             [self.meController openStory];
+                             on_main(^{
+                                 self.usernameField.text = nil;
+                                 self.passwordField.text = nil;
+                                 [self.meController openStory];
+                             });
                          }];
     }
 }

@@ -38,16 +38,24 @@
         CGFloat minDim = MIN(self.contentView.bounds.size.width, self.contentView.bounds.size.height);
         CGFloat buttonDim = minDim/4;
         self.playButton = [[PNButton alloc] initWithFrame:CGRectMake(4, 4, buttonDim, buttonDim)];
-        [self.playButton setImage:[UIImage imageNamed:@"play-icon"] forState:UIControlStateNormal];
-        [self.playButton setImage:[UIImage tintedImageNamed:@"pause-icon" color:COLOR(blackColor)] forState:UIControlStateSelected];
+        [self.playButton setImage:[UIImage tintedImageNamed:@"play-icon" color:COLOR(turquoiseColor)] forState:UIControlStateNormal];
+        [self.playButton setImage:[UIImage new] forState:UIControlStateSelected];
+        self.playButton.selectedColor = [UIColor clearColor];
         self.playButton.userInteractionEnabled = NO;
-        self.playButton.buttonColor = [COLOR(blackColor) colorWithAlphaComponent:0.7];
-        self.playButton.backgroundColor = [COLOR(whiteColor) colorWithAlphaComponent:0.8];
+        self.playButton.buttonColor = [UIColor clearColor];
+        self.playButton.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.playButton];
 
-    }
+        UILongPressGestureRecognizer* press = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(press:)];
+        [self.contentView addGestureRecognizer:press];
+     }
 
     return self;
+}
+
+- (void)press:(UILongPressGestureRecognizer*)gesture {
+    if (gesture.state == UIGestureRecognizerStateBegan)
+        [self didPresentOptions];
 }
 
 - (void)setUser:(User *)user {

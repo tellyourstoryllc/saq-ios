@@ -12,6 +12,8 @@
 
 @interface BaseSnapCollectionViewController ()
 
+@property (nonatomic, weak) SkyMessage* lastFeaturedStory;
+
 @end
 
 @implementation BaseSnapCollectionViewController
@@ -35,8 +37,8 @@
 
     self.billboard = [[PNLabel alloc] initWithFrame:CGRectZero];
     self.billboard.textAlignment = NSTextAlignmentCenter;
-    self.billboard.font = HEADFONT(48);
-    self.billboard.textColor = COLOR(grayColor);
+    self.billboard.font = FONT_B(24);
+    self.billboard.textColor = COLOR(greenColor);
     [self.view addSubview:self.billboard];
 
     self.collection = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:[SnapCollectionLayout new]];
@@ -99,12 +101,18 @@
     __weak BaseSnapCollectionViewController* weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([weakSelf isViewVisible]) {
-            [weakSelf featureVideos];
+            if (weakSelf.lastFeaturedStory) {
+                [weakSelf featureStory:self.lastFeaturedStory];
+            }
+            else
+                [weakSelf featureVideos];
         }
     });
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    SnapCollectionCell* cell = (SnapCollectionCell*)[[self featuringVideos] firstObject];
+    self.lastFeaturedStory = cell.card.message;
     [self unfeatureVideos];
 }
 
@@ -214,7 +222,7 @@ referenceSizeForFooterInSection:(NSInteger)section {
         [cell didPresentOptions];
 
         id success = [self featureVideoAfter:cell];
-        if (!success)
+        if (!success && self.visibleVideoCells.count > 2)
             [self featureVideos];
     }
 }
@@ -235,6 +243,13 @@ referenceSizeForFooterInSection:(NSInteger)section {
             if (!activateCount) break;
         }
     }
+}
+
+- (NSArray*)featuringVideos {
+    NSArray* videoCells = [self visibleVideoCells];
+    return [videoCells filteredArrayUsingBlock:^BOOL(SnapCollectionCell* cell, NSDictionary *bindings) {
+        return cell.isFeatured;
+    }];
 }
 
 - (void)unfeatureVideos {
@@ -268,6 +283,15 @@ referenceSizeForFooterInSection:(NSInteger)section {
 - (void)featureVideoAt:(SnapCollectionCell*)target {
     for (SnapCollectionCell* cell in [self visibleVideoCells]) {
         if (cell == target) {
+            [cell didBecomeFeatured];
+            break;
+        }
+    }
+}
+
+- (void)featureStory:(SkyMessage*)target {
+    for (SnapCollectionCell* cell in [self visibleVideoCells]) {
+        if ([cell.card.message isEqual:target]) {
             [cell didBecomeFeatured];
             break;
         }

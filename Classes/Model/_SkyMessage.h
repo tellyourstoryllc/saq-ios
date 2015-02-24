@@ -21,7 +21,6 @@ extern const struct SkyMessageAttributes {
 	__unsafe_unretained NSString *attachment_url;
 	__unsafe_unretained NSString *client_metadata;
 	__unsafe_unretained NSString *created_at;
-	__unsafe_unretained NSString *deleted;
 	__unsafe_unretained NSString *delivered_at;
 	__unsafe_unretained NSString *duration;
 	__unsafe_unretained NSString *expires_at;
@@ -33,6 +32,7 @@ extern const struct SkyMessageAttributes {
 	__unsafe_unretained NSString *likes_count;
 	__unsafe_unretained NSString *link_url;
 	__unsafe_unretained NSString *longitude;
+	__unsafe_unretained NSString *obliterated;
 	__unsafe_unretained NSString *original_message_id;
 	__unsafe_unretained NSString *rank;
 	__unsafe_unretained NSString *source;
@@ -136,14 +136,6 @@ extern const struct SkyMessageRelationships {
 
 //- (BOOL)validateCreated_at:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSNumber* deleted;
-
-@property (atomic) BOOL deletedValue;
-- (BOOL)deletedValue;
-- (void)setDeletedValue:(BOOL)value_;
-
-//- (BOOL)validateDeleted:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSDate* delivered_at;
 
 //- (BOOL)validateDelivered_at:(id*)value_ error:(NSError**)error_;
@@ -211,6 +203,14 @@ extern const struct SkyMessageRelationships {
 - (void)setLongitudeValue:(float)value_;
 
 //- (BOOL)validateLongitude:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* obliterated;
+
+@property (atomic) BOOL obliteratedValue;
+- (BOOL)obliteratedValue;
+- (void)setObliteratedValue:(BOOL)value_;
+
+//- (BOOL)validateObliterated:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* original_message_id;
 
@@ -342,12 +342,6 @@ extern const struct SkyMessageRelationships {
 - (NSDate*)primitiveCreated_at;
 - (void)setPrimitiveCreated_at:(NSDate*)value;
 
-- (NSNumber*)primitiveDeleted;
-- (void)setPrimitiveDeleted:(NSNumber*)value;
-
-- (BOOL)primitiveDeletedValue;
-- (void)setPrimitiveDeletedValue:(BOOL)value_;
-
 - (NSDate*)primitiveDelivered_at;
 - (void)setPrimitiveDelivered_at:(NSDate*)value;
 
@@ -398,6 +392,12 @@ extern const struct SkyMessageRelationships {
 
 - (float)primitiveLongitudeValue;
 - (void)setPrimitiveLongitudeValue:(float)value_;
+
+- (NSNumber*)primitiveObliterated;
+- (void)setPrimitiveObliterated:(NSNumber*)value;
+
+- (BOOL)primitiveObliteratedValue;
+- (void)setPrimitiveObliteratedValue:(BOOL)value_;
 
 - (NSString*)primitiveOriginal_message_id;
 - (void)setPrimitiveOriginal_message_id:(NSString*)value;

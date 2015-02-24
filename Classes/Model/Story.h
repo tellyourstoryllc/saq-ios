@@ -26,6 +26,8 @@
 + (void)insertPlaceholderWithId:(NSString*)placeholderId
           constructingWithBlock:(void (^)(Story* story))block;
 
++ (void)prune;
+
 - (void)fetchMediaWithCompletion:(void (^)(UIImage* photo, NSURL* videoUrl, UIImage* videoOverlay))completion;
 
 @end

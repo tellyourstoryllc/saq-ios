@@ -208,6 +208,12 @@
         [[StoryManager manager] loadPublicFeedWithParams:nil
                                            andCompletion:^(NSSet *stories) {
                                            }];
+
+        NSString *path = [NSString stringWithFormat:@"/users/%@/stories", [App userId]];
+        NSMutableDictionary *params = [ @{ @"limit" : @"3" } mutableCopy];
+        [[Api sharedApi] postPath:path
+                       parameters:params
+                         callback:nil];
     };
 
     Api *api = useFastApi ? [Api fastApi] : [Api sharedApi];

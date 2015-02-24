@@ -178,8 +178,8 @@
 - (EyeMaskFilter*)eyeFilter {
     if (!_eyeFilter) {
         _eyeFilter = [EyeMaskFilter new];
-        _eyeFilter.eyeSize = .28f;
-        _eyeFilter.eyeFadeStartRadius = 0.8f;
+        _eyeFilter.eyeSize = .25f;
+        _eyeFilter.eyeFadeStartRadius = 1.f;
 
         __weak BaseCamera* weakSelf = self;
         [self addFaceUpdateCallback:^(CIFaceFeature *face, CGRect clap, UIDeviceOrientation orientation) {

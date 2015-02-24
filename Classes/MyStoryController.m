@@ -80,7 +80,7 @@
 
     self.camera.frame = CGRectSetCenter(b.size.width/2, b.size.height/3, self.camera.frame);
     self.camera.alpha = 0.0;
-    self.camera.cameraView.layer.borderColor = [COLOR(blackColor) CGColor];
+    self.camera.cameraView.layer.borderColor = [COLOR(grayColor) CGColor];
     self.camera.cameraView.layer.borderWidth = 2.f;
 
     [self.recorderView addSubview:self.camera];
@@ -90,6 +90,8 @@
     [self.recorderView addSubview:self.filterLabel];
 
     self.filterSwitch = [UISwitch new];
+    self.filterSwitch.tintColor = COLOR(grayColor);
+    self.filterSwitch.onTintColor = COLOR(turquoiseColor);
     [self.recorderView addSubview:self.filterSwitch];
     [self.filterSwitch addTarget:self action:@selector(onFilter) forControlEvents:UIControlEventValueChanged];
 
@@ -98,6 +100,8 @@
     [self.recorderView addSubview:self.soundLabel];
 
     self.soundSwitch = [UISwitch new];
+    self.soundSwitch.tintColor = COLOR(grayColor);
+    self.soundSwitch.onTintColor = COLOR(turquoiseColor);
     [self.recorderView addSubview:self.soundSwitch];
     [self.soundSwitch addTarget:self action:@selector(onSoundSwitch) forControlEvents:UIControlEventValueChanged];
 
@@ -112,8 +116,8 @@
 
     self.discardButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
     self.discardButton.cornerRadius = 20;
-    self.discardButton.buttonColor = COLOR(whiteColor);
-    [self.discardButton setBorderWithColor:COLOR(blackColor) width:1.0];
+    self.discardButton.buttonColor = COLOR(defaultBackgroundColor);
+    [self.discardButton setBorderWithColor:COLOR(grayColor) width:1.0];
     [self.discardButton setImage:[UIImage imageNamed:@"x"] forState:UIControlStateNormal];
     [self.recorderView addSubview:self.discardButton];
     [self.discardButton setTappedBlock:^{
@@ -132,7 +136,7 @@
     }];
 
     self.tosLabel = [[PNRichLabel alloc] init];
-    self.tosLabel.text = @"By submitting, you agree to the <a href=https://google.com>Terms of Service</a>";
+    self.tosLabel.text = @"By submitting, you agree to the <a href=http://tellyourstory.org/legal/tos>Terms of Service</a>";
     self.tosLabel.font = FONT(12);
     self.tosLabel.textAlignment = RTTextAlignmentCenter;
     [self.tosLabel sizeToFitTextWidth:self.view.bounds.size.width];
@@ -140,7 +144,7 @@
 
     self.instructionLabel = [[PNRichLabel alloc] init];
     self.instructionLabel.font = FONT_B(18);
-    self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you got through it<br><br>3. No last names";
+    self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you dealt with it<br><br>3. No last names";
 
     [self.instructionLabel sizeToFitTextWidth:self.view.bounds.size.width-16];
     [self.recorderView addSubview:self.instructionLabel];
@@ -159,7 +163,7 @@
 
     [self.storyPlayButton setTappedBlock:^{
         if (weakSelf.videoView.isPlaying) {
-            [weakSelf.videoView stop];
+            [weakSelf.videoView pause];
             weakSelf.storyPlayButton.selected = NO;
         }
         else {
@@ -191,7 +195,14 @@
 
     self.videoView = [PNVideoURLView new];
     self.videoView.userInteractionEnabled = NO;
+    self.videoView.autoReplay = NO;
     [self.storyView addSubview:self.videoView];
+
+    [self.KVOController observe:self.videoView keyPath:@"isPlaying"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              weakSelf.storyPlayButton.selected = weakSelf.videoView.isPlaying;
+                          }];
 
     self.statusLabel = [PNLabel new];
     self.statusLabel.font = FONT_B(18);
@@ -407,6 +418,7 @@
         self.statusLabel.text = nil;
 
     [self.statusLabel sizeToFit];
+    self.statusLabel.frame = CGRectSetTopCenter(CGRectGetMidX(self.storyPlayButton.frame), CGRectGetMaxY(self.storyPlayButton.frame)+8, self.statusLabel.frame);
 }
 
 - (void)stopAllPlayback {
@@ -456,12 +468,12 @@
 
 - (void)onSoundSwitch {
     if (self.soundSwitch.isOn) {
-        AlertView* av = [[AlertView alloc] initWithTitle:@"Disguise Voice" message:@"How do you want your voice altered?" andButtonArray:@[@"High pitch", @"Lower pitch"]];
+        AlertView* av = [[AlertView alloc] initWithTitle:@"Disguise Voice" message:@"How do you want your voice altered?" andButtonArray:@[@"Lower pitch", @"Raise pitch"]];
         [av showWithCompletion:^(NSInteger buttonIndex) {
             if (buttonIndex == 0)
-                self.camera.audioFilter.pitchOne = 7;
-            else
                 self.camera.audioFilter.pitchOne = -5;
+            else
+                self.camera.audioFilter.pitchOne = 7;
         }];
     }
 

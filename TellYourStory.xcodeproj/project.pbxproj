@@ -1765,7 +1765,7 @@
 		C56EC5EA18087D2F00299D09 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C56EC5EC18087D3800299D09 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C56EC5EE18087E1C00299D09 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
-		C5748BAE17FF188100EC7D32 /* TellYourStory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TellYourStory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5748BAE17FF188100EC7D32 /* Tell Your Story.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tell Your Story.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5748BB117FF188100EC7D32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5748BB317FF188100EC7D32 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C5748BB517FF188100EC7D32 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -3352,7 +3352,7 @@
 		C5748BAF17FF188100EC7D32 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C5748BAE17FF188100EC7D32 /* TellYourStory.app */,
+				C5748BAE17FF188100EC7D32 /* Tell Your Story.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3739,7 +3739,7 @@
 			);
 			name = TellYourStory;
 			productName = chat;
-			productReference = C5748BAE17FF188100EC7D32 /* TellYourStory.app */;
+			productReference = C5748BAE17FF188100EC7D32 /* Tell Your Story.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -4596,7 +4596,7 @@
 					"$(PROJECT_DIR)/Dependencies/Flurry",
 					"$(PROJECT_DIR)/Dependencies/Superpowered",
 				);
-				PRODUCT_NAME = TellYourStory;
+				PRODUCT_NAME = "Tell Your Story";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -4626,7 +4626,7 @@
 					"$(PROJECT_DIR)/Dependencies/Flurry",
 					"$(PROJECT_DIR)/Dependencies/Superpowered",
 				);
-				PRODUCT_NAME = TellYourStory;
+				PRODUCT_NAME = "Tell Your Story";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
