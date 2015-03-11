@@ -46,7 +46,7 @@
     self.navigationItem.rightBarButtonItem = self.loginBarButton;
 
     self.body = [[PNRichLabel alloc] initWithFrame:CGRectMake(8, 70, self.view.bounds.size.width-16, self.view.bounds.size.height-70)];
-    self.body.text = @"If you are in danger, please <b><font color='#09577A'><a href=tel:911>CALL 911</a></font></b>.<br><br>To speak to a sexual assault counselor, call <font color='#09577A'><a href=tel:800-656-4673>800-656-4673</a></font><br><br>We need volunteers to help us screen videos.  To volunteer, email <font color='#09577A'><a href=mailto:volunteer@tellyourstory.org>volunteer@tellyourstory.org</a></font><br><br>For technical assistance, email <a href=mailto:techsupport@tellyourstory.org><font color='#09577A'>techsupport@tellyourstory.org</font></a>";
+    self.body.text = @"If you are in danger, please <b><font color='#09577A'><a href=tel:911>CALL 911</a></font></b>.<br><br>To speak to a sexual assault counselor, call <font color='#09577A'><a href=tel:800-656-4673>800-656-4673</a></font><br><br>We need volunteers to help us screen videos.  To volunteer, email <font color='#09577A'><a href=mailto:volunteer@tellyourstory.org>volunteer@tellyourstory.org</a></font><br><br>For technical assistance, email <a href=mailto:techsupport@tellyourstory.org><font color='#09577A'>techsupport@tellyourstory.org</font></a><br><br>All videos are screened before being published.  If you think a video should be re-screened, press down on it and then click ⚠️ to flag it for review.";
     self.body.textColor = COLOR(blackColor);
     self.body.font = FONT(16);
     [self.view addSubview:self.body];

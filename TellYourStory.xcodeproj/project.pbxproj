@@ -328,6 +328,8 @@
 		3468AFA718BD3C9E002CC63B /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3468AF9D18BD3C9E002CC63B /* Lato-Light.ttf */; };
 		3468AFA818BD3C9E002CC63B /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3468AF9E18BD3C9E002CC63B /* Lato-LightItalic.ttf */; };
 		3468AFA918BD3C9E002CC63B /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3468AF9F18BD3C9E002CC63B /* Lato-Regular.ttf */; };
+		346937921AACB1E3000B4FB1 /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 346937901AACB1E3000B4FB1 /* warning.png */; };
+		346937931AACB1E3000B4FB1 /* warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 346937911AACB1E3000B4FB1 /* warning@2x.png */; };
 		3469ED7C18BC35B700967FDE /* EGOCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 3469ED7A18BC35B700967FDE /* EGOCache.m */; };
 		346A8EB61A55288C00265C55 /* UIView+PostStoryAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 346A8EB51A55288C00265C55 /* UIView+PostStoryAnimation.m */; };
 		346B38B91A9A5D9E00A6CC78 /* EyeMaskFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 346B38B81A9A5D9E00A6CC78 /* EyeMaskFilter.m */; };
@@ -486,6 +488,7 @@
 		34C6D33E18BC0B0500CCE297 /* SavedApiRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C6D33D18BC0B0500CCE297 /* SavedApiRequest.m */; };
 		34C7741019FA110C0093FFEB /* PNCompoundImageFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7740F19FA110C0093FFEB /* PNCompoundImageFilter.m */; };
 		34C7741319FA12190093FFEB /* ExtensionConduit.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C7741219FA12190093FFEB /* ExtensionConduit.m */; };
+		34CB74151AACEB18009A86CA /* NSFetchedResultsController+Peanut.m in Sources */ = {isa = PBXBuildFile; fileRef = 34CB74141AACEB18009A86CA /* NSFetchedResultsController+Peanut.m */; };
 		34CB95B51836B68600B0FF1B /* BaseCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 34CB95B41836B68600B0FF1B /* BaseCamera.m */; };
 		34CB95B81836C0BA00B0FF1B /* UploadProgressAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34CB95B71836C0BA00B0FF1B /* UploadProgressAlertView.m */; };
 		34CBBB5018D1E339004F2D89 /* input-photo-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 34CBBB4E18D1E339004F2D89 /* input-photo-black.png */; };
@@ -608,7 +611,6 @@
 		34E76E1918FA48C8009F19F6 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E76E1518FA48C8009F19F6 /* tag.png */; };
 		34E76E1A18FA48C8009F19F6 /* tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 34E76E1618FA48C8009F19F6 /* tag@2x.png */; };
 		34E7B915188E384100A3404D /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E7B914188E384100A3404D /* PreferencesViewController.m */; };
-		34E7B918188E3A6200A3404D /* GroupAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E7B917188E3A6200A3404D /* GroupAvatarView.m */; };
 		34EA290C1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 34EA290B1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.mm */; };
 		34EA8D051A26D56D00201504 /* PNCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EA8D041A26D56D00201504 /* PNCamera.m */; };
 		34EB6E5A19C8ADB700546E88 /* StoryCollectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EB6E5919C8ADB700546E88 /* StoryCollectionLayout.m */; };
@@ -1238,6 +1240,8 @@
 		3468AF9D18BD3C9E002CC63B /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		3468AF9E18BD3C9E002CC63B /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
 		3468AF9F18BD3C9E002CC63B /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		346937901AACB1E3000B4FB1 /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
+		346937911AACB1E3000B4FB1 /* warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "warning@2x.png"; sourceTree = "<group>"; };
 		3469ED7918BC35B700967FDE /* EGOCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGOCache.h; sourceTree = "<group>"; };
 		3469ED7A18BC35B700967FDE /* EGOCache.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = EGOCache.m; sourceTree = "<group>"; };
 		346A8EB41A55287300265C55 /* UIView+PostStoryAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+PostStoryAnimation.h"; sourceTree = "<group>"; };
@@ -1474,6 +1478,8 @@
 		34C7740F19FA110C0093FFEB /* PNCompoundImageFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PNCompoundImageFilter.m; sourceTree = "<group>"; };
 		34C7741119FA12190093FFEB /* ExtensionConduit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtensionConduit.h; sourceTree = "<group>"; };
 		34C7741219FA12190093FFEB /* ExtensionConduit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExtensionConduit.m; sourceTree = "<group>"; };
+		34CB74131AACEB18009A86CA /* NSFetchedResultsController+Peanut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchedResultsController+Peanut.h"; sourceTree = "<group>"; };
+		34CB74141AACEB18009A86CA /* NSFetchedResultsController+Peanut.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchedResultsController+Peanut.m"; sourceTree = "<group>"; };
 		34CB95B31836B68600B0FF1B /* BaseCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCamera.h; sourceTree = "<group>"; };
 		34CB95B41836B68600B0FF1B /* BaseCamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCamera.m; sourceTree = "<group>"; };
 		34CB95B61836C0BA00B0FF1B /* UploadProgressAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadProgressAlertView.h; sourceTree = "<group>"; };
@@ -1689,8 +1695,6 @@
 		34E76E1618FA48C8009F19F6 /* tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag@2x.png"; sourceTree = "<group>"; };
 		34E7B913188E384100A3404D /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesViewController.h; sourceTree = "<group>"; };
 		34E7B914188E384100A3404D /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesViewController.m; sourceTree = "<group>"; };
-		34E7B916188E3A6200A3404D /* GroupAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupAvatarView.h; sourceTree = "<group>"; };
-		34E7B917188E3A6200A3404D /* GroupAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupAvatarView.m; sourceTree = "<group>"; };
 		34EA290A1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNSuperpoweredMovieWriter.h; sourceTree = "<group>"; };
 		34EA290B1A82BEEE002B5D93 /* PNSuperpoweredMovieWriter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PNSuperpoweredMovieWriter.mm; sourceTree = "<group>"; };
 		34EA8D031A26D56D00201504 /* PNCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PNCamera.h; sourceTree = "<group>"; };
@@ -1939,8 +1943,6 @@
 				34D791CB18C816AD00673760 /* ChatBubble.m */,
 				34D232181883C63000DC9E9E /* ContactsViewController.h */,
 				34D232191883C63000DC9E9E /* ContactsViewController.m */,
-				34E7B916188E3A6200A3404D /* GroupAvatarView.h */,
-				34E7B917188E3A6200A3404D /* GroupAvatarView.m */,
 				3429331318FCEA1900076998 /* GroupChatBubble.h */,
 				3429331418FCEA1900076998 /* GroupChatBubble.m */,
 				34470FC9184DC8F100ED8BE5 /* GroupMemberView.h */,
@@ -2203,6 +2205,8 @@
 				344365CB182EC19E009D72A6 /* NSDate+Utility.m */,
 				34422B411914AE3A00B72399 /* NSDictionary+RemoveNSNull.h */,
 				34422B421914AE3A00B72399 /* NSDictionary+RemoveNSNull.m */,
+				34CB74131AACEB18009A86CA /* NSFetchedResultsController+Peanut.h */,
+				34CB74141AACEB18009A86CA /* NSFetchedResultsController+Peanut.m */,
 				344B2FF71961185F006FE5C6 /* NSManagedObjectContext+SaveToRoot.h */,
 				344B2FF81961185F006FE5C6 /* NSManagedObjectContext+SaveToRoot.m */,
 				344365CC182EC19E009D72A6 /* NSMutableArray+Shuffler.h */,
@@ -2247,10 +2251,10 @@
 				344365DB182EC19E009D72A6 /* UIView+Keyboard.m */,
 				3436FA5E1951E82800F1DF03 /* UIView+Mask.h */,
 				3436FA5F1951E82800F1DF03 /* UIView+Mask.m */,
-				343B9D6A199D6EAA008295D0 /* UIView+Utility.h */,
-				343B9D6B199D6EAA008295D0 /* UIView+Utility.m */,
 				34DD9F5D18AEC2DB00E89061 /* UIView+PNAnimations.h */,
 				34DD9F5E18AEC2DB00E89061 /* UIView+PNAnimations.m */,
+				343B9D6A199D6EAA008295D0 /* UIView+Utility.h */,
+				343B9D6B199D6EAA008295D0 /* UIView+Utility.m */,
 				3486419D198FFA40000D6AE8 /* UIViewController+Utility.h */,
 				3486419E198FFA40000D6AE8 /* UIViewController+Utility.m */,
 			);
@@ -2806,6 +2810,8 @@
 			children = (
 				34324F551A1031BD000BA08E /* BackgroundCamera.h */,
 				34324F561A1031BD000BA08E /* BackgroundCamera.m */,
+				343E42DA1A9B955F00333C95 /* BaseAudioFilter.h */,
+				343E42D91A9B955F00333C95 /* BaseAudioFilter.mm */,
 				34CB95B31836B68600B0FF1B /* BaseCamera.h */,
 				34CB95B41836B68600B0FF1B /* BaseCamera.m */,
 				34D8F1A71A519B6800C80A67 /* MessageCamera.h */,
@@ -2816,8 +2822,6 @@
 				34E28D0E1A51EAE600900979 /* MessagePublishView.m */,
 				34FB610F19EEB1BE0079F3D0 /* StoryCamera.h */,
 				34FB611019EEB1BE0079F3D0 /* StoryCamera.m */,
-				343E42D91A9B955F00333C95 /* BaseAudioFilter.mm */,
-				343E42DA1A9B955F00333C95 /* BaseAudioFilter.h */,
 			);
 			name = Media;
 			sourceTree = "<group>";
@@ -2975,6 +2979,8 @@
 				3468AF5318BD2999002CC63B /* big-check-fat.png */,
 				3468AF5418BD2999002CC63B /* big-check-fat@2x.png */,
 				3400A452194632FF00D020A5 /* bottom-bubble-left-mask.png */,
+				346937901AACB1E3000B4FB1 /* warning.png */,
+				346937911AACB1E3000B4FB1 /* warning@2x.png */,
 				3400A453194632FF00D020A5 /* bottom-bubble-left-mask@2x.png */,
 				3400A454194632FF00D020A5 /* bottom-bubble-right-mask.png */,
 				3400A455194632FF00D020A5 /* bottom-bubble-right-mask@2x.png */,
@@ -3863,6 +3869,7 @@
 				34D943B319F101F4006C721F /* star-highlighted-template@2x.png in Resources */,
 				34CBBB5018D1E339004F2D89 /* input-photo-black.png in Resources */,
 				34C104C618AC299E00141BC6 /* left-arrow@2x.png in Resources */,
+				346937921AACB1E3000B4FB1 /* warning.png in Resources */,
 				34D437E01A83B6CA003C88A6 /* up-chevron.png in Resources */,
 				341CFD5A18523AF3005A7D68 /* create-room-icon@2x.png in Resources */,
 				34CBBB5518D2256D004F2D89 /* type-black@2x.png in Resources */,
@@ -3929,6 +3936,7 @@
 				348C4872194150B200A55534 /* story.png in Resources */,
 				3428B3171A47A92300F573A8 /* trash.png in Resources */,
 				34C104C718AC299E00141BC6 /* right-arrow@2x.png in Resources */,
+				346937931AACB1E3000B4FB1 /* warning@2x.png in Resources */,
 				34869BBE189C1C770076C873 /* contacts@2x.png in Resources */,
 				34F4F3081995768500A9B5AD /* right-bubble-bottom-mask@2x.png in Resources */,
 				3412274518505E3F006DC02A /* input-photo@2x.png in Resources */,
@@ -4171,6 +4179,7 @@
 				34436740182EC735009D72A6 /* UIToolbar+FlatUI.m in Sources */,
 				341A07781A0611410080B8EF /* PNViewOverlayFilter.m in Sources */,
 				34F4F3111995E99700A9B5AD /* TextComposerViewController.m in Sources */,
+				34CB74151AACEB18009A86CA /* NSFetchedResultsController+Peanut.m in Sources */,
 				C583D99918035C6B00A48FE0 /* AFHTTPRequestOperationManager.m in Sources */,
 				34864191198D913B000D6AE8 /* PNCarouselViewController.m in Sources */,
 				3486418B198C720C000D6AE8 /* TextCardView.m in Sources */,
@@ -4281,7 +4290,6 @@
 				34436665182EC19F009D72A6 /* PNHorizontalMirrorFilter.m in Sources */,
 				341794A7184A855600F2AD66 /* TokenizedWebView.m in Sources */,
 				344F1FBB1A64ECBC00470056 /* FBKVOController.m in Sources */,
-				34E7B918188E3A6200A3404D /* GroupAvatarView.m in Sources */,
 				34A269241A4BDAC90068BBA0 /* CLLocation+Nowhere.m in Sources */,
 				C564E06B19088FE000338AB5 /* _SnapchatUser.m in Sources */,
 				C583D99A18035C6B00A48FE0 /* AFHTTPSessionManager.m in Sources */,

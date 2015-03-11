@@ -182,8 +182,8 @@
         _eyeFilter.eyeFadeStartRadius = 1.f;
 
         __weak BaseCamera* weakSelf = self;
-        [self addFaceUpdateCallback:^(CIFaceFeature *face, CGRect clap, UIDeviceOrientation orientation) {
-            [weakSelf.eyeFilter updateFace:face forClap:clap andOrientation:orientation];
+        [self addFaceUpdateCallback:^(NSArray* faceFeatures, CGRect clap, UIDeviceOrientation orientation) {
+            [weakSelf.eyeFilter updateFace:[faceFeatures firstObject] forClap:clap andOrientation:orientation];
         }];
     }
     return _eyeFilter;

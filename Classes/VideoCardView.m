@@ -136,7 +136,7 @@
 
     self.shouldStartPlaying = YES;
 
-    if (!self.isLoading) {
+    if (!self.isLoading && !self.videoUrl) {
         self.isLoading = YES;
         __block SkyMessage* loadingMessage = self.message;
         __block NSString* msgId = self.message.id;
@@ -187,6 +187,11 @@
                 }
             });
         }];
+    }
+    else if (self.playerLayer.readyForDisplay) {
+        [self.avPlayer play];
+        self.screenshotView.hidden = YES;
+        self.isPlaying = YES;
     }
 }
 
@@ -320,7 +325,7 @@
 }
 
 - (void)didDisappear {
-    [self stop];
+    [self pause];
     self.screenshotView.hidden = NO;
 }
 
@@ -330,8 +335,7 @@
 
 - (void)willResignFeatured {
     [self cancelIfLoading];
-    [self stop];
-    self.screenshotView.hidden = NO;
+    [self pause];
 }
 
 - (void)loadContentWithCompletion:(void (^)())completion {

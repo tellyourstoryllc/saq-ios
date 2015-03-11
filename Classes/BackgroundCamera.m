@@ -26,7 +26,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     self.cameraPosition = AVCaptureDevicePositionFront;
-    self.showCaptureButton = NO;
+    self.showRecordButton = NO;
     self.disableAudio = YES;
     self.cropToSquare = NO;
     self.showFlipButton = NO;

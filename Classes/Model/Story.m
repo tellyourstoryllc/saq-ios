@@ -347,15 +347,25 @@
 - (void)delete {
     User* user = self.user;
     BOOL lastStoryNeedsUpdating = [user.last_story isEqual:self];
-
-    if (self.id)
-        self.id = nil;
-    else
-        [self destroyAndSave:NO];
+    [self destroyAndSave:NO];
 
     if (lastStoryNeedsUpdating) {
         [user updateLastStory];
     }
+}
+
+- (void)obliterate {
+    [self.managedObjectContext performBlock:^{
+        User* user = self.user;
+        __block BOOL lastStoryNeedsUpdating = !user.last_story || [user.last_story isEqual:self];
+        self.obliteratedValue = YES;
+        [self.managedObjectContext saveToRootWithCompletion:^(BOOL success, NSError *err) {
+            if (lastStoryNeedsUpdating) {
+                [user updateLastStory];
+                [user.managedObjectContext saveToRootWithCompletion:nil];
+            }
+        }];
+    }];
 }
 
 - (BOOL)hasVideo {
@@ -485,6 +495,15 @@
 
 - (BOOL)isPrivate {
     return [self.permission isEqualToString:@"private"];
+}
+
+- (void)apiFlagWithReason:(NSString*)reasonId andCompletion:(ApiRequestCallback)callback {
+    [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/flag", self.id]
+                   parameters:@{@"flag_reason_id":reasonId}
+                     callback:^(NSSet *entities, id responseObject, NSError *error) {
+                         [self obliterate];
+                         if (callback) callback(entities, responseObject, error);
+                     }];
 }
 
 @end

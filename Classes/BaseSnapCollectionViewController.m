@@ -120,23 +120,23 @@
 }
 
 - (void) disconnectData {
-    [NSFetchedResultsController deleteCacheWithName:nil];
-    self.collection.delegate = nil;
-    self.collection.dataSource = nil;
-    [self.collection reloadData];
+//    [NSFetchedResultsController deleteCacheWithName:nil];
+//    self.collection.delegate = nil;
+//    self.collection.dataSource = nil;
+//    [self.collection reloadData];
 }
 
 - (void) reconnectData {
-    self.collection.dataSource = self;
-    self.collection.delegate = self;
-    [self.collection reloadData];
+//    self.collection.dataSource = self;
+//    self.collection.delegate = self;
+//    [self.collection reloadData];
 }
 
 - (void) reconnectDataDelayed {
-    __weak BaseSnapCollectionViewController* weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [weakSelf reconnectData];
-    });
+//    __weak BaseSnapCollectionViewController* weakSelf = self;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [weakSelf reconnectData];
+//    });
 }
 
 #pragma mark NSCollectionView methods
@@ -200,7 +200,7 @@ referenceSizeForFooterInSection:(NSInteger)section {
 #pragma mark UIScrollViewDelegate methods
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    [self unfeatureVideos];
+//    [self unfeatureVideos];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {

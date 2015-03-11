@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) IBOutlet UIView* bundledView;
 @property (nonatomic, assign) PanelViewController* controller;
-@property (nonatomic, assign) id <PanelDelegate> delegate;
+@property (nonatomic, weak) id <PanelDelegate> delegate;
 
 @property (nonatomic, strong) UIBarButtonItem* leftBarButton;
 @property (nonatomic, strong) UIBarButtonItem* rightBarButton;

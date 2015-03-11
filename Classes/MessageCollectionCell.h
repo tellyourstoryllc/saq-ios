@@ -24,6 +24,6 @@
 
 @property (nonatomic, strong) Group* group;
 @property (nonatomic, strong) SkyMessage* snap;
-@property (nonatomic, assign) id<MessageCollectionCellDelegate> delegate;
+@property (nonatomic, weak) id<MessageCollectionCellDelegate> delegate;
 
 @end

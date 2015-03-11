@@ -446,11 +446,11 @@
 }
 
 - (BOOL)shouldAutorotate {
-    return NO;
+    return YES;
 }
 
 -(NSUInteger)supportedInterfaceOrientations {
-    return self.currentViewController.supportedInterfaceOrientations;
+    return self.currentViewController.supportedInterfaceOrientations ?: UIInterfaceOrientationMaskAll;
     //    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 

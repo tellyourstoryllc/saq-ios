@@ -23,6 +23,6 @@
 
 @interface ContactsViewController : PNSimpleTableViewController
 
-@property (nonatomic, assign) id<ContactsViewDelegate> delegate;
+@property (nonatomic, weak) id<ContactsViewDelegate> delegate;
 
 @end

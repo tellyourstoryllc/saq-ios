@@ -35,7 +35,7 @@ extern const struct MarginSizes  {
 
 @interface MessageTableCell : UITableViewCell
 
-@property (nonatomic, assign) id<MessageTableCellDelegate> delegate;
+@property (nonatomic, weak) id<MessageTableCellDelegate> delegate;
 
 @property (nonatomic, strong) PillLabel* timeLabel;
 @property (nonatomic, strong) PNLabel* nameLabel; // <-- outside the chat bubble

@@ -10,9 +10,10 @@
 #include <libkern/OSAtomic.h>
 #import "Group.h"
 #import "User.h"
-#import "SkyMessage.h"
+#import "Story.h"
 #import "Api.h"
 #import "App.h"
+#import "FlagReason.h"
 #import "PNUserPreferences.h"
 
 #import "StoryCollectionCell.h"
@@ -82,12 +83,14 @@
 
         [[StoryManager manager] loadPublicFeedWithParams:params
                                            andCompletion:^(NSSet *stories) {
-                                               [weakSelf.collection.infiniteScrollingView stopAnimating];
+                                               on_main(^{
+                                                   [weakSelf.collection.infiniteScrollingView stopAnimating];
 
-                                               if(stories.count == 0) {
-                                                   weakSelf.collection.showsInfiniteScrolling = NO;
-                                               }
-                                               weakSelf.lastOffset += 40;
+                                                   if(stories.count == 0) {
+                                                       weakSelf.collection.showsInfiniteScrolling = NO;
+                                                   }
+                                                   weakSelf.lastOffset += 40;
+                                               });
                                            }];
         
     }];
@@ -135,7 +138,6 @@
 }
 
 -(void)initFetchedResultsController {
-
     if (self.fetchedResultsController)
         return;
 
@@ -146,11 +148,10 @@
                                 [NSSortDescriptor sortDescriptorWithKey:@"created_at" ascending:NO]
                                 ];
     request.fetchLimit = 500;
-
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
                                                                         managedObjectContext:context
                                                                           sectionNameKeyPath:nil
-                                                                                   cacheName:@"feed"];
+                                                                                   cacheName:nil];
 
     [self.fetchedResultsController performFetch:nil];
     [self updateEmptyView];
@@ -222,13 +223,16 @@
     }
     else {
         NSIndexPath* adjustedPath = [NSIndexPath indexPathForRow:[self resultRowForCollectionRow:indexPath.row] inSection:0];
-        Story* story = [self.fetchedResultsController objectAtIndexPath:adjustedPath];
+        Story* story = [self.fetchedResultsController existingObjectAtIndexPath:adjustedPath];
         StoryCollectionCell* cell = (StoryCollectionCell*) [self.collection dequeueReusableCellWithReuseIdentifier:@"story" forIndexPath:indexPath];
         cell.card.delegate = self;
         cell.controller = self;
         cell.story = story;
         cell.clipsToBounds = YES;
-        
+
+        cell.userInteractionEnabled = YES;
+        cell.card.userInteractionEnabled =YES;
+
         return cell;
     }
     return nil;
@@ -260,8 +264,9 @@
     id item = [collectionView cellForItemAtIndexPath:indexPath];
     if ([item isKindOfClass:[StoryCollectionCell class]]) {
         StoryCollectionCell* cell = (StoryCollectionCell*)item;
+
         if (cell.isPresentingOptions) {
-            [cell.card.message likeWithCompletion:nil];
+//            [cell.card.message likeWithCompletion:nil];
         }
         else if (cell.isFeatured) {
             [self hideOptions];
@@ -278,6 +283,7 @@
 #pragma mark NSFetchedResultsControllerDelegate
 
 -(void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    NSLog(@"controllerWillChangeContent %@", self);
     _sectionChanges = [[NSMutableArray alloc] init];
     _itemChanges = [[NSMutableArray alloc] init];
 }
@@ -287,6 +293,7 @@
           atIndex:(NSUInteger)sectionIndex
     forChangeType:(NSFetchedResultsChangeType)type {
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
+    NSLog(@"didChangeSection");
 
     sectionIndex = 0;
     change[@(type)] = @(sectionIndex);
@@ -298,6 +305,7 @@
       atIndexPath:(NSIndexPath *)indexPath
     forChangeType:(NSFetchedResultsChangeType)type
      newIndexPath:(NSIndexPath *)newIndexPath {
+    NSLog(@"didChangeObject");
 
     indexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:indexPath.row] inSection:indexPath.section];
     newIndexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:newIndexPath.row] inSection:newIndexPath.section];
@@ -324,55 +332,56 @@
 
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 
-    if (_itemChanges.count) {
-        [self.collection reloadData];
-        [self collectionDidChange];
-    }
-
-    _itemChanges = nil;
-    _sectionChanges = nil;
-
-//    [self.collection performBatchUpdates:^{
-//        for (NSDictionary *change in _sectionChanges) {
-//            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-//                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-//                switch(type) {
-//                    case NSFetchedResultsChangeInsert:
-//                        [self.collection insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-//                        break;
-//                    case NSFetchedResultsChangeDelete:
-//                        [self.collection deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-//                        break;
-//                    case NSFetchedResultsChangeMove:
-//                    case NSFetchedResultsChangeUpdate:
-//                        break;
-//                }
-//            }];
-//        }
-//        for (NSDictionary *change in _itemChanges) {
-//            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-//                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-//                switch(type) {
-//                    case NSFetchedResultsChangeInsert:
-//                        [self.collection insertItemsAtIndexPaths:@[obj]];
-//                        break;
-//                    case NSFetchedResultsChangeDelete:
-//                        [self.collection deleteItemsAtIndexPaths:@[obj]];
-//                        break;
-//                    case NSFetchedResultsChangeUpdate:
-//                        // Cell should update itself using KVO or other means.
-//                        break;
-//                    case NSFetchedResultsChangeMove:
-//                        [self.collection moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-//                        break;
-//                }
-//            }];
-//        }
-//    } completion:^(BOOL finished) {
-//        _sectionChanges = nil;
-//        _itemChanges = nil;
+    NSLog(@"controllerDidChangeContent");
+//    if (_itemChanges.count) {
+//        [self.collection reloadData];
 //        [self collectionDidChange];
-//    }];
+//    }
+//
+//    _itemChanges = nil;
+//    _sectionChanges = nil;
+
+    [self.collection performBatchUpdates:^{
+        for (NSDictionary *change in _sectionChanges) {
+            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                switch(type) {
+                    case NSFetchedResultsChangeInsert:
+                        [self.collection insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                        break;
+                    case NSFetchedResultsChangeDelete:
+                        [self.collection deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                        break;
+                    case NSFetchedResultsChangeMove:
+                    case NSFetchedResultsChangeUpdate:
+                        break;
+                }
+            }];
+        }
+        for (NSDictionary *change in _itemChanges) {
+            [change enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                switch(type) {
+                    case NSFetchedResultsChangeInsert:
+                        [self.collection insertItemsAtIndexPaths:@[obj]];
+                        break;
+                    case NSFetchedResultsChangeDelete:
+                        [self.collection deleteItemsAtIndexPaths:@[obj]];
+                        break;
+                    case NSFetchedResultsChangeUpdate:
+                        // Cell should update itself using KVO or other means.
+                        break;
+                    case NSFetchedResultsChangeMove:
+                        [self.collection moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                        break;
+                }
+            }];
+        }
+    } completion:^(BOOL finished) {
+        _sectionChanges = nil;
+        _itemChanges = nil;
+        [self collectionDidChange];
+    }];
 }
 
 // Convenience method
@@ -419,6 +428,36 @@
 - (void)onAddTapped {
     [self unfeatureVideos];
     [[AppViewController sharedAppViewController] openMyStory];
+}
+
+#pragma mark CardViewDelegate methods
+
+- (void)card:(SnapCardView *)card didSelectLike:(SkyMessage *)snap {
+    [snap likeWithCompletion:nil];
+}
+
+- (void)card:(SnapCardView *)card didSelectFlag:(SkyMessage *)snap {
+    __block NSDictionary* reasons = [FlagReason dictionary];
+    __block NSMutableArray* buttonText = [[reasons allKeys] mutableCopy];
+    [buttonText addObject:@"Cancel"];
+
+    AlertView* av = [[AlertView alloc] initWithTitle:@"Report Video"
+                                             message:@"Please report any inappropriate or offensive content that you find"
+                                      andButtonArray:buttonText];
+    [av showWithCompletion:^(NSInteger buttonIndex) {
+        if (buttonIndex < reasons.count) {
+            NSString* reasonText = buttonText[buttonIndex];
+            NSString* reasonId = reasons[reasonText];
+
+            if ([snap isKindOfClass:[Story class]]) {
+                Story* story = (Story*)snap;
+                [story apiFlagWithReason:reasonId
+                           andCompletion:^(NSSet *entities, id responseObject, NSError *error) {
+                               [PNUIAlertView showWithMessage:@"Thank you. Our staff will review this video."];
+                           }];
+            }
+        }
+    }];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle {

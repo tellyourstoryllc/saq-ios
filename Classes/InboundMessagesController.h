@@ -20,6 +20,6 @@
 @interface InboundMessagesController : BaseSnapCollectionViewController
 
 @property (nonatomic, readonly) NSInteger numberOfResults;
-@property (nonatomic, assign) id<InboundMessagesDelegate> delegate;
+@property (nonatomic, weak) id<InboundMessagesDelegate> delegate;
 
 @end

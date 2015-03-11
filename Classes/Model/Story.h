@@ -1,4 +1,5 @@
 #import "_Story.h"
+#import "Api.h"
 
 @interface Story : _Story {}
 
@@ -29,5 +30,7 @@
 + (void)prune;
 
 - (void)fetchMediaWithCompletion:(void (^)(UIImage* photo, NSURL* videoUrl, UIImage* videoOverlay))completion;
+
+- (void)apiFlagWithReason:(NSString*)reasonId andCompletion:(ApiRequestCallback)callback;
 
 @end

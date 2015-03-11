@@ -34,6 +34,12 @@ typedef void(^MediaLoaderVideoCompletionBlock)(NSURL* videoUrl);
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         manager = [FastMediaLoader new];
+
+        // Configure the cache
+        SDImageCache* cache = [SDImageCache sharedImageCache];
+        cache.shouldDecompressImages = NO;
+        cache.maxCacheSize = 10000000;
+        cache.maxCacheAge = 86400;
     });
 
     return manager;

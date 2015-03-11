@@ -102,6 +102,17 @@
 
         self.thanksButton.frame = CGRectSetBottomCenter(b.size.width/2, b.size.height-2, self.thanksButton.frame);
         [self.optionView addSubview:self.thanksButton];
+        [self.thanksButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onLike)]];
+
+        self.flagButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0, 40, 40)];
+        [self.flagButton setTitle:@"⚠️" forState:UIControlStateNormal];
+        self.flagButton.userInteractionEnabled = YES;
+        self.flagButton.frame = CGRectSetTopRight(b.size.width, 0, self.flagButton.frame);
+
+        if (![Configuration boolFor:@"hide_flag"])
+            [self.optionView addSubview:self.flagButton];
+
+        [self.flagButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onFlag)]];
 
         [self hideControls];
     }
@@ -135,6 +146,10 @@
     self.editButton.frame = CGRectSetTopRight(b.size.width-2, 2, self.editButton.frame);
     self.replyButton.frame = CGRectSetBottomCenter(b.size.width/2, b.size.height-2, self.replyButton.frame);
     self.exportButton.frame = CGRectSetBottomLeft(2, b.size.height-2, self.exportButton.frame);
+}
+
+- (VideoCardView*)video {
+    return _videoCard;
 }
 
 - (void)setMessage:(SkyMessage *)message {
@@ -309,6 +324,11 @@
     self.textCard.delegate = delegate;
     self.videoCard.delegate = delegate;
     self.photoCard.delegate = delegate;
+}
+
+- (void)onFlag {
+    if ([self.delegate respondsToSelector:@selector(card:didSelectFlag:)])
+        [self.delegate card:self didSelectFlag:self.message];
 }
 
 - (void)onExport {

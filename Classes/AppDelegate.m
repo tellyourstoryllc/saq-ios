@@ -20,7 +20,6 @@
 #import "AppViewController.h"
 #import "PNUserPreferences.h"
 
-#import "TestFlight.h"
 #import "Flurry.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import "SVProgressHUD.h"
@@ -82,7 +81,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     [Flurry setBackgroundSessionEnabled:YES];
 
     [Flurry startSession:kFlurryAPIKey];
-    [TestFlight takeOff:kTestflightKey];
 
     // THIS MUST HAPPEN BEFORE ACCESSING ANY COREDATA MODEL, as the AppViewController holds the managed object context.
     self.appController = [AppViewController sharedAppViewController];
@@ -328,51 +326,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     [self commonRemoteNotificationHandler:userInfo];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))handler {
-
-    PNLOG(@"apn.fetch.push_received");
-
-    [self commonRemoteNotificationHandler:userInfo];
-
-    if (userInfo[@"aps"][@"content-available"] &&
-        (UIApplicationStateBackground == [UIApplication sharedApplication].applicationState)) {
-
-        if(![App isLoggedIn]) {
-            PNLOG(@"apn.fetch.logged_out");
-            handler(UIBackgroundFetchResultNoData);
-            return;
-        }
-
-        // Check rate limit
-        NSDate* lastExecution = [[PNUserPreferences shared] datePreference:@"last_fetch_started_at"];
-        NSUInteger rateLimit = 60;
-        if (lastExecution && ([lastExecution timeIntervalSinceNow] > -1.0*rateLimit)) {
-            PNLOG(@"apn.fetch.rate_limited");
-            handler(UIBackgroundFetchResultNoData);
-            return;
-        }
-
-        PNLOG(@"apn.fetch.start");
-
-        [[PNUserPreferences shared] setPreference:@"last_fetch_started_at" dateValue:[NSDate date]];
-        BOOL shouldDownload = [Configuration boolFor:@"push_download_media"];
-        BOOL shouldUpload = [Configuration boolFor:@"push_upload_media"];
-
-        if (![[AFNetworkReachabilityManager sharedManager] isReachableViaWiFi] && [Configuration boolFor:@"push_load_wifi_only"]) {
-            shouldDownload = NO;
-            shouldUpload = NO;
-        }
-
-        NSNumber* limit = [Configuration settingFor:@"remote_story_limit"] ?: @(25);
-
-        [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-        }];
-    }
-    else
-        handler(UIBackgroundFetchResultNewData);
-
-}
-
 -(void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
     static BOOL isShowingAlert;
     NSLog(@"didReceiveLocalNotification: %@", notification);
@@ -405,50 +358,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (BOOL)isCommandScheme:(NSString*)scheme {
     return ([scheme isMatchedByRegex:kCustomURLScheme] || [scheme isMatchedByRegex:@"peanut"]);
-}
-
-#pragma mark Fetching messages from Snapchat
-
--(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
-    PNLOG(@"backgroundFetch.launch");
-
-    if(![App isLoggedIn]) {
-        PNLOG(@"backgroundFetch.skip.logged_out");
-        [Flurry pauseBackgroundSession];
-        completionHandler(UIBackgroundFetchResultNoData);
-        return;
-    }
-
-    NSDate* lastExecution = [[PNUserPreferences shared] datePreference:@"last_fetch_started_at"];
-    NSUInteger rateLimit = 60;
-#ifdef DEBUG
-    rateLimit = 0;
-#endif
-
-    if (lastExecution && ([lastExecution timeIntervalSinceNow] > -1.0*rateLimit)) {
-        PNLOG(@"backgroundFetch.rate_limited");
-        completionHandler(UIBackgroundFetchResultNoData);
-        return;
-    }
-
-    PNLOG(@"backgroundFetch.start");
-
-    NSDate *fetch_start_time = [NSDate date];
-    [[PNUserPreferences shared] setPreference:@"last_fetch_started_at" dateValue:[NSDate date]];
-    BOOL shouldDownload = [Configuration boolFor:@"background_download_media"];
-    BOOL shouldUpload = [Configuration boolFor:@"background_upload_media"];
-
-    if (![[AFNetworkReachabilityManager sharedManager] isReachableViaWiFi] && [Configuration boolFor:@"background_load_wifi_only"]) {
-        shouldDownload = NO;
-        shouldUpload = NO;
-    }
-
-    NSLog(@"fetchSnapUp.appdelegate download:%d upload:%d", shouldDownload, shouldUpload);
-
-    [[GroupManager manager] refreshGroupsWithCompletion:^(NSSet *groups) {
-                                         completionHandler(groups.count ? UIBackgroundFetchResultNewData : UIBackgroundFetchResultNoData);
-    }];
 }
 
 @end

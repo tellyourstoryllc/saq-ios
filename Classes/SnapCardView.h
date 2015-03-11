@@ -11,6 +11,7 @@
 #import "User.h"
 
 @class SnapCardView;
+@class VideoCardView;
 
 @protocol CardViewDelegate <NSObject>
 @optional
@@ -22,6 +23,7 @@
 - (void)card:(SnapCardView*)card didSelectExport:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectDismiss:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didSelectLike:(SkyMessage*)snap;
+- (void)card:(SnapCardView*)card didSelectFlag:(SkyMessage*)snap;
 
 - (void)card:(SnapCardView*)card didRequestCardBefore:(SkyMessage*)snap;
 - (void)card:(SnapCardView*)card didRequestCardAfter:(SkyMessage*)snap;
@@ -29,7 +31,7 @@
 @end
 
 @interface ContentCard : UIView
-@property (nonatomic, assign) id<CardViewDelegate> delegate;
+@property (nonatomic, weak) id<CardViewDelegate> delegate;
 @property (nonatomic, strong) SkyMessage* message;
 @property (nonatomic, readonly) SnapCardView* snapCard;
 @property (nonatomic, assign) UIViewContentMode contentMode;
@@ -65,13 +67,15 @@
 @property (nonatomic, strong) PillLabel* usernameLabel;
 
 @property (nonatomic, assign) ContentCard* card;
-@property (nonatomic, assign) id<CardViewDelegate> delegate;
+@property (nonatomic, weak) id<CardViewDelegate> delegate;
 @property (nonatomic, assign) UIViewContentMode contentMode;
 
 @property (nonatomic, strong) UIView* optionView;
 @property (nonatomic, strong) PNButton* thanksButton;
+@property (nonatomic, strong) PNButton* flagButton;
 
 @property (nonatomic, assign) AVPlayer* videoPlayer;
+@property (nonatomic, readonly) VideoCardView* video;
 
 @property (nonatomic, assign) BOOL videoEnabled;
 @property (nonatomic, assign) BOOL audioEnabled;

@@ -39,7 +39,6 @@
 #define kAppDomain                  @"tellyourstory.org"
 
 // TODO ---- update below this line ------
-#define kTestflightKey              @"27664f2b-21a7-4568-8613-5c04629c9122"
 
 #if DEBUG
 #define kFlurryAPIKey               @"GJ257XXYQGIZLGAUWXC3"

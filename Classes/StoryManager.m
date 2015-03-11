@@ -103,12 +103,15 @@
 
     void (^updateBlock)(NSSet*) = ^(NSSet* stories) {
         for (Story* story in stories) {
-            story.in_feedValue = YES;
+            [story.managedObjectContext performBlock:^{
+                story.in_feedValue = YES;
+                [story.managedObjectContext save:nil];
+            }];
         }
-        [[stories anyObject] save];
     };
 
     [self loadFeedFromPath:@"/public_feed" withParams:params andCompletion:^(NSSet *stories) {
+        NSLog(@"public feed: got %d stories", stories.count);
         updateBlock(stories);
         if (completion)
             completion(stories);

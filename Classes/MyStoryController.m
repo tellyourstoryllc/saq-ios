@@ -142,11 +142,9 @@
     [self.tosLabel sizeToFitTextWidth:self.view.bounds.size.width];
     [self.recorderView addSubview:self.tosLabel];
 
-    self.instructionLabel = [[PNRichLabel alloc] init];
-    self.instructionLabel.font = FONT_B(18);
+    self.instructionLabel = [[PNRichLabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width-16, 100)];
+    self.instructionLabel.font = FONT_B(16);
     self.instructionLabel.text = @"1. Tell what happened<br><br>2. Tell how you dealt with it<br><br>3. No last names";
-
-    [self.instructionLabel sizeToFitTextWidth:self.view.bounds.size.width-16];
     [self.recorderView addSubview:self.instructionLabel];
 
     self.thanksLabel = [PNLabel new];
@@ -236,7 +234,7 @@
     [self onSound];
     [self onFilter];
 
-    if (!self.camera.isComposing) {
+    if (!self.camera.isComposing && [self isViewVisible]) {
         BOOL started = [self.camera startPreviewIfAuthorized];
         if (started) {
             self.activateButton.hidden = YES;

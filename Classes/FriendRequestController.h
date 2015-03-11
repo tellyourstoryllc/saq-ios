@@ -20,6 +20,6 @@
 @interface FriendRequestController : BaseSnapCollectionViewController
 
 @property (nonatomic, readonly) NSInteger numberOfResults;
-@property (nonatomic, assign) id<FriendRequestDelegate> delegate;
+@property (nonatomic, weak) id<FriendRequestDelegate> delegate;
 
 @end

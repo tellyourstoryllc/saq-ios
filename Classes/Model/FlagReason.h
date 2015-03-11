@@ -1,5 +1,8 @@
 #import "_FlagReason.h"
 
 @interface FlagReason : _FlagReason {}
-// Custom logic goes here.
+
+// Dictionary of text -> id of all flag reasons
++ (NSDictionary*)dictionary;
+
 @end

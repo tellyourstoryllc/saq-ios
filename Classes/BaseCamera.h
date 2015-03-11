@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UIImageView* snapshotView;
 @property (nonatomic, strong) UIImage* rawScreenshot;
 
-@property (nonatomic, assign) id<UIImagePickerControllerDelegate,UINavigationControllerDelegate> pickerDelegate;
+@property (nonatomic, weak) id<UIImagePickerControllerDelegate,UINavigationControllerDelegate> pickerDelegate;
 
 - (void) configureButtons;
 - (UIImage*) scaleImageToFillView:(UIImage*)image;
