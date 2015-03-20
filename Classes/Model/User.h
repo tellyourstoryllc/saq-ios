@@ -1,7 +1,5 @@
 #import "_User.h"
 
-#import "HashedEmail.h"
-#import "HashedNumber.h"
 #import "Group.h"
 
 @interface User : _User {}

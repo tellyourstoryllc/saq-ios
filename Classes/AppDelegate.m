@@ -30,8 +30,6 @@
 #import "GroupManager.h"
 #import "StoryManager.h"
 
-#import "Contact.h"
-#import "Directory.h"
 #import "AlertView.h"
 #import "PNUIAlertView.h"
 #import "StatusView.h"
@@ -39,10 +37,6 @@
 
 #import "PNLogger.h"
 #import "UserReviewPrompter.h"
-
-#import "ExtensionConduit.h"
-
-#import "WorldPopulationCounter.h"
 
 #define kDefaultForegroundFetchInterval 120 // seconds
 
@@ -66,8 +60,10 @@ void uncaughtExceptionHandler(NSException *exception) {
 {
     NSLog(@"didFinishLaunchingWithOptions: %@", launchOptions);
 
+    // Force portrait orientation.
+    application.statusBarOrientation = UIInterfaceOrientationPortrait;
+
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
-    NSLog(@"enabling background fetches");
 
     NSLog(@"directory: %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
 
@@ -205,16 +201,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     [[SDImageCache sharedImageCache] clearMemory];
     [Flurry pauseBackgroundSession];
     self.commonActivationDisabled = NO;
-
-    // For TESTING purposes ONLY:
-    //    NSArray* stories = [SnapchatStory findAllUsingPredicate:nil inContext:[App moc]];
-    //        for (SnapchatStory* s in stories) {
-    //            [s.managedObjectContext performBlock:^{
-    //                s.isNewValue = YES;
-    //                [s save];
-    //                ins(s);
-    //            }];
-    //        }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

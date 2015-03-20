@@ -29,7 +29,6 @@
 #import "AlertView.h"
 #import "StatusView.h"
 #import "GroupManager.h"
-#import "Contact.h"
 
 #import "CalloutBubble.h"
 #import "PillLabel.h"

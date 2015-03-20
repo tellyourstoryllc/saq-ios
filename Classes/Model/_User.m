@@ -37,11 +37,8 @@ const struct UserAttributes UserAttributes = {
 };
 
 const struct UserRelationships UserRelationships = {
-	.address_book_person = @"address_book_person",
 	.groups_administered = @"groups_administered",
 	.groups_joined = @"groups_joined",
-	.hashed_emails = @"hashed_emails",
-	.hashed_numbers = @"hashed_numbers",
 	.last_story = @"last_story",
 	.likes = @"likes",
 	.messages = @"messages",
@@ -413,8 +410,6 @@ const struct UserRelationships UserRelationships = {
 
 @dynamic username;
 
-@dynamic address_book_person;
-
 @dynamic groups_administered;
 
 - (NSMutableSet*)groups_administeredSet {
@@ -434,28 +429,6 @@ const struct UserRelationships UserRelationships = {
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"groups_joined"];
 
 	[self didAccessValueForKey:@"groups_joined"];
-	return result;
-}
-
-@dynamic hashed_emails;
-
-- (NSMutableSet*)hashed_emailsSet {
-	[self willAccessValueForKey:@"hashed_emails"];
-
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"hashed_emails"];
-
-	[self didAccessValueForKey:@"hashed_emails"];
-	return result;
-}
-
-@dynamic hashed_numbers;
-
-- (NSMutableSet*)hashed_numbersSet {
-	[self willAccessValueForKey:@"hashed_numbers"];
-
-	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"hashed_numbers"];
-
-	[self didAccessValueForKey:@"hashed_numbers"];
 	return result;
 }
 

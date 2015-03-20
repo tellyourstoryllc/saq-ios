@@ -27,7 +27,6 @@
 #import "SkyAccount.h"
 #import "UserGroupPreference.h"
 #import "SavedApiRequest.h"
-#import "AddressBookManager.h"
 #import "ExtensionConduit.h"
 
 @implementation App
@@ -90,14 +89,9 @@
         [UserGroupPreference deleteAll];
         [UserPreference deleteAll];
 
-        [HashedEmail deleteAll];
-        [HashedNumber deleteAll];
-
         [Group deleteAll];
 
         [SavedApiRequest deleteAll];
-
-        [[AddressBookManager manager] clearCache];
 
         [context saveToRootWithCompletion:nil];
     }];

@@ -73,7 +73,7 @@
 
     self.cameraQuality = 0;
     self.compressVideo = NO;
-    self.maxRecordingDuration = 300;
+    self.maxRecordingDuration = 900;
     self.pinchToZoom = NO;
     self.controlsYoffset = 0;
     self.verticalFilterSwipes = YES;

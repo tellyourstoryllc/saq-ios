@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="AAAAAA" syncable="YES">
         <attribute name="ccccccc" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="AddressBookPerson" representedClassName="AddressBookPerson" syncable="YES">
-        <attribute name="birthday" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="deleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
-        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="is_person" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="rank" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedEmail" inverseName="address_book_person" inverseEntity="HashedEmail" syncable="YES"/>
-        <relationship name="phone_numbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedNumber" inverseName="address_book_person" inverseEntity="HashedNumber" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="address_book_person" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="BlacklistedUsername" representedClassName="BlacklistedUsername" syncable="YES">
         <attribute name="existsOnServer" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -38,13 +23,6 @@
         <attribute name="image_url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
-    </entity>
-    <entity name="FindFriendQueue" representedClassName="FindFriendQueue" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="phoneNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="processed" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="FlagReason" representedClassName="FlagReason" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
@@ -99,18 +77,6 @@
         <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User" inverseName="groups_joined" inverseEntity="User" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyMessage" inverseName="group" inverseEntity="SkyMessage" syncable="YES"/>
         <relationship name="other_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="HashedEmail" representedClassName="HashedEmail" syncable="YES">
-        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="emails" inverseEntity="AddressBookPerson" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="hashed_emails" inverseEntity="User" syncable="YES"/>
-    </entity>
-    <entity name="HashedNumber" representedClassName="HashedNumber" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="phone_number" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="phone_numbers" inverseEntity="AddressBookPerson" syncable="YES"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="hashed_numbers" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="IosPreference" representedClassName="IosPreference" syncable="YES">
         <attribute name="client" optional="YES" attributeType="String" syncable="YES"/>
@@ -378,11 +344,8 @@
         <attribute name="token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updated_at" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="address_book_person" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AddressBookPerson" inverseName="user" inverseEntity="AddressBookPerson" syncable="YES"/>
         <relationship name="groups_administered" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="admins" inverseEntity="Group" syncable="YES"/>
         <relationship name="groups_joined" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="members" inverseEntity="Group" syncable="YES"/>
-        <relationship name="hashed_emails" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedEmail" inverseName="user" inverseEntity="HashedEmail" syncable="YES"/>
-        <relationship name="hashed_numbers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HashedNumber" inverseName="user" inverseEntity="HashedNumber" syncable="YES"/>
         <relationship name="last_story" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Story" inverseName="story_user" inverseEntity="Story" syncable="YES"/>
         <relationship name="likes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Like" inverseName="user" inverseEntity="Like" syncable="YES"/>
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SkyMessage" inverseName="user" inverseEntity="SkyMessage" syncable="YES"/>
@@ -404,16 +367,12 @@
     </entity>
     <elements>
         <element name="AAAAAA" positionX="27" positionY="171" width="128" height="60"/>
-        <element name="AddressBookPerson" positionX="0" positionY="0" width="128" height="240"/>
         <element name="BlacklistedUsername" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Configuration" positionX="0" positionY="0" width="128" height="105"/>
         <element name="DeletedGroup" positionX="0" positionY="0" width="128" height="75"/>
         <element name="Emoticon" positionX="0" positionY="0" width="128" height="120"/>
-        <element name="FindFriendQueue" positionX="0" positionY="0" width="128" height="120"/>
         <element name="FlagReason" positionX="0" positionY="0" width="128" height="105"/>
         <element name="Group" positionX="0" positionY="0" width="128" height="433"/>
-        <element name="HashedEmail" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="HashedNumber" positionX="0" positionY="0" width="128" height="105"/>
         <element name="IosPreference" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Like" positionX="0" positionY="0" width="128" height="75"/>
         <element name="SavedApiRequest" positionX="0" positionY="0" width="128" height="238"/>
@@ -422,7 +381,7 @@
         <element name="SkyTag" positionX="0" positionY="0" width="128" height="135"/>
         <element name="Story" positionX="0" positionY="0" width="128" height="240"/>
         <element name="Theme" positionX="0" positionY="0" width="128" height="585"/>
-        <element name="User" positionX="0" positionY="0" width="128" height="615"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="570"/>
         <element name="UserGroupPreference" positionX="0" positionY="0" width="128" height="135"/>
         <element name="UserPreference" positionX="0" positionY="0" width="128" height="120"/>
     </elements>

@@ -38,6 +38,7 @@
         NSUInteger minutes = (int)time / 60;
         NSUInteger seconds = (int)time % 60;
         weakSelf.recordLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
+        weakSelf.recordLabel.textColor = (time+15.0 > weakSelf.maxRecordingDuration) ? COLOR(redColor) : [UIColor blackColor];
     }];
     
     return self;

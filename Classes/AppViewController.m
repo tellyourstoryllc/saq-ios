@@ -19,11 +19,9 @@
 #import "AlertView.h"
 #import "UIImage+AnimatedGIF.h"
 #import "PNUserPreferences.h"
-#import "Directory.h"
 #import "SavedApiRequest.h"
 #import "SVProgressHUD.h"
 #import "BlacklistedUsername.h"
-#import "AddressBookManager.h"
 
 @interface AppViewController ()
 
@@ -437,21 +435,8 @@
     self.coverView.hidden = YES;
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle {
-    return self.currentViewController.preferredStatusBarStyle;
-}
-
 -(BOOL)prefersStatusBarHidden {
     return NO;
-}
-
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
--(NSUInteger)supportedInterfaceOrientations {
-    return self.currentViewController.supportedInterfaceOrientations ?: UIInterfaceOrientationMaskAll;
-    //    return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void) dealloc {

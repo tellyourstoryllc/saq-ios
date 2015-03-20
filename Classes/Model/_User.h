@@ -38,21 +38,15 @@ extern const struct UserAttributes {
 } UserAttributes;
 
 extern const struct UserRelationships {
-	__unsafe_unretained NSString *address_book_person;
 	__unsafe_unretained NSString *groups_administered;
 	__unsafe_unretained NSString *groups_joined;
-	__unsafe_unretained NSString *hashed_emails;
-	__unsafe_unretained NSString *hashed_numbers;
 	__unsafe_unretained NSString *last_story;
 	__unsafe_unretained NSString *likes;
 	__unsafe_unretained NSString *messages;
 } UserRelationships;
 
-@class AddressBookPerson;
 @class Group;
 @class Group;
-@class HashedEmail;
-@class HashedNumber;
 @class Story;
 @class NSManagedObject;
 @class SkyMessage;
@@ -234,10 +228,6 @@ extern const struct UserRelationships {
 
 //- (BOOL)validateUsername:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) AddressBookPerson *address_book_person;
-
-//- (BOOL)validateAddress_book_person:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) NSSet *groups_administered;
 
 - (NSMutableSet*)groups_administeredSet;
@@ -245,14 +235,6 @@ extern const struct UserRelationships {
 @property (nonatomic, strong) NSSet *groups_joined;
 
 - (NSMutableSet*)groups_joinedSet;
-
-@property (nonatomic, strong) NSSet *hashed_emails;
-
-- (NSMutableSet*)hashed_emailsSet;
-
-@property (nonatomic, strong) NSSet *hashed_numbers;
-
-- (NSMutableSet*)hashed_numbersSet;
 
 @property (nonatomic, strong) Story *last_story;
 
@@ -281,22 +263,6 @@ extern const struct UserRelationships {
 - (void)removeGroups_joined:(NSSet*)value_;
 - (void)addGroups_joinedObject:(Group*)value_;
 - (void)removeGroups_joinedObject:(Group*)value_;
-
-@end
-
-@interface _User (Hashed_emailsCoreDataGeneratedAccessors)
-- (void)addHashed_emails:(NSSet*)value_;
-- (void)removeHashed_emails:(NSSet*)value_;
-- (void)addHashed_emailsObject:(HashedEmail*)value_;
-- (void)removeHashed_emailsObject:(HashedEmail*)value_;
-
-@end
-
-@interface _User (Hashed_numbersCoreDataGeneratedAccessors)
-- (void)addHashed_numbers:(NSSet*)value_;
-- (void)removeHashed_numbers:(NSSet*)value_;
-- (void)addHashed_numbersObject:(HashedNumber*)value_;
-- (void)removeHashed_numbersObject:(HashedNumber*)value_;
 
 @end
 
@@ -444,20 +410,11 @@ extern const struct UserRelationships {
 - (NSString*)primitiveUsername;
 - (void)setPrimitiveUsername:(NSString*)value;
 
-- (AddressBookPerson*)primitiveAddress_book_person;
-- (void)setPrimitiveAddress_book_person:(AddressBookPerson*)value;
-
 - (NSMutableSet*)primitiveGroups_administered;
 - (void)setPrimitiveGroups_administered:(NSMutableSet*)value;
 
 - (NSMutableSet*)primitiveGroups_joined;
 - (void)setPrimitiveGroups_joined:(NSMutableSet*)value;
-
-- (NSMutableSet*)primitiveHashed_emails;
-- (void)setPrimitiveHashed_emails:(NSMutableSet*)value;
-
-- (NSMutableSet*)primitiveHashed_numbers;
-- (void)setPrimitiveHashed_numbers:(NSMutableSet*)value;
 
 - (Story*)primitiveLast_story;
 - (void)setPrimitiveLast_story:(Story*)value;

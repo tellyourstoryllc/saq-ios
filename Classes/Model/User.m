@@ -1,8 +1,6 @@
 #import "User.h"
 #import "Api.h"
 #import "App.h"
-#import "HashedEmail.h"
-#import "HashedNumber.h"
 #import "SDWebImageManager.h"
 #import "Story.h"
 
@@ -157,20 +155,6 @@
     
     if ([self.username isMatchedByRegex:@"^_"]) self.username = nil;
     if ([self.name isMatchedByRegex:@"^_"]) self.name = nil;
-
-    NSArray* hashedEmails = [json objectForKey:@"hashed_emails"];
-    for (NSString* hash in hashedEmails) {
-        HashedEmail* obj = [HashedEmail findOrCreateById:hash inContext:moc];
-        obj.user = self;
-        [self.hashed_emailsSet addObject:obj];
-    }
-
-    NSArray* hashedNumbers = [json objectForKey:@"hashed_phone_numbers"];
-    for (NSString* hash in hashedNumbers) {
-        HashedNumber* obj = [HashedNumber findOrCreateById:hash inContext:moc];
-        obj.user = self;
-        [self.hashed_numbersSet addObject:obj];
-    }
 
     // Look for temp users and delete them:
     [self killDoppelganger];

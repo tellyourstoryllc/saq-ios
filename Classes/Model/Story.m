@@ -66,7 +66,7 @@
         __block NSURL* cacheUrl = [cache urlForKey:cacheKey];
         [cache waitForDisk];
 
-        [[PNFaceDetector new] detectFaceInUIImage:image withCompletion:^(BOOL result) {
+        [[PNFaceDetector new] detectFaceInUIImage:image withCompletion:^(BOOL result, NSArray *features) {
             if (result) [newParams setValue:@"yes" forKey:@"has_face"];
 
             [PNVideoCompressor compressVideoUrl:cacheUrl
@@ -90,7 +90,7 @@
         }];
     }
     else {
-        [[PNFaceDetector new] detectFaceInUIImage:image withCompletion:^(BOOL result) {
+        [[PNFaceDetector new] detectFaceInUIImage:image withCompletion:^(BOOL result, NSArray *features) {
             if (result)
                 [newParams setValue:@"yes" forKey:@"has_face"];
 
