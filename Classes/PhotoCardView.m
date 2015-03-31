@@ -9,7 +9,6 @@
 #import "PhotoCardView.h"
 #import "PNCircularProgressView.h"
 #import "Story.h"
-#import "TutorialBubble.h"
 
 @interface PhotoCardView()
 
@@ -17,7 +16,6 @@
 @property (nonatomic, strong) UIImageView* overlayView;
 @property (nonatomic, strong) PNCircularProgressView* circleProgress;
 
-@property (nonatomic, strong) TutorialBubble* replyTutorial;
 @property (nonatomic, assign) BOOL isLoading;
 
 @end

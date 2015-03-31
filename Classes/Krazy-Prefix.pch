@@ -68,11 +68,6 @@
     #import "User.h"
     #import "Group.h"
 
-    // Defines a bunch of macros used heavily by RHAddressBook.
-    #import "RHARCSupport.h"
-
-    #import "TutorialConfirmation.h"
-
 #endif
 #endif
 
