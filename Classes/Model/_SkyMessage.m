@@ -40,6 +40,7 @@ const struct SkyMessageAttributes SkyMessageAttributes = {
 	.updated_at = @"updated_at",
 	.user_id = @"user_id",
 	.viewed_at = @"viewed_at",
+	.youtube_id = @"youtube_id",
 };
 
 const struct SkyMessageRelationships SkyMessageRelationships = {
@@ -403,6 +404,8 @@ const struct SkyMessageRelationships SkyMessageRelationships = {
 @dynamic user_id;
 
 @dynamic viewed_at;
+
+@dynamic youtube_id;
 
 @dynamic group;
 

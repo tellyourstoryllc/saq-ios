@@ -5,12 +5,14 @@
 #import "SkyMessage.h"
 
 extern const struct StoryAttributes {
+	__unsafe_unretained NSString *blurred;
 	__unsafe_unretained NSString *comments_count;
 	__unsafe_unretained NSString *in_feed;
 	__unsafe_unretained NSString *last_comment_at;
 	__unsafe_unretained NSString *last_comment_seen_at;
 	__unsafe_unretained NSString *last_comments_count;
 	__unsafe_unretained NSString *permission;
+	__unsafe_unretained NSString *shareable_to;
 	__unsafe_unretained NSString *status;
 	__unsafe_unretained NSString *viewed;
 } StoryAttributes;
@@ -37,6 +39,14 @@ extern const struct StoryRelationships {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) StoryID* objectID;
+
+@property (nonatomic, strong) NSNumber* blurred;
+
+@property (atomic) BOOL blurredValue;
+- (BOOL)blurredValue;
+- (void)setBlurredValue:(BOOL)value_;
+
+//- (BOOL)validateBlurred:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* comments_count;
 
@@ -73,6 +83,10 @@ extern const struct StoryRelationships {
 @property (nonatomic, strong) NSString* permission;
 
 //- (BOOL)validatePermission:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSString* shareable_to;
+
+//- (BOOL)validateShareable_to:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* status;
 
@@ -126,6 +140,12 @@ extern const struct StoryRelationships {
 
 @interface _Story (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSNumber*)primitiveBlurred;
+- (void)setPrimitiveBlurred:(NSNumber*)value;
+
+- (BOOL)primitiveBlurredValue;
+- (void)setPrimitiveBlurredValue:(BOOL)value_;
+
 - (NSNumber*)primitiveComments_count;
 - (void)setPrimitiveComments_count:(NSNumber*)value;
 
@@ -152,6 +172,9 @@ extern const struct StoryRelationships {
 
 - (NSString*)primitivePermission;
 - (void)setPrimitivePermission:(NSString*)value;
+
+- (NSString*)primitiveShareable_to;
+- (void)setPrimitiveShareable_to:(NSString*)value;
 
 - (NSString*)primitiveStatus;
 - (void)setPrimitiveStatus:(NSString*)value;

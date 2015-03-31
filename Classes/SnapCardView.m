@@ -78,7 +78,7 @@
         UITapGestureRecognizer* tapReply = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onReply)];
         [self.replyButton addGestureRecognizer:tapReply];
 
-        self.exportButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,60,60)];
+        self.exportButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
         [self.exportButton addTarget:self action:@selector(onExport) forControlEvents:UIControlEventTouchUpInside];
         [self.exportButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
         self.exportButton.hidden = YES;
@@ -145,7 +145,7 @@
     self.dismissButton.frame = CGRectSetOrigin(2,2, self.dismissButton.frame);
     self.editButton.frame = CGRectSetTopRight(b.size.width-2, 2, self.editButton.frame);
     self.replyButton.frame = CGRectSetBottomCenter(b.size.width/2, b.size.height-2, self.replyButton.frame);
-    self.exportButton.frame = CGRectSetBottomLeft(2, b.size.height-2, self.exportButton.frame);
+    self.exportButton.frame = CGRectSetBottomLeft(0, b.size.height, self.exportButton.frame);
 }
 
 - (VideoCardView*)video {
@@ -171,6 +171,13 @@
     self.photoCard.message = nil;
     self.videoCard.message = nil;
     self.textCard.message = nil;
+
+    if ([message isKindOfClass:[Story class]]) {
+        Story* story = (Story*)message;
+        self.showExportButton = (story.youtube_id != nil) && [story.shareable_to isEqualToString:@"anywhere"];
+    }
+    else
+        self.showExportButton = NO;
 
     on_main(^{
         self.photoCard.hidden = YES;
@@ -308,10 +315,12 @@
 - (void)didBecomeFeatured {
     self.isFeatured = YES;
     [self.card didBecomeFeatured];
+    [self hideControls];
 }
 
 - (void)willResignFeatured {
     [self.card willResignFeatured];
+    [self unhideControls];
     self.isFeatured = NO;
 }
 
@@ -375,6 +384,7 @@
                      animations:^{
                          self.optionView.frame = self.bounds;
                      } completion:^(BOOL finished) {
+                         [self hideControls];
                      }];
 }
 
@@ -385,6 +395,8 @@
                      animations:^{
                          self.optionView.frame = CGRectSetOrigin(b.size.width, 0, b);
                      } completion:^(BOOL finished) {
+                         if (!self.isFeatured)
+                             [self unhideControls];
                      }];
 }
 

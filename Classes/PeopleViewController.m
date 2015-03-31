@@ -231,6 +231,7 @@
 
         cell.userInteractionEnabled = YES;
         cell.card.userInteractionEnabled =YES;
+        [cell.card unhideControls]; // no control is enabled except for export button.
 
         return cell;
     }
@@ -457,6 +458,13 @@
             }
         }
     }];
+}
+
+- (void)card:(SnapCardView*)card didSelectExport:(SkyMessage*)snap {
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.youtube.com/watch?v=%@", snap.youtube_id]];
+    UIActivityViewController* vc = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
+    vc.popoverPresentationController.sourceView = card.exportButton;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle {

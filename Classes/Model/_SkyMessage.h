@@ -41,6 +41,7 @@ extern const struct SkyMessageAttributes {
 	__unsafe_unretained NSString *updated_at;
 	__unsafe_unretained NSString *user_id;
 	__unsafe_unretained NSString *viewed_at;
+	__unsafe_unretained NSString *youtube_id;
 } SkyMessageAttributes;
 
 extern const struct SkyMessageRelationships {
@@ -252,6 +253,10 @@ extern const struct SkyMessageRelationships {
 
 //- (BOOL)validateViewed_at:(id*)value_ error:(NSError**)error_;
 
+@property (nonatomic, strong) NSString* youtube_id;
+
+//- (BOOL)validateYoutube_id:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) Group *group;
 
 //- (BOOL)validateGroup:(id*)value_ error:(NSError**)error_;
@@ -428,6 +433,9 @@ extern const struct SkyMessageRelationships {
 
 - (NSDate*)primitiveViewed_at;
 - (void)setPrimitiveViewed_at:(NSDate*)value;
+
+- (NSString*)primitiveYoutube_id;
+- (void)setPrimitiveYoutube_id:(NSString*)value;
 
 - (Group*)primitiveGroup;
 - (void)setPrimitiveGroup:(Group*)value;

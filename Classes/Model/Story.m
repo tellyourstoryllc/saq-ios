@@ -43,6 +43,8 @@
         self.expires_at = [NSDate dateWithTimeIntervalSinceNow:five_minutes];
     }
 
+    self.shareable_to = self.shareable_to ?: @"nowhere";
+
     // Delete placeholder
     [self deletePlaceholders];
 

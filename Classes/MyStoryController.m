@@ -16,8 +16,11 @@
 #import "ArrowBox.h"
 #import "StoryManager.h"
 #import "GroupManager.h"
+#import "AlertView.h"
+#import "SharePreferenceController.h"
+#import "PNUserPreferences.h"
 
-@interface MyStoryController()<PNCameraDelegate, CardViewDelegate>
+@interface MyStoryController()<PNCameraDelegate, CardViewDelegate, SharePreferenceDelegate>
 
 @property (nonatomic, strong) Story* story;
 
@@ -46,7 +49,15 @@
 
 @property (strong) PNRichLabel* tosLabel;
 
+@property (strong) PNLabel* shareLabel;
+@property (strong) UISwitch* shareSwitch;
+@property (strong) PNLabel* anywhereLabel;
+@property (strong) UISwitch* anywhereSwitch;
+
 @property (strong) NSURL* draftUrl;
+
+@property (strong) NSString* shareSetting;  // If set, story needs to be updated with this setting.
+@property (assign) BOOL needsShareSetting;
 
 @end
 
@@ -206,6 +217,24 @@
     self.statusLabel.font = FONT_B(18);
     [self.storyView addSubview:self.statusLabel];
 
+    self.shareLabel = [PNLabel labelWithText:@"Make my video available on YouTube" andFont:FONT_B(14)];
+    [self.storyView addSubview:self.shareLabel];
+
+    self.shareSwitch = [UISwitch new];
+    self.shareSwitch.tintColor = COLOR(grayColor);
+    self.shareSwitch.onTintColor = COLOR(turquoiseColor);
+    [self.storyView addSubview:self.shareSwitch];
+    [self.shareSwitch addTarget:self action:@selector(onShareSwitch) forControlEvents:UIControlEventValueChanged];
+
+    self.anywhereLabel = [PNLabel labelWithText:@"The YouTube video can be seen on other sites" andFont:FONT_B(14)];
+    [self.storyView addSubview:self.anywhereLabel];
+
+    self.anywhereSwitch = [UISwitch new];
+    self.anywhereSwitch.tintColor = COLOR(grayColor);
+    self.anywhereSwitch.onTintColor = COLOR(turquoiseColor);
+    [self.storyView addSubview:self.anywhereSwitch];
+    [self.anywhereSwitch addTarget:self action:@selector(onAnywhereSwitch) forControlEvents:UIControlEventValueChanged];
+
     [self.KVOController observe:self.camera
                        keyPaths:@[@"isRecording", @"isPreviewing", @"isComposing"]
                         options:NSKeyValueObservingOptionNew
@@ -244,6 +273,13 @@
             [self.activateButton setTitle:@"START ❭" forState:UIControlStateNormal];
         }
     }
+
+    if (self.needsShareSetting && _story && !_story.blurredValue) {
+        self.needsShareSetting = NO;
+        SharePreferenceController* vc = [SharePreferenceController new];
+        vc.delegate = self;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -260,7 +296,8 @@
 
     self.activateButton.frame = CGRectSetTopCenter(b.size.width/2, CGRectGetMaxY(self.instructionLabel.frame)+20, self.activateButton.frame);
     self.camera.frame = CGRectSetTopCenter(b.size.width/2, CGRectGetMinY(self.activateButton.frame), self.camera.frame);
-    self.videoView.frame = self.activateButton.frame;
+//    self.videoView.frame = self.activateButton.frame;
+    self.videoView.frame = CGRectSetTopCenter(b.size.width/2, 80, self.activateButton.frame);
 
     self.filterSwitch.frame = CGRectSetBottomCenter(b.size.width/6, CGRectGetMaxY(self.activateButton.frame)+60, self.filterSwitch.frame);
     [self.filterLabel sizeToFitTextWidth:CGRectGetMinX(self.activateButton.frame)-8];
@@ -286,6 +323,19 @@
     self.thanksLabel.frame = self.instructionLabel.frame;
     self.statusLabel.frame = CGRectSetTopCenter(CGRectGetMidX(self.storyPlayButton.frame), CGRectGetMaxY(self.storyPlayButton.frame)+8, self.statusLabel.frame);
     self.tosLabel.frame = CGRectSetBottomCenter(CGRectGetMidX(self.publishButton.frame), CGRectGetMinY(self.publishButton.frame), self.tosLabel.frame);
+
+    //
+    [self.shareLabel sizeToFitTextWidth:b.size.width/2];
+    self.shareLabel.frame = CGRectSetTopCenter(b.size.width/2 + CGRectGetWidth(self.shareSwitch.frame)/2, CGRectGetMaxY(self.statusLabel.frame)+40, self.shareLabel.frame);
+
+    self.shareSwitch.frame = CGRectSetMiddleRight(CGRectGetMinX(self.shareLabel.frame)-10, CGRectGetMidY(self.shareLabel.frame), self.shareSwitch.frame);
+
+    [self.anywhereLabel sizeToFitTextWidth:b.size.width/2];
+    self.anywhereLabel.frame = CGRectSetTopCenter(b.size.width/2 + CGRectGetWidth(self.anywhereSwitch.frame)/2, CGRectGetMaxY(self.shareLabel.frame)+10, self.anywhereLabel.frame);
+
+    self.anywhereSwitch.frame = CGRectSetMiddleRight(CGRectGetMinX(self.anywhereLabel.frame)-10, CGRectGetMidY(self.anywhereLabel.frame), self.anywhereSwitch.frame);
+
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -329,7 +379,7 @@
 
     [self.KVOController unobserve:_user];
     _user = user;
-    [self.KVOController observe:_user keyPaths:@[@"updated_at"]
+    [self.KVOController observe:_user keyPaths:@[@"updated_at", @"last_story"]
                         options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
                               updateBlock(self.user);
@@ -350,8 +400,26 @@
                         options:NSKeyValueObservingOptionNew
                           block:^(id observer, id object, NSDictionary *change) {
                               [self updateStatus];
+                              [self updateShareControls];
                           }];
-    [self updateStatus];
+
+    on_main(^{
+        [self updateStatus];
+        [self updateShareControls];
+
+        if ([_story.shareable_to isEqualToString:@"anywhere"]) {
+            self.shareSwitch.on = YES;
+            self.anywhereSwitch.on = YES;
+        } else if ([_story.shareable_to isEqualToString:@"youtube"]) {
+            self.shareSwitch.on = YES;
+            self.anywhereSwitch.on = NO;
+        }
+        else {
+            self.shareSwitch.on = NO;
+            self.anywhereSwitch.on = NO;
+            self.needsShareSetting = ![[PNUserPreferences shared] boolPreference:@"share_completed" orDefault:NO];
+        }
+    });
 }
 
 - (void)onOpenCamera {
@@ -419,6 +487,26 @@
     self.statusLabel.frame = CGRectSetTopCenter(CGRectGetMidX(self.storyPlayButton.frame), CGRectGetMaxY(self.storyPlayButton.frame)+8, self.statusLabel.frame);
 }
 
+- (void)updateShareControls {
+    if ([_user.last_story blurredValue]) {
+        self.shareSwitch.hidden = YES;
+        self.anywhereSwitch.hidden = YES;
+    }
+    else {
+        self.anywhereSwitch.hidden = !self.shareSwitch.isOn;
+    }
+
+    self.shareLabel.hidden = self.shareSwitch.hidden;
+    self.anywhereLabel.hidden = self.anywhereSwitch.hidden;
+
+    if (self.needsShareSetting && _story && !_story.blurredValue) {
+        self.needsShareSetting = NO;
+        SharePreferenceController* vc = [SharePreferenceController new];
+        vc.delegate = self;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+}
+
 - (void)stopAllPlayback {
     [self.camera pauseVideoPlayback];
     [self.videoView stop];
@@ -456,11 +544,12 @@
     if (self.filterSwitch.isOn) {
         self.camera.currentFilterIndex = 1;
         self.filterLabel.text = @"Blur face: ON";
-
+        self.camera.detectFacesPeriod = -1.0; // do as fast as you can
     }
     else {
         self.camera.currentFilterIndex = 0;
         self.filterLabel.text = @"Blur face: OFF";
+        self.camera.detectFacesPeriod = 1.5; // normal slow setting
     }
 }
 
@@ -491,26 +580,103 @@
 }
 
 - (void)publishStory {
+
     if (!_draftUrl) return;
 
-    NSDictionary* params = @{@"source":@"camera", @"permission":@"public"};
+    BOOL blurred = self.soundSwitch.isOn || self.filterSwitch.isOn;
+    NSDictionary* params = @{@"source":@"camera", @"permission":@"public", @"blurred":@(blurred)};
+    __weak MyStoryController* weakSelf = self;
     [Story publishVideo:_draftUrl
                 orImage:self.camera.rawScreenshot
             withOverlay:nil
                  params:params
              completion:^(Story *newStory) {
-                 self.user = newStory.user;
-                 self.story = newStory;
-                 [self.camera stopPreview];
+                 weakSelf.user = newStory.user;
+                 weakSelf.story = newStory;
+                 [weakSelf.camera stopPreview];
+
+                 if (weakSelf.shareSetting) {
+                     [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", newStory.id]
+                                    parameters:@{@"shareable_to":weakSelf.shareSetting}
+                                      callback:^(NSSet *entities, id responseObject, NSError *error) {
+                                          if (!error)
+                                              weakSelf.shareSetting = nil;
+                                      }];
+                 }
              }];
 
-    AlertView* av = [[AlertView alloc] initWithTitle:@"Submitting Story.."
-                                             message:@"We strongly suggest you create an account. This will allow you to log-in and edit/change/delete your story in the future"
-                                      andButtonArray:@[@"OK", @"Not Now"]];
-    [av showWithCompletion:^(NSInteger buttonIndex) {
-        if (buttonIndex == 0)
-            [self.meController openRegistration];
-    }];
+    if (![[User me] registeredValue]) {
+        AlertView* av = [[AlertView alloc] initWithTitle:@"Submitting Story.."
+                                                 message:@"We strongly suggest you create an account. This will allow you to log-in and edit/change/delete your story in the future"
+                                          andButtonArray:@[@"OK", @"Not Now"]];
+        [av showWithCompletion:^(NSInteger buttonIndex) {
+            if (buttonIndex == 0) {
+                self.needsShareSetting = YES;
+                [self.meController openRegistration];
+            }
+            else if (!blurred) {
+                SharePreferenceController* vc = [SharePreferenceController new];
+                vc.delegate = self;
+                [self presentViewController:vc animated:YES completion:nil];
+            }
+        }];
+    }
+    else { // Already registered.
+        if (!blurred) {
+            SharePreferenceController* vc = [SharePreferenceController new];
+            vc.delegate = self;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    }
+}
+
+- (void)sharePreferenceController:(SharePreferenceController*)controller didSelectPreference:(NSString*)sharePreference {
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    [[PNUserPreferences shared] setPreference:@"share_completed" boolValue:YES];
+    if (self.story && sharePreference) {
+        [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", self.story.id]
+                       parameters:@{@"shareable_to":sharePreference}
+                         callback:nil];
+    }
+    else
+        self.shareSetting = sharePreference;
+}
+
+- (void)onShareSwitch {
+    if (!self.shareSwitch.isOn)
+        self.anywhereSwitch.on = NO;
+    [self updateShareControls];
+    [self updateApiShare];
+}
+
+- (void)onAnywhereSwitch {
+    [self updateShareControls];
+    [self updateApiShare];
+}
+
+- (NSString*)shareSettingForSwitches {
+    if (self.shareSwitch.isOn && self.anywhereSwitch.isOn)
+        return @"anywhere";
+    else if (self.shareSwitch.isOn)
+        return @"youtube";
+    else
+        return @"nowhere";
+}
+
+- (void)updateApiShare {
+    [[PNUserPreferences shared] setPreference:@"share_completed" boolValue:YES];
+
+    __block NSString* share = [self shareSettingForSwitches];
+    __weak MyStoryController* weakSelf = self;
+
+    // Wait 1.5s before updating API
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([[weakSelf shareSettingForSwitches] isEqualToString:share] && ![self.story.shareable_to isEqualToString:share]) {
+            [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", self.story.id]
+                           parameters:@{@"shareable_to":share}
+                             callback:nil];
+        }
+    });
 }
 
 @end

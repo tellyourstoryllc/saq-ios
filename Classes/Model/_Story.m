@@ -4,12 +4,14 @@
 #import "_Story.h"
 
 const struct StoryAttributes StoryAttributes = {
+	.blurred = @"blurred",
 	.comments_count = @"comments_count",
 	.in_feed = @"in_feed",
 	.last_comment_at = @"last_comment_at",
 	.last_comment_seen_at = @"last_comment_seen_at",
 	.last_comments_count = @"last_comments_count",
 	.permission = @"permission",
+	.shareable_to = @"shareable_to",
 	.status = @"status",
 	.viewed = @"viewed",
 };
@@ -48,6 +50,11 @@ const struct StoryRelationships StoryRelationships = {
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
 	NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
 
+	if ([key isEqualToString:@"blurredValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"blurred"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
 	if ([key isEqualToString:@"comments_countValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"comments_count"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -70,6 +77,26 @@ const struct StoryRelationships StoryRelationships = {
 	}
 
 	return keyPaths;
+}
+
+@dynamic blurred;
+
+- (BOOL)blurredValue {
+	NSNumber *result = [self blurred];
+	return [result boolValue];
+}
+
+- (void)setBlurredValue:(BOOL)value_ {
+	[self setBlurred:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveBlurredValue {
+	NSNumber *result = [self primitiveBlurred];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveBlurredValue:(BOOL)value_ {
+	[self setPrimitiveBlurred:[NSNumber numberWithBool:value_]];
 }
 
 @dynamic comments_count;
@@ -137,6 +164,8 @@ const struct StoryRelationships StoryRelationships = {
 }
 
 @dynamic permission;
+
+@dynamic shareable_to;
 
 @dynamic status;
 
