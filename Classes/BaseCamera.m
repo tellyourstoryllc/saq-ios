@@ -162,6 +162,8 @@
         [weakSelf.audioFilter processAudioData:audioBuffer];
     }];
 
+    self.detectFacesPeriod = -1.0; // do as fast as you can
+
     return self;
 }
 
