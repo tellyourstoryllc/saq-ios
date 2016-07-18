@@ -90,6 +90,7 @@
 @property (nonatomic, assign) BOOL showLikeButton;
 @property (nonatomic, assign) BOOL showReplyButton;
 @property (nonatomic, assign) BOOL showUsername;
+@property (nonatomic, assign) BOOL showActivityIndicator;
 
 @property (nonatomic, readonly) BOOL hasImage;
 @property (nonatomic, readonly) BOOL hasVideo;

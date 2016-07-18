@@ -29,6 +29,11 @@
 
 @implementation BaseCamera
 
+- (void)didResetCamera {
+    self.gpuCamera.captureSession.usesApplicationAudioSession = YES;
+    self.gpuCamera.captureSession.automaticallyConfiguresApplicationAudioSession = YES;
+}
+
 - (NSArray*)filterList {
 
     // This is shitty- sort of like "importing" filters specified via strings to make sure they can be found.
@@ -239,9 +244,11 @@
 
 - (void)startPreviewWithCompletion:(void (^)(BOOL success))completion {
     void (^completionBlock)(BOOL) = ^(BOOL suc) {
-        [self configureButtons];
-        if (completion) completion(suc);
-        self.recordButton.enabled = YES;
+        on_main(^{
+            [self configureButtons];
+            if (completion) completion(suc);
+            self.recordButton.enabled = YES;
+        });
     };
 
     self.recordingPaused = YES;
@@ -250,7 +257,9 @@
 
 - (void) discard {
     [super discard];
-    self.snapshotView.image = nil;
+    on_main(^{
+        self.snapshotView.image = nil;
+    });
 }
 
 - (void)updateForRecordingTime:(NSTimeInterval)currentSeconds {
@@ -276,7 +285,9 @@
         }];
 
         [self startRecordingWithCompletion:^(BOOL success) {
-            [self showRecordingProgress];
+            on_main(^{
+                [self showRecordingProgress];
+            });
             [self resumeRecording];
         }];
     }
@@ -310,16 +321,6 @@
 - (CGSize)movieSize {
 //    return CGSizeMake(200, 200);
     return CGSizeMake(100, 100);
-}
-
-- (void)didResetCamera
-{
-//    NSError* err;
-//    if ([self.avCamera lockForConfiguration:&err]) {
-//        if ([self.avCamera isLowLightBoostSupported])
-//            [self.avCamera setAutomaticallyEnablesLowLightBoostWhenAvailable:YES];
-//        [self.avCamera unlockForConfiguration];
-//    }
 }
 
 - (void) setCameraPosition:(AVCaptureDevicePosition)cameraPosition {

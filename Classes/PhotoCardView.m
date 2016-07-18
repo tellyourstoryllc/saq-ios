@@ -86,13 +86,14 @@
         return;
     }
 
+    __weak PhotoCardView* weakSelf = self;
     // This hack prevents progress indicator from showing if media is fetched quickly (i.e., from local cache)
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.isLoading) {
-            self.circleProgress.hidden = NO;
-            self.circleProgress.frame = CGRectMake(0,0,self.bounds.size.width/3,self.bounds.size.width/3);
-            self.circleProgress.center = self.center;
-            [self.circleProgress startSpinProgressBackgroundLayer];
+        if (weakSelf.isLoading && weakSelf.showActivityIndicator) {
+            weakSelf.circleProgress.hidden = NO;
+            weakSelf.circleProgress.frame = CGRectMake(0,0,weakSelf.bounds.size.width/3,weakSelf.bounds.size.width/3);
+            weakSelf.circleProgress.center = weakSelf.center;
+            [weakSelf.circleProgress startSpinProgressBackgroundLayer];
         }
     });
 

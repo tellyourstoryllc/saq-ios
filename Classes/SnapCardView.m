@@ -80,7 +80,7 @@
 
         self.exportButton = [[PNButton alloc] initWithFrame:CGRectMake(0,0,40,40)];
         [self.exportButton addTarget:self action:@selector(onExport) forControlEvents:UIControlEventTouchUpInside];
-        [self.exportButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
+        [self.exportButton setImage:[UIImage imageNamed:@"upload"] forState:UIControlStateNormal];
         self.exportButton.hidden = YES;
         [self addSubview:self.exportButton];
 
@@ -201,6 +201,12 @@
     _shouldStartPlayingAtTime = shouldStartPlayingAtTime;
     if (CMTIME_IS_VALID(shouldStartPlayingAtTime))
         [self.videoPlayer seekToTime:shouldStartPlayingAtTime];
+}
+
+- (void)setShowActivityIndicator:(BOOL)showActivityIndicator {
+    _showActivityIndicator = showActivityIndicator;
+    self.videoCard.showActivityIndicator = showActivityIndicator;
+    self.photoCard.showActivityIndicator = showActivityIndicator;
 }
 
 - (void)updateContentWithFetch:(BOOL)fetchIfUnknown

@@ -47,7 +47,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 @interface AppDelegate()
 
 @property (nonatomic, strong) NSDate* enteredBackgroundAt;
-@property (nonatomic, strong) NSTimer* snapchatTimer;
 @property (nonatomic, assign) BOOL commonActivationDisabled;
 
 @end
@@ -167,6 +166,10 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"applicationWillEnterForeground");
     [super applicationWillEnterForeground:application];
 
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback
+                                     withOptions:0
+                                           error:nil];
+
     if (!self.window) {
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.window.rootViewController = self.appController;
@@ -192,8 +195,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     NSLog(@"applicationDidEnterBackground");
     PNLOG(@"application.did_enter_background");
     [super applicationDidEnterBackground:application];
-    [self.snapchatTimer invalidate];
-    self.snapchatTimer = nil;
     self.enteredBackgroundAt = [NSDate date];
     [Api sharedApi].fayeEnabled = NO;
     [Story prune];

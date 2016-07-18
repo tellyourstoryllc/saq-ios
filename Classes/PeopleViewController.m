@@ -41,7 +41,9 @@
 #import "PNCircularProgressView.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
-@interface PeopleViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate, CardViewDelegate>
+#import "SharePreferenceController.h"
+
+@interface PeopleViewController () <NSFetchedResultsControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate, UINavigationControllerDelegate, CardViewDelegate, SharePreferenceDelegate>
 
 @property (nonatomic, strong) UIView* headerView;
 @property (nonatomic, strong) User* me;
@@ -59,6 +61,7 @@
 @property (nonatomic, assign) int lastOffset;
 
 @property (nonatomic, assign) BOOL shouldSkipPush;
+@property (assign) BOOL showedShareSetting;
 
 @end
 
@@ -94,6 +97,25 @@
         
     }];
 
+    [self.KVOController observe:[Api sharedApi]
+                        keyPath:@"currentUser"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, id object, NSDictionary *change) {
+                              weakSelf.me = [[Api sharedApi] currentUser];
+                          }];
+}
+
+-(void)setMe:(User *)me {
+    if (me == _me) return;
+    [self.KVOController unobserve:_me];
+    _me = me;
+    __weak PeopleViewController* weakSelf = self;
+    [self.KVOController observe:me keyPath:@"last_story"
+                        options:NSKeyValueObservingOptionNew
+                          block:^(id observer, User* user, NSDictionary *change) {
+                              [weakSelf presentSharePrefs];
+                          }];
+    [weakSelf presentSharePrefs];
 }
 
 -(void)setupView {
@@ -118,6 +140,7 @@
 
     self.navigationItem.title = @"Our Stories";
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -133,6 +156,21 @@
         [[PushPermissionManager manager] requestWithCompletion:^(NSData *token) {
             [self featureVideos];
         }];
+    }
+
+    [self presentSharePrefs];
+}
+
+-(void)presentSharePrefs {
+    if (self.isViewVisible) {
+        Story* story = [[User me] last_story];
+        BOOL needsShareSetting = ![[PNUserPreferences shared] boolPreference:@"share_completed" orDefault:NO];
+        if (needsShareSetting && !self.showedShareSetting && story && !story.blurredValue) {
+            self.showedShareSetting = YES;
+            SharePreferenceController* vc = [SharePreferenceController new];
+            vc.delegate = self;
+            [self presentViewController:vc animated:YES completion:nil];
+        }
     }
 }
 
@@ -293,7 +331,6 @@
           atIndex:(NSUInteger)sectionIndex
     forChangeType:(NSFetchedResultsChangeType)type {
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
-    NSLog(@"didChangeSection");
 
     sectionIndex = 0;
     change[@(type)] = @(sectionIndex);
@@ -305,7 +342,6 @@
       atIndexPath:(NSIndexPath *)indexPath
     forChangeType:(NSFetchedResultsChangeType)type
      newIndexPath:(NSIndexPath *)newIndexPath {
-    NSLog(@"didChangeObject");
 
     indexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:indexPath.row] inSection:indexPath.section];
     newIndexPath = [NSIndexPath indexPathForRow:[self collectionIndexForResult:newIndexPath.row] inSection:newIndexPath.section];
@@ -332,7 +368,6 @@
 
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
 
-    NSLog(@"controllerDidChangeContent");
 //    if (_itemChanges.count) {
 //        [self.collection reloadData];
 //        [self collectionDidChange];
@@ -434,6 +469,10 @@
 
 - (void)card:(SnapCardView *)card didSelectLike:(SkyMessage *)snap {
     [snap likeWithCompletion:nil];
+    if (snap.youtube_id) {
+        [card willResignOptions];
+        // Resign options so that share button appears.
+    }
 }
 
 - (void)card:(SnapCardView *)card didSelectFlag:(SkyMessage *)snap {
@@ -465,6 +504,17 @@
     UIActivityViewController* vc = [[UIActivityViewController alloc] initWithActivityItems:@[url] applicationActivities:nil];
     vc.popoverPresentationController.sourceView = card.exportButton;
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+- (void)sharePreferenceController:(SharePreferenceController*)controller didSelectPreference:(NSString*)sharePreference {
+    [controller dismissViewControllerAnimated:YES completion:nil];
+    [[PNUserPreferences shared] setPreference:@"share_completed" boolValue:YES];
+    Story* story = [[User me] last_story];
+    if (story && sharePreference) {
+        [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", story.id]
+                       parameters:@{@"shareable_to":sharePreference}
+                         callback:nil];
+    }
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle {

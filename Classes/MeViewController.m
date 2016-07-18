@@ -193,9 +193,25 @@
 
 - (void)onOptions {
 
+    static NSString* deleteStory = @"Delete My Story";
+    static NSString* addToYouTube = @"Make available on YouTube";
+    static NSString* removeFromYouTube = @"Remove from YouTube";
+
     __block NSMutableArray* buttons = [NSMutableArray new];
-    if ([[User me] last_story])
-        [buttons addObject:@"Delete My Story"];
+    __block Story* story = [[User me] last_story];
+    if (story) {
+
+        if (!story.blurredValue) {
+            if ([story.shareable_to isEqualToString:@"nowhere"]) {
+                [buttons addObject:addToYouTube];
+            }
+            else if ([story.shareable_to isEqualToString:@"anywhere"]) {
+                [buttons addObject:removeFromYouTube];
+            }
+        }
+
+        [buttons addObject:deleteStory];
+    }
 
     if ([App isLoggedIn])
         [buttons addObject:@"Sign Out"];
@@ -214,7 +230,17 @@
                                           [self updateNavBar];
                                       }]];
                                   }
-                                  else if ([buttonText isEqualToString:@"Delete My Story"]) {
+                                  else if ([buttonText isEqualToString:addToYouTube]) {
+                                      [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", story.id]
+                                                     parameters:@{@"shareable_to":@"anywhere"}
+                                                       callback:nil];
+                                  }
+                                  else if ([buttonText isEqualToString:removeFromYouTube]) {
+                                      [[Api sharedApi] postPath:[NSString stringWithFormat:@"/stories/%@/update", story.id]
+                                                     parameters:@{@"shareable_to":@"nowhere"}
+                                                       callback:nil];
+                                  }
+                                  else if ([buttonText isEqualToString:deleteStory]) {
                                       [self onDelete];
                                   }
                               }

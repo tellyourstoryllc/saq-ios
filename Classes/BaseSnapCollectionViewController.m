@@ -191,9 +191,7 @@ referenceSizeForFooterInSection:(NSInteger)section {
 - (void)collectionDidChange {
     __weak BaseSnapCollectionViewController* weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([weakSelf isViewVisible]) {
-            [weakSelf featureVideos];
-        }
+        [weakSelf featureVideos];
     });
 };
 
@@ -231,6 +229,8 @@ referenceSizeForFooterInSection:(NSInteger)section {
 }
 
 - (void)featureVideos {
+
+    if (![self isViewVisible]) return;
 
     NSArray* videoCells = [self visibleVideoCells];
     NSArray* unfeaturedCells = [videoCells filteredArrayUsingBlock:^BOOL(SnapCollectionCell* cell, NSDictionary *bindings) {

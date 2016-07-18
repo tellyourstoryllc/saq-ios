@@ -1,0 +1,170 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BC6B32621DB2B61DF532C33643E35F3F22522464",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9E1ECC80773D1F4F22D03CB4DEA298B3CB57FAF5" : 0,
+    "0A959C88AC07FF3B7A809BFB89EA1C760CD1610F" : 0,
+    "4182765C525509B305166AB949D5935FD5C85212" : 0,
+    "D8BD520A913D9D99E3499E94F4097ECE1645FB47" : 0,
+    "4412F14A500E4AF6D859F76CE16EA82A91408116" : 0,
+    "F5750516C1B1014B205F3FCCB08DDD0226AAA141" : 0,
+    "C9B960E113CD2F1E13B17A07CE56CB3BD674F912" : 0,
+    "BC3459CB8AC2F500CC8BC0C34D2B411600140E9D" : 0,
+    "57AC3B140B6CEF912947B17168D6D74BBC17D007" : 0,
+    "946E1C8CCD2B5F6BCFFE4B622E631FE29D86C2B2" : 0,
+    "E609DD15689CC93D8F4D219EB393F30F9F726178" : 0,
+    "B0F3726AA3B7D05A03390A8BA0EA3BDA2B74F889" : 0,
+    "65E71B0513DBFB09F39CEEF3A8B769CB93E66994" : 0,
+    "E28E36D423EC87798E52E2BF482E9F7A1E6479D6" : 0,
+    "400B087BC894B9843971ED2B92DBC5402C95A7E2" : 0,
+    "EB83C6C68AD13754321754ECC5B5557471F3663E" : 0,
+    "ABB939127996C66F7E852A780552ADEEF03C6B13" : 0,
+    "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : 0,
+    "3EB41240B0E05F3A43099BCBC9E4D1944FCFCCDE" : 0,
+    "12ABC1A444F189254024F1B0398B22085C1F7631" : 0,
+    "F17C12D860420E85866F57474FF628886C65A3EA" : 0,
+    "BC6B32621DB2B61DF532C33643E35F3F22522464" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "96ACA214-1C98-4F6B-A38B-447E6349D364",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9E1ECC80773D1F4F22D03CB4DEA298B3CB57FAF5" : "saq-iosDependencies\/SVProgressHUD",
+    "0A959C88AC07FF3B7A809BFB89EA1C760CD1610F" : "saq-iosDependencies\/SWTableViewCell",
+    "4182765C525509B305166AB949D5935FD5C85212" : "saq-iosDependencies\/MBProgressHUD",
+    "D8BD520A913D9D99E3499E94F4097ECE1645FB47" : "saq-iosDependencies\/iCarousel",
+    "4412F14A500E4AF6D859F76CE16EA82A91408116" : "saq-iosDependencies\/PNKit",
+    "F5750516C1B1014B205F3FCCB08DDD0226AAA141" : "saq-iosDependencies\/DAKeyboardControl",
+    "C9B960E113CD2F1E13B17A07CE56CB3BD674F912" : "saq-iosDependencies\/VCTransitionsLibrary",
+    "BC3459CB8AC2F500CC8BC0C34D2B411600140E9D" : "saq-iosDependencies\/ios-custom-alertview",
+    "57AC3B140B6CEF912947B17168D6D74BBC17D007" : "saq-iosDependencies\/EGOCache",
+    "946E1C8CCD2B5F6BCFFE4B622E631FE29D86C2B2" : "saq-iosDependencies\/RTLabel",
+    "E609DD15689CC93D8F4D219EB393F30F9F726178" : "saq-iosDependencies\/PNetGPUImage",
+    "B0F3726AA3B7D05A03390A8BA0EA3BDA2B74F889" : "saq-iosDependencies\/EDStarRating",
+    "65E71B0513DBFB09F39CEEF3A8B769CB93E66994" : "saq-iosDependencies\/ssziparchive",
+    "E28E36D423EC87798E52E2BF482E9F7A1E6479D6" : "saq-iosDependencies\/SDWebImage",
+    "400B087BC894B9843971ED2B92DBC5402C95A7E2" : "saq-iosDependencies\/FayeClient",
+    "EB83C6C68AD13754321754ECC5B5557471F3663E" : "saq-iosDependencies\/SVPullToRefresh",
+    "ABB939127996C66F7E852A780552ADEEF03C6B13" : "saq-iosDependencies\/SocketRocket",
+    "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8" : "saq-iosDependencies\/AFNetworking",
+    "3EB41240B0E05F3A43099BCBC9E4D1944FCFCCDE" : "saq-iosDependencies\/FlatUIKit",
+    "12ABC1A444F189254024F1B0398B22085C1F7631" : "saq-iosDependencies\/MPNotificationView",
+    "F17C12D860420E85866F57474FF628886C65A3EA" : "saq-iosDependencies\/KVOController",
+    "BC6B32621DB2B61DF532C33643E35F3F22522464" : "saq-ios"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "TellYourStory",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "TellYourStory.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/CEWendel\/SWTableViewCell.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "0A959C88AC07FF3B7A809BFB89EA1C760CD1610F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ekurutepe\/MPNotificationView.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "12ABC1A444F189254024F1B0398B22085C1F7631"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Grouper\/FlatUIKit",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3EB41240B0E05F3A43099BCBC9E4D1944FCFCCDE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jayztemplier\/FayeClient.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "400B087BC894B9843971ED2B92DBC5402C95A7E2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jdg\/MBProgressHUD.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4182765C525509B305166AB949D5935FD5C85212"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/perceptual\/PNKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4412F14A500E4AF6D859F76CE16EA82A91408116"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/jimydotorg\/EGOCache.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "57AC3B140B6CEF912947B17168D6D74BBC17D007"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/soffes\/ssziparchive.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "65E71B0513DBFB09F39CEEF3A8B769CB93E66994"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/honcheng\/RTLabel.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "946E1C8CCD2B5F6BCFFE4B622E631FE29D86C2B2"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/samvermette\/SVProgressHUD.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9E1ECC80773D1F4F22D03CB4DEA298B3CB57FAF5"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/square\/SocketRocket.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ABB939127996C66F7E852A780552ADEEF03C6B13"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:erndev\/EDStarRating.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B0F3726AA3B7D05A03390A8BA0EA3BDA2B74F889"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:wimagguc\/ios-custom-alertview.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BC3459CB8AC2F500CC8BC0C34D2B411600140E9D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/perceptual\/saq-ios.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BC6B32621DB2B61DF532C33643E35F3F22522464"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/ColinEberhardt\/VCTransitionsLibrary.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C9B960E113CD2F1E13B17A07CE56CB3BD674F912"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nicklockwood\/iCarousel.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "D8BD520A913D9D99E3499E94F4097ECE1645FB47"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/AFNetworking\/AFNetworking.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DD20A1A48C66B5213E0FEBB87A95EF51D6C6F3E8"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/rs\/SDWebImage.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E28E36D423EC87798E52E2BF482E9F7A1E6479D6"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/perceptual\/GPUImage",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E609DD15689CC93D8F4D219EB393F30F9F726178"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/samvermette\/SVPullToRefresh.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "EB83C6C68AD13754321754ECC5B5557471F3663E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/facebook\/KVOController.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F17C12D860420E85866F57474FF628886C65A3EA"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/danielamitay\/DAKeyboardControl.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F5750516C1B1014B205F3FCCB08DDD0226AAA141"
+    }
+  ]
+}

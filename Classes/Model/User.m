@@ -320,4 +320,8 @@
     return COLOR(blueColor);
 }
 
+- (void) dealloc {
+    NSLog(@"DEALLOC USER %@", self);
+}
+
 @end

@@ -11,5 +11,6 @@
 @interface PhotoCardView : ContentCard
 
 @property (nonatomic, strong) UIImage* photo;
+@property (nonatomic, assign) BOOL showActivityIndicator;
 
 @end
